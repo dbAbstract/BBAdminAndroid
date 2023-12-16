@@ -19,7 +19,7 @@ kotlinx-datetime = "0.5.0"
 google-services = "4.4.0"
 firebase-bom = "32.7.0"
 firebase-ktx = "20.4.2"
-gitlive-firebase = "1.8.1"
+firebase-firestore = "n/a"
 kotlinx-serialization = "1.9.21"
 kotlinx-serialization-json = "1.6.2"
 lifecycle-runtime-compose = "2.6.2"
@@ -46,8 +46,7 @@ compose-material = { module = "androidx.compose.material:material", version.ref 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-ktx = { module = "com.google.firebase:firebase-common-ktx", version.ref = "firebase-ktx" }
-gitlive-firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "gitlive-firebase" }
-gitlive-firebase-common = { module = "dev.gitlive:firebase-common", version.ref = "gitlive-firebase" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebase-firestore" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose",version.ref = "lifecycle-runtime-compose" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
