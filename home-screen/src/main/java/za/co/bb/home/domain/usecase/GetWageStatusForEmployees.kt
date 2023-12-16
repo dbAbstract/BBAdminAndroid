@@ -50,3 +50,5 @@ internal class GetWageStatusForEmployees(
         if (employeesResult.isSuccess) { block(employeesResult.getOrThrow()) }
     }
 }
+
+private const val TAG = "GetWageStatusForEmployees"

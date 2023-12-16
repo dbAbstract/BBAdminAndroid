@@ -4,13 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import za.co.bb.employees.domain.repository.EmployeeRepository
-import za.co.bb.wages.domain.repository.WageRepository
+import za.co.bb.home.domain.usecase.GetWageStatusForEmployees
 
 internal class HomeScreenViewModel(
-    private val employeeRepository: EmployeeRepository,
-    private val wageRepository: WageRepository
+    private val getWageStatusForEmployees: GetWageStatusForEmployees
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(
         HomeScreenState()
@@ -19,6 +18,9 @@ internal class HomeScreenViewModel(
 
     init {
         viewModelScope.launch {
+            _uiState.update {
+                it.copy(employeeWageStatuses = getWageStatusForEmployees.execute())
+            }
         }
     }
 }

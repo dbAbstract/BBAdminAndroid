@@ -29,19 +29,17 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.theme.AppColors
-import za.co.bb.employees.di.EmployeeDependencyContainer
+import za.co.bb.home.di.DependencyContainer
 import za.co.bb.home.domain.model.WageStatus
 import za.co.bb.home.presentation.HomeScreenState
 import za.co.bb.home.presentation.HomeScreenViewModel
 import za.co.bb.home.presentation.HomeScreenViewModelFactory
-import za.co.bb.wages.di.WagesDependencyContainer
 
 fun NavGraphBuilder.employeeListScreen() {
     composable(route = Screen.EmployeeList.name) {
         val employeeListScreenViewModel = viewModel<HomeScreenViewModel>(
             factory = HomeScreenViewModelFactory(
-                employeeRepository = EmployeeDependencyContainer.employeeRepository,
-                wageRepository = WagesDependencyContainer.wageRepository
+                getWageStatusForEmployees = DependencyContainer.getWageStatusForEmployees
             )
         )
         val uiState by employeeListScreenViewModel.uiState.collectAsStateWithLifecycle()
