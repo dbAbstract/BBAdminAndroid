@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "BargainBuildAdmin"
 include(":app")
 include(":employee")
+include(":core")

@@ -27,18 +27,19 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import co.za.bb.employee.domain.model.Employee
+import za.co.bb.core.navigation.Screen
+import za.co.bb.core.ui.theme.AppColors
+import za.co.bb.employee.di.DependencyContainer
+import za.co.bb.employee.domain.model.Employee
 import za.co.bb.employee.presentation.EmployeeScreenState
 import za.co.bb.employee.presentation.EmployeeScreenViewModel
 import za.co.bb.employee.presentation.EmployeeScreenViewModelFactory
-import co.za.bb.navigation.Screen
-import co.za.bb.theme.AppColors
 
 fun NavGraphBuilder.employeeListScreen() {
     composable(route = Screen.EMPLOYEE_LIST) {
         val employeeListScreenViewModel = viewModel<EmployeeScreenViewModel>(
             factory = EmployeeScreenViewModelFactory(
-                employeeRepository = co.za.bb.employee.di.DependencyContainer.employeeRepository
+                employeeRepository = DependencyContainer.employeeRepository
             )
         )
         val uiState by employeeListScreenViewModel.uiState.collectAsStateWithLifecycle()
