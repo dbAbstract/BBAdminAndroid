@@ -13,7 +13,7 @@ import kotlin.coroutines.suspendCoroutine
 class WageRepositoryImpl(
     private val firebaseFirestore: FirebaseFirestore
 ) : WageRepository {
-    override suspend fun getCurrentForEmployee(employeeId: String): Result<Wage> = withContext(Dispatchers.IO) {
+    override suspend fun getCurrentWageForEmployee(employeeId: String): Result<Wage> = withContext(Dispatchers.IO) {
         suspendCoroutine { continuation ->
             firebaseFirestore.collection(WAGE_TABLE)
                 .whereEqualTo(COLUMN_EMPLOYEE_ID, employeeId)

@@ -30,7 +30,7 @@ import androidx.navigation.compose.composable
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.employees.di.EmployeeDependencyContainer
-import za.co.bb.home.domain.WageStatus
+import za.co.bb.home.domain.model.WageStatus
 import za.co.bb.home.presentation.HomeScreenState
 import za.co.bb.home.presentation.HomeScreenViewModel
 import za.co.bb.home.presentation.HomeScreenViewModelFactory
