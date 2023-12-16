@@ -32,7 +32,7 @@ fun AppBottomBar(
         ) {
             IconButton(
                 onClick = {
-                    onNavIconClick(Screen.EmployeeList)
+                    onNavIconClick(Screen.HomeScreen)
                 }
             ) {
                 Icon(

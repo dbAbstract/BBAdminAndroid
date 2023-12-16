@@ -35,8 +35,8 @@ import za.co.bb.home.presentation.HomeScreenState
 import za.co.bb.home.presentation.HomeScreenViewModel
 import za.co.bb.home.presentation.HomeScreenViewModelFactory
 
-fun NavGraphBuilder.employeeListScreen() {
-    composable(route = Screen.EmployeeList.name) {
+fun NavGraphBuilder.homeScreen() {
+    composable(route = Screen.HomeScreen.name) {
         val employeeListScreenViewModel = viewModel<HomeScreenViewModel>(
             factory = HomeScreenViewModelFactory(
                 getWageStatusForEmployees = DependencyContainer.getWageStatusForEmployees
@@ -44,14 +44,14 @@ fun NavGraphBuilder.employeeListScreen() {
         )
         val uiState by employeeListScreenViewModel.uiState.collectAsStateWithLifecycle()
 
-        EmployeeListScreen(
+        HomeScreen(
             uiState = uiState
         )
     }
 }
 
 @Composable
-private fun EmployeeListScreen(
+private fun HomeScreen(
     uiState: HomeScreenState
 ) {
     Column(

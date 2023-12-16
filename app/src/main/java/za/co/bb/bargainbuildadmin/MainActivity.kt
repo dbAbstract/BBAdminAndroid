@@ -18,7 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.theme.AppColors
-import za.co.bb.home.ui.employeeListScreen
+import za.co.bb.home.ui.homeScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -49,9 +49,9 @@ private fun BargainBuildAdminApp(
 
         NavHost(
             navController = navController,
-            startDestination = Screen.EmployeeList.name
+            startDestination = Screen.HomeScreen.name
         ) {
-            employeeListScreen()
+            homeScreen()
         }
 
         AppBottomBar(

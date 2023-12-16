@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.compose)
     implementation(libs.compose.material)
+    implementation(libs.timber)
 
     implementation(project(":core"))
     implementation(project(":wages"))
