@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = Screen.EMPLOYEE_LIST
+                    startDestination = Screen.EmployeeList.name
                 ) {
                     employeeListScreen()
                 }

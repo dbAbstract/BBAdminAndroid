@@ -36,7 +36,7 @@ import za.co.bb.employee.presentation.EmployeeScreenViewModel
 import za.co.bb.employee.presentation.EmployeeScreenViewModelFactory
 
 fun NavGraphBuilder.employeeListScreen() {
-    composable(route = Screen.EMPLOYEE_LIST) {
+    composable(route = Screen.EmployeeList.name) {
         val employeeListScreenViewModel = viewModel<EmployeeScreenViewModel>(
             factory = EmployeeScreenViewModelFactory(
                 employeeRepository = DependencyContainer.employeeRepository
