@@ -17,7 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.theme.AppColors
-import za.co.bb.employee.ui.employeeListScreen
+import za.co.bb.home.ui.employeeListScreen
 
 class MainActivity : ComponentActivity() {
 

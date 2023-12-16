@@ -1,11 +1,16 @@
 package za.co.bb.wages.di
 
-import za.co.bb.core.di.CoreDependencyContainer
-import za.co.bb.wages.data.WageRepositoryImpl
-import za.co.bb.wages.domain.WageRepository
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
+import za.co.bb.wages.data.wages.WageRepositoryImpl
+import za.co.bb.wages.domain.repository.WageRepository
 
-object DependencyContainer {
+object WagesDependencyContainer {
+    private val firebaseFirestore by lazy {
+        Firebase.firestore
+    }
+
     val wageRepository: WageRepository by lazy {
-        WageRepositoryImpl(firebaseFirestore = CoreDependencyContainer.firebaseFirestore)
+        WageRepositoryImpl(firebaseFirestore = firebaseFirestore)
     }
 }

@@ -8,4 +8,7 @@ data class Wage(
     val rate: Rate = Rate.Hourly
 )
 
+/**
+ * South African Rand - ZAR
+ */
 typealias Rand = Double

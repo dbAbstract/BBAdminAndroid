@@ -57,7 +57,7 @@ dependencies {
     implementation(libs.firebase.ktx)
 
     implementation(project(":core"))
-    implementation(project(":employee"))
+    implementation(project(":home-screen"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
