@@ -1,9 +1,9 @@
 package za.co.bb.employee.di
 
-import za.co.bb.employee.domain.EmployeeRepository
-import za.co.bb.employee.domain.EmployeeRepositoryImpl
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import za.co.bb.employee.data.EmployeeRepositoryImpl
+import za.co.bb.employee.domain.EmployeeRepository
 
 object DependencyContainer {
     private val firebaseFirestore by lazy {
