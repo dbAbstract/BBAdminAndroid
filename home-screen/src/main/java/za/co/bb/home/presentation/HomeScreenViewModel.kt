@@ -19,7 +19,6 @@ internal class HomeScreenViewModel(
 
     init {
         viewModelScope.launch {
-
         }
     }
 }

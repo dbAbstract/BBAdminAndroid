@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.firebase.ktx)
     implementation(libs.firebase.firestore)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.datetime)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.compose)

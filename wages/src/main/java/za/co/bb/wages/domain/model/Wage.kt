@@ -1,11 +1,12 @@
 package za.co.bb.wages.domain.model
 
+import kotlinx.datetime.LocalDateTime
+
 data class Wage(
     val id: String,
     val employeeId: String,
-    val issueDate: String,
-    val amount: Rand,
-    val rate: Rate = Rate.Hourly
+    val issueDate: LocalDateTime,
+    val amount: Rand
 )
 
 /**

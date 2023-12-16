@@ -27,6 +27,7 @@ lifecycle-runtime-compose = "2.6.2"
 navigation-compose = "2.7.6"
 kotlin1910 = "1.9.10"
 jetbrains-kotlin-android = "1.9.10"
+kotlinx-coroutines-android = "1.7.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -46,6 +47,7 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-android" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-ktx = { module = "com.google.firebase:firebase-common-ktx", version.ref = "firebase-ktx" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebase-firestore" }
