@@ -1,8 +1,7 @@
 package za.co.bb.home.domain.usecase
 
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import timber.log.Timber
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import za.co.bb.employees.domain.model.Employee
 import za.co.bb.employees.domain.repository.EmployeeRepository
 import za.co.bb.home.domain.model.WageStatus
@@ -14,31 +13,23 @@ internal class GetWageStatusForEmployees(
     private val employeeRepository: EmployeeRepository,
     private val workHoursRepository: WorkHoursRepository
 ) {
-    suspend fun execute(): List<WageStatus> = coroutineScope {
+    suspend fun execute(): List<WageStatus> = withContext(Dispatchers.IO) {
         var wageStatuses: List<WageStatus> = emptyList()
-        Timber.tag(TAG).i("Now trying get Wage Statuses")
         ifSuccessfullyRetrievedEmployees { employees ->
-            Timber.tag(TAG).i("Got ${employees.size} employees")
             wageStatuses = employees.mapNotNull { employee ->
-                val wageResult = async {
-                    wageRepository.getCurrentWageForEmployee(employeeId = employee.id)
-                }.await()
-                val workHoursDueResult = async {
-                    workHoursRepository.getHoursDue(employeeId = employee.id)
-                }.await()
-
+                val wageResult = wageRepository.getCurrentWageForEmployee(employeeId = employee.id)
+                val workHoursDueResult = workHoursRepository.getHoursDue(employeeId = employee.id)
                 if (wageResult.isSuccess && workHoursDueResult.isSuccess) {
                     val wage = wageResult.getOrThrow()
                     val workHours = workHoursDueResult.getOrThrow()
-                    Timber.tag(TAG).i("Successfully acquired wage and work hours")
+
                     WageStatus(
                         employee = employee,
                         wage = wageResult.getOrThrow(),
-                        amountDue = wage.amount * workHours,
-                        hoursUnpaid = workHours
+                        amountDue = wage.amount * workHours.hours,
+                        hoursUnpaid = workHours.hours
                     )
                 } else {
-                    Timber.tag(TAG).i("Failed to acquire wage and work hours")
                     null
                 }
             }

@@ -19,14 +19,18 @@ class WageRepositoryImpl(
                 .whereEqualTo(COLUMN_EMPLOYEE_ID, employeeId)
                 .get()
                 .addOnSuccessListener { result ->
-                    val wageList = result.toObjects(WageEntity::class.java)
-                    wageList.firstOrNull()?.let {
-                        val wage = it.toWage()
-                        if (wage == null) {
-                            continuation.resume(Result.failure(Exception("Error with retrieved Wage.")))
-                        } else {
-                            continuation.resume(Result.success(wage))
-                        }
+                    try {
+                        val wageList = result.toObjects(WageEntity::class.java)
+                        wageList.firstOrNull()?.let {
+                            val wage = it.toWage()
+                            if (wage == null) {
+                                continuation.resume(Result.failure(Exception("Error with retrieved Wage.")))
+                            } else {
+                                continuation.resume(Result.success(wage))
+                            }
+                        } ?: continuation.resume(Result.failure(Exception("Empty Wage list")))
+                    } catch (t: Throwable) {
+                        continuation.resume(Result.failure(t))
                     }
                 }
                 .addOnCanceledListener {
@@ -64,7 +68,7 @@ class WageRepositoryImpl(
     }
 
     companion object {
-        private const val WAGE_TABLE = "wages"
+        private const val WAGE_TABLE = "wage"
         private const val COLUMN_EMPLOYEE_ID = "employeeId"
     }
 

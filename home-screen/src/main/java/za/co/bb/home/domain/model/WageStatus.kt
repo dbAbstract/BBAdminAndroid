@@ -8,6 +8,6 @@ internal data class WageStatus(
     val employee: Employee,
     val wage: Wage,
     val amountDue: Rand,
-    val hoursUnpaid: Int
+    val hoursUnpaid: Long
     // TODO - Add last updated field
 )
