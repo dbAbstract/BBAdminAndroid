@@ -50,8 +50,15 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.navigation.compose)
-    implementation(libs.firebase.bom)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.material)
+    implementation(libs.compose.foundation)
+    implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.ktx)
+
+    implementation(project(":core"))
+    implementation(project(":employee"))
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.espresso.core)
