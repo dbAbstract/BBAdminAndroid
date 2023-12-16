@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import za.co.bb.home.domain.usecase.GetWageStatusForEmployees
 
 internal class HomeScreenViewModel(
@@ -17,6 +18,7 @@ internal class HomeScreenViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
+        Timber.tag(TAG).i("Initialized!")
         viewModelScope.launch {
             _uiState.update {
                 it.copy(employeeWageStatuses = getWageStatusForEmployees.execute())
