@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "367486924962",
+    "project_id": "bargainbuildadmin",
+    "storage_bucket": "bargainbuildadmin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367486924962:android:67b39db40ba264f618bffb",
+        "android_client_info": {
+          "package_name": "za.co.bb.bargainbuildadmin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX-3R6uzZyn6S8dyZhTL6lxxakAbBH2Dk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
