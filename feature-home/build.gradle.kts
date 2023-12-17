@@ -2,10 +2,11 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.serialization)
 }
 
 android {
-    namespace = "za.co.bb.core"
+    namespace = "za.co.bb.employee"
     compileSdk = 34
 
     defaultConfig {
@@ -13,6 +14,14 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.6"
     }
 
     buildTypes {
@@ -38,8 +47,21 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
-    implementation(libs.compose.foundation)
-    api(libs.kotlinx.datetime)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.ktx)
+    implementation(libs.firebase.firestore)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.navigation.compose)
+    implementation(libs.compose.material)
+    implementation(libs.timber)
+    implementation(libs.compose.ui.tooling)
+
+    implementation(project(":core"))
+    implementation(project(":employees"))
+    implementation(project(":work-hours"))
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.espresso.core)

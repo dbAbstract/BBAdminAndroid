@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "za.co.bb.core"
+    namespace = "za.co.bb.work_hours"
     compileSdk = 34
 
     defaultConfig {
@@ -38,8 +38,12 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
-    implementation(libs.compose.foundation)
-    api(libs.kotlinx.datetime)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.ktx)
+    implementation(libs.firebase.firestore)
+
+    implementation(project(":core"))
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.espresso.core)
