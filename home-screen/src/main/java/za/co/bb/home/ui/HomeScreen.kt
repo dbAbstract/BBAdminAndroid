@@ -4,15 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -30,10 +27,10 @@ import androidx.navigation.compose.composable
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.home.di.DependencyContainer
-import za.co.bb.home.domain.model.WageStatus
 import za.co.bb.home.presentation.HomeScreenState
 import za.co.bb.home.presentation.HomeScreenViewModel
 import za.co.bb.home.presentation.HomeScreenViewModelFactory
+import za.co.bb.home.ui.components.EmployeeWageStatusList
 
 fun NavGraphBuilder.homeScreen() {
     composable(route = Screen.HomeScreen.name) {
@@ -72,7 +69,7 @@ private fun HomeScreen(
                     color = AppColors.current.onPrimary
                 ),
                 modifier = Modifier
-                    .padding(start = START_PADDING.dp)
+                    .padding(start = 16.dp)
                     .align(Alignment.CenterStart)
                     .statusBarsPadding()
             )
@@ -82,42 +79,11 @@ private fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         )
 
-        EmployeeList(
+        EmployeeWageStatusList(
             modifier = Modifier
                 .weight(1f)
                 .navigationBarsPadding(),
-            employees = uiState.employeeWageStatuses
+            wageStatusList = uiState.employeeWageStatuses
         )
     }
 }
-
-@Composable
-private fun EmployeeList(
-    modifier: Modifier,
-    employees: List<WageStatus>
-) {
-    LazyColumn(modifier = modifier) {
-        items(employees) { employeeWageStatus ->
-            Row(
-                modifier = Modifier
-                    .height(48.dp)
-                    .fillMaxWidth()
-                    .padding(start = START_PADDING.dp, top = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = employeeWageStatus.employee.surname,
-                    style = TextStyle(
-                        fontWeight = FontWeight.SemiBold
-                    )
-                )
-                Text(", ")
-                Text(text = employeeWageStatus.employee.firstName)
-            }
-
-            Divider(modifier = Modifier.fillMaxWidth().padding(16.dp))
-        }
-    }
-}
-
-private const val START_PADDING = 16
