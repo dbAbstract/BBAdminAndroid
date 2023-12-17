@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import za.co.bb.core.ui.components.AppTopBar
@@ -26,7 +27,10 @@ internal fun WorkStatusScreenLoading(onBack: () -> Unit) {
             onBack = onBack
         )
         Spacer(modifier = Modifier.weight(1f))
-        CircularProgressIndicator(color = AppColors.current.primary)
+        CircularProgressIndicator(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            color = AppColors.current.primary
+        )
         Spacer(modifier = Modifier.weight(1f))
     }
 }
