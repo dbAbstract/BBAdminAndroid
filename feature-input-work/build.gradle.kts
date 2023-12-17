@@ -15,6 +15,14 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.6"
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -38,6 +46,16 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
+    implementation(libs.navigation.compose)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material)
+
+    implementation(project(":core"))
+    implementation(project(":work-hours"))
+    implementation(project(":employees"))
+    implementation(project(":wages"))
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.espresso.core)

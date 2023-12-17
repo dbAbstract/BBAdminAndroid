@@ -59,6 +59,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":feature-home"))
+    implementation(project(":feature-input-work"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
