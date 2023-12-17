@@ -5,9 +5,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
+import za.co.bb.core.domain.EmployeeId
 import za.co.bb.core.util.now
 import za.co.bb.core.util.toEpochSeconds
 import za.co.bb.employees.domain.model.Employee
+import za.co.bb.employees.domain.model.EmployeeNotFoundException
 import za.co.bb.employees.domain.repository.EmployeeRepository
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -16,24 +18,49 @@ internal class EmployeeRepositoryImpl(
     private val firebaseFirestore: FirebaseFirestore
 ) : EmployeeRepository {
 
-    private var employeeCache = emptyList<Employee>()
+    private var employeeCache = mapOf<EmployeeId, Employee>()
     private var lastRefreshed: LocalDateTime? = null
     private val cacheTime: Long = 60 * 5 // 5 Minutes
 
-    override suspend fun getEmployees(): Result<List<Employee>> = withContext(Dispatchers.IO) {
-        val isCacheValid = lastRefreshed?.let {
+    private val isCacheValid: Boolean
+        get() = lastRefreshed?.let {
             (toEpochSeconds(now) - toEpochSeconds(it) < cacheTime) && employeeCache.isNotEmpty()
         } ?: false
 
+    override suspend fun getEmployees(): Result<List<Employee>> = withContext(Dispatchers.IO) {
         return@withContext when {
             isCacheValid -> {
                 Log.i(TAG, "Getting employees from cache.")
-                Result.success(employeeCache)
+                Result.success(employeeCache.entries.map { it.value })
             }
 
             else -> {
                 Log.i(TAG, "Getting employees from remote.")
                 getEmployeesFromFirestore()
+            }
+        }
+    }
+
+    override suspend fun getEmployee(employeeId: EmployeeId): Result<Employee> = withContext(Dispatchers.IO) {
+        return@withContext when {
+            isCacheValid && employeeCache.containsKey(employeeId) -> {
+                Log.i(TAG, "Getting employee with id=$employeeId from cache.")
+                Result.success(employeeCache[employeeId]!!)
+            }
+
+            else -> {
+                Log.i(TAG, "Getting employee with id=$employeeId from remote.")
+                try {
+                    val employees = getEmployeesFromFirestore().getOrThrow()
+                    val employee = employees.find { it.id == employeeId }
+                    if (employee == null) {
+                        Result.failure(EmployeeNotFoundException(employeeId))
+                    } else {
+                        Result.success(employee)
+                    }
+                } catch (t: Throwable) {
+                    Result.failure(t)
+                }
             }
         }
     }
@@ -68,7 +95,7 @@ internal class EmployeeRepositoryImpl(
     }
 
     private fun cacheEmployeeList(employeeList: Collection<Employee>) {
-        employeeCache = employeeList.toList()
+        employeeCache = employeeList.associateBy { it.id }
         lastRefreshed = now
     }
 
