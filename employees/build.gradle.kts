@@ -41,6 +41,9 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.ktx)
     implementation(libs.firebase.firestore)
+    implementation(libs.kotlinx.datetime)
+    implementation(project(":core"))
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.espresso.core)
