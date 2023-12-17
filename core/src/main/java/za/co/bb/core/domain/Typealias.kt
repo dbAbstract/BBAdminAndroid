@@ -11,3 +11,5 @@ fun Double.format(): Rand {
     val factor = 100.0
     return round(this * factor) / factor
 }
+
+typealias EmployeeId = String

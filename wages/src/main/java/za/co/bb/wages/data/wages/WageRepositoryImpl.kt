@@ -5,6 +5,7 @@ import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
+import za.co.bb.core.domain.EmployeeId
 import za.co.bb.core.util.now
 import za.co.bb.core.util.toEpochSeconds
 import za.co.bb.wages.data.wages.entity.WageEntity
@@ -110,5 +111,3 @@ class WageRepositoryImpl(
     }
 
 }
-
-internal typealias EmployeeId = String
