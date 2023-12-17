@@ -50,6 +50,7 @@ fun NavGraphBuilder.homeScreen(
         homeScreenViewModel.collectAction { action ->
             when (action) {
                 HomeScreenAction.NavigateToAddEmployee -> navigate(Screen.AddEmployee)
+                HomeScreenAction.NavigateToWorkStatus -> navigate(Screen.WorkStatus)
             }
         }
     }
@@ -103,7 +104,8 @@ private fun HomeScreen(
                     false -> {
                         EmployeeWageStatusList(
                             modifier = Modifier.fillMaxSize(),
-                            wageStatusList = uiState.employeeWageStatuses
+                            wageStatusList = uiState.employeeWageStatuses,
+                            onWageStatusClick = homeScreenEventHandler::navigateToWorkStatus
                         )
                     }
                 }

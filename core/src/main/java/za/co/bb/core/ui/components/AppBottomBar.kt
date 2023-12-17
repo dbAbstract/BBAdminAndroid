@@ -41,7 +41,7 @@ fun AppBottomBar(
 
             BottomBarNavIcon(
                 modifier = Modifier.width(40.dp),
-                destination = Screen.InputWorkHours,
+                destination = Screen.WorkStatus,
                 currentDestination = currentScreen,
                 iconVector = Icons.Filled.Info,
                 onClick = onNavIconClick

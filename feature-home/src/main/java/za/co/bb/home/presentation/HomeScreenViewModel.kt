@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import za.co.bb.core.domain.EmployeeId
 import za.co.bb.core.presentation.BaseViewModel
 import za.co.bb.home.domain.usecase.GetWageStatusForEmployees
 
@@ -34,6 +35,10 @@ internal class HomeScreenViewModel(
     val homeScreenEventHandler = object : HomeScreenEventHandler {
         override fun onAddEmployeeClick() {
             emitAction(HomeScreenAction.NavigateToAddEmployee)
+        }
+
+        override fun navigateToWorkStatus(employeeId: EmployeeId) {
+            emitAction(HomeScreenAction.NavigateToWorkStatus)
         }
     }
 }

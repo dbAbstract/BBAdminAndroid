@@ -17,7 +17,7 @@ import za.co.bb.feature_input_work.R
 import za.co.bb.feature_input_work.presentation.InputWorkScreenState
 
 fun NavGraphBuilder.inputWorkScreen() {
-    composable(Screen.InputWorkHours.name) {
+    composable(Screen.WorkStatus.name) {
         val inputWorkViewModel = getInputWorkViewModel()
         val uiState by inputWorkViewModel.uiState.collectAsStateWithLifecycle()
 
