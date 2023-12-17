@@ -125,6 +125,7 @@ private fun WorkStatusScreen(
 
         EmployeeWorkStatusFeed(
             modifier = Modifier
+                .padding(top = 8.dp)
                 .padding(horizontal = 8.dp)
                 .weight(1f),
             workStatuses = uiState.workStatuses

@@ -3,6 +3,7 @@ package za.co.bb.feature_input_work.view.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,9 +37,7 @@ internal fun EmployeeWorkStatusFeed(
     ) {
         items(workStatuses) { workStatus ->
             WorkStatusCard(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 workStatus = workStatus
             )
         }
@@ -51,62 +50,92 @@ private fun WorkStatusCard(
     workStatus: WorkStatus
 ) {
     Card(
-        modifier = modifier.height(150.dp),
+        modifier = modifier.height(130.dp),
         shape = RoundedCornerShape(24.dp),
         backgroundColor = AppColors.current.surface
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier
+                    .padding(start = CONTENT_PADDING.dp)
+                    .height(40.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
-                    text = stringResource(id = R.string.hours_worked),
+                    text = stringResource(id = R.string.amount_due),
                     style = TextStyle(
-                        fontSize = 20.sp,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal
+                    )
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    modifier = Modifier.padding(end = END_PADDING.dp),
+                    text = " ZAR ${String.format("%.2f", workStatus.amountDue)}",
+                    style = TextStyle(
                         fontWeight = FontWeight.Bold
                     )
                 )
-                Text(text = " ${workStatus.hours}")
             }
 
             Divider()
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.padding(start = CONTENT_PADDING.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = stringResource(id = R.string.wage_rate),
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    style = TextStyle(fontSize = 14.sp)
                 )
-                Text(text = " ${workStatus.wageRate}")
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    modifier = Modifier.padding(end = CONTENT_PADDING.dp),
+                    text = " ${workStatus.wageRate}",
+                    style = TextStyle(fontWeight = FontWeight.SemiBold)
+                )
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.padding(start = CONTENT_PADDING.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = stringResource(id = R.string.created_at),
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    style = TextStyle(fontSize = 14.sp)
                 )
-                Text(text = " ${workStatus.createdAt}")
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    modifier = Modifier.padding(end = CONTENT_PADDING.dp),
+                    text = " ${workStatus.createdAt}",
+                    style = TextStyle(fontWeight = FontWeight.SemiBold)
+                )
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.padding(start = CONTENT_PADDING.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
-                    text = stringResource(id = R.string.amount_due),
-                    style = TextStyle(
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    text = stringResource(id = R.string.hours_worked),
+                    style = TextStyle(fontSize = 14.sp)
                 )
-                Text(text = " ZAR ${workStatus.createdAt}")
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    modifier = Modifier.padding(end = CONTENT_PADDING.dp),
+                    text = " ${workStatus.hours} hours",
+                    style = TextStyle(fontWeight = FontWeight.SemiBold)
+                )
             }
         }
     }
 }
 
+private const val END_PADDING = 8
+private const val CONTENT_PADDING = 16
 //internal data class WorkStatus(
 //    val hours: Long,
 //    val wageRate: Rand,
