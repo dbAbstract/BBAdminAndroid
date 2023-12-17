@@ -1,6 +1,9 @@
 package za.co.bb.home.ui.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -11,6 +14,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,6 +46,18 @@ internal fun EmployeeWageStatusList(
                 )
                 Text(", ")
                 Text(text = employeeWageStatus.employee.firstName)
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Column(modifier = Modifier.padding(end = 8.dp)) {
+                    Text(
+                        text = "Hours due",
+                        style = TextStyle(
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    )
+                    Text(text = employeeWageStatus.hoursUnpaid.toString())
+                }
             }
 
             Divider(modifier = Modifier
@@ -55,27 +71,46 @@ internal fun EmployeeWageStatusList(
 @Composable
 private fun EmployeeWageStatusListPreview() {
     EmployeeWageStatusList(
-        modifier = Modifier,
-        wageStatusList = listOf(
-            WageStatus(
-                employee = Employee(
-                    id = "0",
-                    firstName = "Lionel",
-                    surname = "Messi",
-                    middleName = null,
-                    age = 35
-                ),
-                wage = Wage(
-                    id = "0",
-                    employeeId = "0",
-                    issueDate = now,
-                    amount = 23.0
-                ),
-                amountDue = 330.50,
-                hoursUnpaid = 20
-            )
-        )
+        modifier = Modifier.background(Color.White),
+        wageStatusList = previewWageStatusList
     )
 }
 
 private const val START_PADDING = 16
+
+private val previewWageStatusList = listOf(
+    WageStatus(
+        employee = Employee(
+            id = "0",
+            firstName = "Lionel",
+            surname = "Messi",
+            middleName = null,
+            age = 35
+        ),
+        wage = Wage(
+            id = "0",
+            employeeId = "0",
+            issueDate = now,
+            amount = 23.0
+        ),
+        amountDue = 330.50,
+        hoursUnpaid = 20
+    ),
+    WageStatus(
+        employee = Employee(
+            id = "1",
+            firstName = "Neymar",
+            surname = "Jr",
+            middleName = null,
+            age = 31
+        ),
+        wage = Wage(
+            id = "0",
+            employeeId = "0",
+            issueDate = now,
+            amount = 21.0
+        ),
+        amountDue = 310.50,
+        hoursUnpaid = 32
+    )
+)

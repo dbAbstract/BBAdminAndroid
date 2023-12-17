@@ -39,7 +39,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
     implementation(libs.compose.foundation)
-    implementation(libs.kotlinx.datetime)
+    api(libs.kotlinx.datetime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.espresso.core)
