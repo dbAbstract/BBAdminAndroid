@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,13 +38,13 @@ fun AppBottomBar(
                 onClick = onNavIconClick
             )
 
-            BottomBarNavIcon(
-                modifier = Modifier.width(40.dp),
-                destination = Screen.WorkStatus,
-                currentDestination = currentScreen,
-                iconVector = Icons.Filled.Info,
-                onClick = onNavIconClick
-            )
+//            BottomBarNavIcon(
+//                modifier = Modifier.width(40.dp),
+//                destination = Screen.WorkStatus,
+//                currentDestination = currentScreen,
+//                iconVector = Icons.Filled.Info,
+//                onClick = onNavIconClick
+//            )
         }
     }
 }
