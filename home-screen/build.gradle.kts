@@ -59,7 +59,6 @@ dependencies {
     implementation(libs.compose.ui.tooling)
 
     implementation(project(":core"))
-    implementation(project(":wages"))
     implementation(project(":employees"))
     implementation(project(":work-hours"))
 
