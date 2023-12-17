@@ -1,4 +1,4 @@
-package za.co.bb.home.ui.components
+package za.co.bb.home.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
