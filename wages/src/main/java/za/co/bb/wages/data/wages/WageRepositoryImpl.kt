@@ -1,10 +1,13 @@
 package za.co.bb.wages.data.wages
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import za.co.bb.wages.data.wages.entity.WageEntity
 import za.co.bb.wages.data.wages.entity.toWage
+import za.co.bb.wages.domain.model.InvalidWageDataException
+import za.co.bb.wages.domain.model.NoWagesFoundException
 import za.co.bb.wages.domain.model.Wage
 import za.co.bb.wages.domain.repository.WageRepository
 import kotlin.coroutines.resume
@@ -19,16 +22,19 @@ class WageRepositoryImpl(
                 .whereEqualTo(COLUMN_EMPLOYEE_ID, employeeId)
                 .get()
                 .addOnSuccessListener { result ->
+                    if (result.isEmpty) {
+                        continuation.resume(Result.failure(NoWagesFoundException()))
+                    }
+                    val document = result.first()
+
                     try {
-                        val wageList = result.toObjects(WageEntity::class.java)
-                        wageList.firstOrNull()?.let {
-                            val wage = it.toWage()
-                            if (wage == null) {
-                                continuation.resume(Result.failure(Exception("Error with retrieved Wage.")))
-                            } else {
-                                continuation.resume(Result.success(wage))
-                            }
-                        } ?: continuation.resume(Result.failure(Exception("Empty Wage list")))
+                        val wageId = document.id
+                        val wageEntity = document.toObject<WageEntity>()
+                        val wage = wageEntity.toWage(wageId = wageId)
+                        wage?.let {
+                            continuation.resume(Result.success(it))
+                        } ?: continuation.resume(Result.failure(InvalidWageDataException()))
+
                     } catch (t: Throwable) {
                         continuation.resume(Result.failure(t))
                     }
@@ -50,11 +56,21 @@ class WageRepositoryImpl(
                 .whereEqualTo(COLUMN_EMPLOYEE_ID, employeeId)
                 .get()
                 .addOnSuccessListener { result ->
-                    val wageList = result
-                        .toObjects(WageEntity::class.java)
-                        .mapNotNull { it.toWage() }
+                    if (result.isEmpty) {
+                        continuation.resume(Result.failure(NoWagesFoundException()))
+                    }
 
-                    continuation.resume(Result.success(wageList))
+                    val wageSet = mutableSetOf<Wage>()
+                    for (document in result) {
+                        val wageId = document.id
+                        val wageEntity = document.toObject<WageEntity>()
+                        val wage = wageEntity.toWage(wageId = wageId)
+                        wage?.let {
+                            wageSet.add(wage)
+                        }
+                    }
+
+                    continuation.resume(Result.success(wageSet.toList()))
                 }
                 .addOnCanceledListener {
                     continuation.resume(
