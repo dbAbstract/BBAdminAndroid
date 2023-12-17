@@ -12,12 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
 
 @Composable
 fun AppBottomBar(
     modifier: Modifier,
-    onNavIconClick: (Screen) -> Unit,
+    onNavIconClick: (NavAction) -> Unit,
     currentScreen: Screen
 ) {
     Box(

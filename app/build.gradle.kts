@@ -55,7 +55,6 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.ktx)
-    implementation(libs.timber)
 
     implementation(project(":core"))
     implementation(project(":feature-home"))

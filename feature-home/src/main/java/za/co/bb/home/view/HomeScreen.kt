@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.components.AppTopBar
 import za.co.bb.core.ui.components.BOTTOM_BAR_HEIGHT
@@ -36,7 +37,7 @@ import za.co.bb.home.presentation.HomeScreenState
 import za.co.bb.home.view.ui.EmployeeWageStatusList
 
 fun NavGraphBuilder.homeScreen(
-    navigate: (Screen) -> Unit
+    navigate: (NavAction) -> Unit
 ) {
     composable(route = Screen.HomeScreen.name) {
         val homeScreenViewModel = getHomeScreenViewModel()
@@ -49,8 +50,11 @@ fun NavGraphBuilder.homeScreen(
 
         homeScreenViewModel.collectAction { action ->
             when (action) {
-                HomeScreenAction.NavigateToAddEmployee -> navigate(Screen.AddEmployee)
-                HomeScreenAction.NavigateToWorkStatus -> navigate(Screen.WorkStatus)
+                HomeScreenAction.NavigateToAddEmployee -> navigate(NavAction.NavigateToAddEmployee)
+
+                is HomeScreenAction.NavigateToWorkStatus -> navigate(
+                    NavAction.NavigateToWorkStatus(action.employeeId)
+                )
             }
         }
     }

@@ -17,17 +17,21 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.components.AppTopBar
 import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.core.util.collectAction
+import za.co.bb.feature_input_work.presentation.WorkStatusAction
 import za.co.bb.feature_input_work.presentation.WorkStatusEventHandler
 import za.co.bb.feature_input_work.presentation.WorkStatusScreenState
 import za.co.bb.feature_input_work.view.ui.WorkStatusScreenError
 import za.co.bb.feature_input_work.view.ui.WorkStatusScreenLoading
 import za.co.bb.feature_work_status.R
 
-fun NavGraphBuilder.workStatusScreen() {
+fun NavGraphBuilder.workStatusScreen(
+    navigate: (NavAction) -> Unit
+) {
     composable(Screen.WorkStatus.name) {
         val workStatusViewModel = getWorkStatusViewModel()
         val uiState by workStatusViewModel.uiState.collectAsStateWithLifecycle()
@@ -37,8 +41,10 @@ fun NavGraphBuilder.workStatusScreen() {
             workStatusEventHandler = workStatusViewModel.workStatusEventHandler
         )
 
-        workStatusViewModel.collectAction {
-
+        workStatusViewModel.collectAction { action ->
+            when (action) {
+                WorkStatusAction.NavigateBack -> navigate(NavAction.NavigateBack)
+            }
         }
     }
 }

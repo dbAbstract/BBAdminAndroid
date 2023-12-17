@@ -55,7 +55,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.compose)
     implementation(libs.compose.material)
-    implementation(libs.timber)
     implementation(libs.compose.ui.tooling)
 
     implementation(project(":core"))

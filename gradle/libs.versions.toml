@@ -29,7 +29,6 @@ kotlin1910 = "1.9.10"
 jetbrains-kotlin-android = "1.9.10"
 kotlinx-coroutines-android = "1.7.3"
 compose-runtime = "1.5.4"
-timber = "5.0.1"
 
 [libraries]
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose-runtime" }
@@ -57,7 +56,6 @@ firebase-firestore = { module = "com.google.firebase:firebase-firestore", versio
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose",version.ref = "lifecycle-runtime-compose" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
-timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 [plugins]
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "jetbrains-kotlin-android" }

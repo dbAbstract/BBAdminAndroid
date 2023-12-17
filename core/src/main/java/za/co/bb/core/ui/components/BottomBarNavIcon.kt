@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.theme.AppColors
 
@@ -19,7 +20,7 @@ internal fun BottomBarNavIcon(
     destination: Screen,
     currentDestination: Screen,
     iconVector: ImageVector,
-    onClick: (Screen) -> Unit
+    onClick: (NavAction) -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -27,7 +28,7 @@ internal fun BottomBarNavIcon(
     ) {
         IconButton(
             onClick = {
-                onClick(destination)
+                // TODO - Implement later.
             }
         ) {
             Icon(
