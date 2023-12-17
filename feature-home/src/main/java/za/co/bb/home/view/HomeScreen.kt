@@ -33,7 +33,7 @@ import za.co.bb.home.R
 import za.co.bb.home.presentation.HomeScreenAction
 import za.co.bb.home.presentation.HomeScreenEventHandler
 import za.co.bb.home.presentation.HomeScreenState
-import za.co.bb.home.ui.EmployeeWageStatusList
+import za.co.bb.home.view.ui.EmployeeWageStatusList
 
 fun NavGraphBuilder.homeScreen(
     navigate: (Screen) -> Unit
