@@ -7,7 +7,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import za.co.bb.core.domain.EmployeeId
 import za.co.bb.employees.di.EmployeeDependencyContainer
 import za.co.bb.feature_input_work.presentation.WorkStatusViewModel
-import za.co.bb.work_hours.di.WorkHoursDependencyContainer
 
 private class InputWorkViewModelFactory(
     private val employeeId: EmployeeId
@@ -18,7 +17,7 @@ private class InputWorkViewModelFactory(
             return WorkStatusViewModel(
                 employeeId = employeeId,
                 employeeRepository = EmployeeDependencyContainer.employeeRepository,
-                workHoursRepository = WorkHoursDependencyContainer.workHoursRepository
+                getWorkStatuses = DependencyContainer.getWorkStatuses
             ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

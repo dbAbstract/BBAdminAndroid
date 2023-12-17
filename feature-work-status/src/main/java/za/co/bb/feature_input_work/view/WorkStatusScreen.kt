@@ -103,7 +103,10 @@ private fun WorkStatusScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AppTopBar(headerText = stringResource(id = R.string.work_status_header))
+        AppTopBar(
+            headerText = stringResource(id = R.string.work_status_header),
+            onBack = workStatusEventHandler::onBack
+        )
 
         EmployeeDetailsRow(
             modifier = Modifier
@@ -121,7 +124,9 @@ private fun WorkStatusScreen(
         )
 
         EmployeeWorkStatusFeed(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .weight(1f),
             workStatuses = uiState.workStatuses
         )
     }

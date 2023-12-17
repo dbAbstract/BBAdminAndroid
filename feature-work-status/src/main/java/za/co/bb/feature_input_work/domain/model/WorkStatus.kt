@@ -4,7 +4,7 @@ import kotlinx.datetime.LocalDateTime
 import za.co.bb.core.domain.Rand
 
 internal data class WorkStatus(
-    val hours: Int,
+    val hours: Long,
     val wageRate: Rand,
     val wageId: String,
     val createdAt: LocalDateTime,
