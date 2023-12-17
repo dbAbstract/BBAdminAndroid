@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -76,11 +77,27 @@ private fun HomeScreen(
             )
         }
 
-        EmployeeWageStatusList(
-            modifier = Modifier
-                .weight(1f)
-                .navigationBarsPadding(),
-            wageStatusList = uiState.employeeWageStatuses
-        )
+        Box(modifier = Modifier
+            .weight(1f)
+            .fillMaxWidth()
+            .navigationBarsPadding()
+        ) {
+
+            when (uiState.isLoading) {
+                true -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = AppColors.current.primary
+                    )
+                }
+
+                false -> {
+                    EmployeeWageStatusList(
+                        modifier = Modifier.fillMaxSize(),
+                        wageStatusList = uiState.employeeWageStatuses
+                    )
+                }
+            }
+        }
     }
 }
