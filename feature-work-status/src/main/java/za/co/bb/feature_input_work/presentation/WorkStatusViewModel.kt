@@ -1,5 +1,6 @@
 package za.co.bb.feature_input_work.presentation
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,12 +29,15 @@ internal class WorkStatusViewModel(
                 getWorkStatuses.execute(employeeId = employeeId)
             }.await()
             if (employeeResult.isSuccess && workStatusesResult.isSuccess) {
+                Log.i(TAG, "Successfully got work statuses for empId=$employeeId")
                 _uiState.update {
                     WorkStatusScreenState.Loaded(
                         employee = employeeResult.getOrThrow(),
                         workStatuses = workStatusesResult.getOrThrow()
                     )
                 }
+            } else {
+                Log.e(TAG, "Error getting work statuses for empId=$employeeId")
             }
         }
     }
@@ -44,3 +48,5 @@ internal class WorkStatusViewModel(
         }
     }
 }
+
+private const val TAG = "WorkStatus-ViewModel"

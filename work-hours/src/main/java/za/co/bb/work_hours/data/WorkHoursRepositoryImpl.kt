@@ -85,7 +85,7 @@ internal class WorkHoursRepositoryImpl(
     companion object {
         private const val WORK_HOURS_TABLE = "work-hours"
         private const val COLUMN_EMPLOYEE_ID = "employeeId"
-        private const val TAG = "WorkHours-Repository"
+        private const val TAG = "Work-Hours-Repository"
     }
 }
 
