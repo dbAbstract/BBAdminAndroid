@@ -58,7 +58,7 @@ dependencies {
     implementation(libs.timber)
 
     implementation(project(":core"))
-    implementation(project(":home-screen"))
+    implementation(project(":feature-home"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
