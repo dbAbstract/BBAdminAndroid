@@ -13,7 +13,9 @@ internal class HomeScreenViewModel(
     private val getWageStatusForEmployees: GetWageStatusForEmployees
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(
-        HomeScreenState()
+        HomeScreenState(
+            isLoading = true
+        )
     )
     val uiState = _uiState.asStateFlow()
 
@@ -21,7 +23,10 @@ internal class HomeScreenViewModel(
         Timber.tag(TAG).i("Initialized!")
         viewModelScope.launch {
             _uiState.update {
-                it.copy(employeeWageStatuses = getWageStatusForEmployees.execute())
+                it.copy(
+                    employeeWageStatuses = getWageStatusForEmployees.execute(),
+                    isLoading = false
+                )
             }
         }
     }

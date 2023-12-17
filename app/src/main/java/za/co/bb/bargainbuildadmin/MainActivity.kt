@@ -34,6 +34,10 @@ class MainActivity : ComponentActivity() {
         navHostController: NavHostController,
         screen: Screen
     ) {
+        if (navHostController.currentDestination?.route?.equals(screen.name) == true) {
+            return
+        }
+
         navHostController.navigate(screen.name) {
             popUpTo(navHostController.graph.startDestinationId)
         }

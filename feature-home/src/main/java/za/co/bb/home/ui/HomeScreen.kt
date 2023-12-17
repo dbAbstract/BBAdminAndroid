@@ -10,12 +10,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.Divider
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -26,6 +27,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.theme.AppColors
+import za.co.bb.home.R
 import za.co.bb.home.di.DependencyContainer
 import za.co.bb.home.presentation.HomeScreenState
 import za.co.bb.home.presentation.HomeScreenViewModel
@@ -62,7 +64,7 @@ private fun HomeScreen(
                 .background(AppColors.current.primary)
         ) {
             Text(
-                text = "Employees",
+                text = stringResource(id = R.string.employees_header),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
@@ -75,15 +77,27 @@ private fun HomeScreen(
             )
         }
 
-        Divider(
-            modifier = Modifier.fillMaxWidth()
-        )
+        Box(modifier = Modifier
+            .weight(1f)
+            .fillMaxWidth()
+            .navigationBarsPadding()
+        ) {
 
-        EmployeeWageStatusList(
-            modifier = Modifier
-                .weight(1f)
-                .navigationBarsPadding(),
-            wageStatusList = uiState.employeeWageStatuses
-        )
+            when (uiState.isLoading) {
+                true -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = AppColors.current.primary
+                    )
+                }
+
+                false -> {
+                    EmployeeWageStatusList(
+                        modifier = Modifier.fillMaxSize(),
+                        wageStatusList = uiState.employeeWageStatuses
+                    )
+                }
+            }
+        }
     }
 }
