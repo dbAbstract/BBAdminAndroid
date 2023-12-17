@@ -1,8 +1,10 @@
 package za.co.bb.work_hours.data
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import za.co.bb.work_hours.domain.NoWorkHoursFoundException
 import za.co.bb.work_hours.domain.WorkHours
 import za.co.bb.work_hours.domain.WorkHoursRepository
 import kotlin.coroutines.resume
@@ -18,12 +20,20 @@ internal class WorkHoursRepositoryImpl(
                 .get()
                 .addOnSuccessListener { result ->
                     try {
-                        val workHoursEntities = result.toObjects(WorkHoursEntity::class.java)
-                        continuation.resume(
-                            Result.success(
-                                workHoursEntities.mapNotNull { it.toWorkHours() }
-                            )
-                        )
+                        if (result.isEmpty) {
+                            continuation.resume(Result.failure(NoWorkHoursFoundException()))
+                        }
+
+                        val workHourSet = mutableSetOf<WorkHours>()
+                        for (document in result) {
+                            val workHourId = document.id
+                            val workHourEntity = document.toObject<WorkHoursEntity>()
+                            val workHours = workHourEntity.toWorkHours(workHoursId = workHourId)
+                            workHours?.let {
+                                workHourSet.add(it)
+                            }
+                        }
+                        continuation.resume(Result.success(workHourSet.toList()))
                     } catch (t: Throwable) {
                         continuation.resume(Result.failure(t))
                     }
