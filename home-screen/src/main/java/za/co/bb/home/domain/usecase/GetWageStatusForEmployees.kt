@@ -5,6 +5,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import za.co.bb.core.domain.Rand
+import za.co.bb.core.domain.format
 import za.co.bb.employees.domain.model.Employee
 import za.co.bb.employees.domain.repository.EmployeeRepository
 import za.co.bb.home.domain.model.WageStatus
@@ -42,7 +43,7 @@ internal class GetWageStatusForEmployees(
 
     private fun calculateTotalWage(workHoursList: List<WorkHours>): Rand = workHoursList.sumOf {
         it.wageRate * it.hours
-    }
+    }.format()
 
     private suspend fun ifSuccessfullyRetrievedEmployees(
         block: suspend (employees: List<Employee>) -> Unit
