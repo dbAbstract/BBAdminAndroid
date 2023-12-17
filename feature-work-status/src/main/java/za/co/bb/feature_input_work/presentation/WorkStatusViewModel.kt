@@ -14,4 +14,10 @@ internal class WorkStatusViewModel(
     init {
 
     }
+
+    val workStatusEventHandler = object : WorkStatusEventHandler {
+        override fun onBack() {
+            emitAction(WorkStatusAction.NavigateBack)
+        }
+    }
 }

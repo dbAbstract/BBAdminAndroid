@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(libs.compose.material)
     implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.compose.ui.tooling)
 
     implementation(project(":core"))
     implementation(project(":work-hours"))

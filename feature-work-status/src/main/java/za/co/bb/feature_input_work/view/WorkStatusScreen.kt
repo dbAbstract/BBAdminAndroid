@@ -1,9 +1,10 @@
 package za.co.bb.feature_input_work.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.AlertDialog
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -13,20 +14,25 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.components.AppTopBar
+import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.core.util.collectAction
+import za.co.bb.feature_input_work.presentation.WorkStatusEventHandler
 import za.co.bb.feature_input_work.presentation.WorkStatusScreenState
+import za.co.bb.feature_input_work.view.ui.WorkStatusScreenError
+import za.co.bb.feature_input_work.view.ui.WorkStatusScreenLoading
 import za.co.bb.feature_work_status.R
 
 fun NavGraphBuilder.workStatusScreen() {
     composable(Screen.WorkStatus.name) {
-        val inputWorkViewModel = getInputWorkViewModel()
-        val uiState by inputWorkViewModel.uiState.collectAsStateWithLifecycle()
+        val workStatusViewModel = getWorkStatusViewModel()
+        val uiState by workStatusViewModel.uiState.collectAsStateWithLifecycle()
 
         WorkStatusScreen(
-            uiState = uiState
+            uiState = uiState,
+            workStatusEventHandler = workStatusViewModel.workStatusEventHandler
         )
 
-        inputWorkViewModel.collectAction {
+        workStatusViewModel.collectAction {
 
         }
     }
@@ -34,22 +40,44 @@ fun NavGraphBuilder.workStatusScreen() {
 
 @Composable
 private fun WorkStatusScreen(
-    uiState: WorkStatusScreenState
+    uiState: WorkStatusScreenState,
+    workStatusEventHandler: WorkStatusEventHandler
 ) {
     when (uiState) {
         WorkStatusScreenState.Error -> {
-            AlertDialog(onDismissRequest = { /*TODO*/ }, buttons = { /*TODO*/ })
+            WorkStatusScreenError(onBack = workStatusEventHandler::onBack)
         }
-        is WorkStatusScreenState.Loaded -> TODO()
-        WorkStatusScreenState.Loading -> TODO()
+
+        WorkStatusScreenState.Loading -> {
+            WorkStatusScreenLoading(onBack = workStatusEventHandler::onBack)
+        }
+
+        is WorkStatusScreenState.Loaded -> {
+            WorkStatusScreen(
+                uiState = uiState,
+                workStatusEventHandler = workStatusEventHandler
+            )
+        }
     }
+}
+
+@Composable
+private fun WorkStatusScreen(
+    uiState: WorkStatusScreenState.Loaded,
+    workStatusEventHandler: WorkStatusEventHandler
+) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .background(AppColors.current.background)
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Top
     ) {
         AppTopBar(
-            headerText = "${stringResource(id = R.string.work_status_header)}: "
+            headerText = "${stringResource(id = R.string.work_status_header)}: ",
+            onBack = workStatusEventHandler::onBack
         )
-    }
+        LazyColumn(modifier = Modifier.weight(1f)) {
 
+        }
+    }
 }

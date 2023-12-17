@@ -20,7 +20,7 @@ private class InputWorkViewModelFactory : ViewModelProvider.Factory {
 }
 
 @Composable
-internal fun getInputWorkViewModel(): WorkStatusViewModel {
+internal fun getWorkStatusViewModel(): WorkStatusViewModel {
     return viewModel(
         factory = InputWorkViewModelFactory()
     )
