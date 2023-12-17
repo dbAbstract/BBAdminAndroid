@@ -8,7 +8,7 @@ import za.co.bb.home.di.DependencyContainer
 import za.co.bb.home.domain.usecase.GetWageStatusForEmployees
 import za.co.bb.home.presentation.HomeScreenViewModel
 
-internal class HomeScreenViewModelFactory(
+private class HomeScreenViewModelFactory(
     private val getWageStatusForEmployees: GetWageStatusForEmployees
 ) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
