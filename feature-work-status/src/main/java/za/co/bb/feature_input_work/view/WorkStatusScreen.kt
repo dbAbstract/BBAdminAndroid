@@ -3,21 +3,17 @@ package za.co.bb.feature_input_work.view
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Text
+import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -31,6 +27,8 @@ import za.co.bb.core.util.collectAction
 import za.co.bb.feature_input_work.presentation.WorkStatusAction
 import za.co.bb.feature_input_work.presentation.WorkStatusEventHandler
 import za.co.bb.feature_input_work.presentation.WorkStatusScreenState
+import za.co.bb.feature_input_work.view.ui.EmployeeDetailsRow
+import za.co.bb.feature_input_work.view.ui.EmployeeWorkStatusFeed
 import za.co.bb.feature_input_work.view.ui.WorkStatusScreenError
 import za.co.bb.feature_input_work.view.ui.WorkStatusScreenLoading
 import za.co.bb.feature_work_status.R
@@ -102,34 +100,29 @@ private fun WorkStatusScreen(
         modifier = Modifier
             .background(AppColors.current.background)
             .fillMaxSize(),
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AppTopBar(headerText = stringResource(id = R.string.work_status_header))
 
-        Row(
+        EmployeeDetailsRow(
             modifier = Modifier
                 .padding(start = 16.dp)
-                .height(38.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                modifier = Modifier.padding(end = 4.dp),
-                text = "${stringResource(id = R.string.employee)}: ",
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            )
-            Text(
-                text = "${uiState.employee.firstName} ${uiState.employee.surname}",
-                style = TextStyle(
-                    fontSize = 16.sp
-                )
-            )
-        }
+                .height(38.dp)
+                .align(Alignment.Start),
+            firstName = uiState.employee.firstName,
+            surname = uiState.employee.surname
+        )
 
-        LazyColumn(modifier = Modifier.weight(1f)) {
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
+        )
 
-        }
+        EmployeeWorkStatusFeed(
+            modifier = Modifier.weight(1f),
+            workStatuses = uiState.workStatuses
+        )
     }
 }

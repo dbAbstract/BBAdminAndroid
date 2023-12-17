@@ -1,15 +1,12 @@
 package za.co.bb.feature_input_work.domain.model
 
-import za.co.bb.core.domain.EmployeeId
+import kotlinx.datetime.LocalDateTime
+import za.co.bb.core.domain.Rand
 
 internal data class WorkStatus(
-    val employee: Employee
-)
-
-internal data class Employee(
-    val id: EmployeeId,
-    val firstName: String,
-    val surname: String,
-    val middleName: String? = null,
-    val age: Int
+    val hours: Int,
+    val wageRate: Rand,
+    val wageId: String,
+    val createdAt: LocalDateTime,
+    val amountDue: Rand
 )

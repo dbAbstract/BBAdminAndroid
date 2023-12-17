@@ -13,3 +13,4 @@ fun Double.format(): Rand {
 }
 
 typealias EmployeeId = String
+typealias WageId = String

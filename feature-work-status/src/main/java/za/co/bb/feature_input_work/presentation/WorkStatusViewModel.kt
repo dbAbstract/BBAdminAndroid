@@ -24,7 +24,8 @@ internal class WorkStatusViewModel(
             if (employeeResult.isSuccess) {
                 _uiState.update {
                     WorkStatusScreenState.Loaded(
-                        employee = employeeResult.getOrThrow()
+                        employee = employeeResult.getOrThrow(),
+                        workStatuses = emptyList() // TODO fix
                     )
                 }
             }
