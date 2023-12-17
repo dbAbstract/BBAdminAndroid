@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="employees_header">Employees</string>
-    <string name="hours_due">hours due</string>
+    <string name="hours_due">Hours due</string>
 </resources>
