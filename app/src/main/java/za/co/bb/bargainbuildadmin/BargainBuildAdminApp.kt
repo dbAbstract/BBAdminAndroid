@@ -26,14 +26,6 @@ internal fun BargainBuildAdminApp(
     currentScreen: Screen
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        NavHost(
-            navController = navController,
-            startDestination = Screen.HomeScreen.name
-        ) {
-            homeScreen(navigate = navigate)
-            workStatusScreen(navigate = navigate)
-        }
-
         AppBottomBar(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -43,5 +35,15 @@ internal fun BargainBuildAdminApp(
             onNavIconClick = navigate,
             currentScreen = currentScreen
         )
+
+        NavHost(
+            modifier = Modifier.fillMaxSize(),
+            navController = navController,
+            startDestination = Screen.HomeScreen.name
+        ) {
+            homeScreen(navigate = navigate)
+            workStatusScreen(navigate = navigate)
+        }
+
     }
 }

@@ -14,7 +14,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
-import za.co.bb.core.navigation.ScreenNavigation
 
 class MainActivity : ComponentActivity() {
 
@@ -49,14 +48,16 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun navigate(navAction: NavAction) {
-        if (navAction is ScreenNavigation) {
-            navController.navigate(navAction.screen.name) {
-                popUpTo(navController.graph.startDestinationId)
-            }
-        }
+        when (navAction) {
+            NavAction.NavigateBack -> navController.popBackStack()
 
-        if (navAction is NavAction.NavigateBack) {
-            navController.popBackStack()
+            NavAction.NavigateToAddEmployee -> {
+                navController.navigate(Screen.AddEmployee.name)
+            }
+
+            is NavAction.NavigateToWorkStatus -> {
+                navController.navigate("${Screen.WorkStatus.name}/${navAction.employeeId}")
+            }
         }
     }
 }

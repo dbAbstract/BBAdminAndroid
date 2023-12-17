@@ -16,7 +16,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.components.AppTopBar
@@ -32,7 +34,18 @@ import za.co.bb.feature_work_status.R
 fun NavGraphBuilder.workStatusScreen(
     navigate: (NavAction) -> Unit
 ) {
-    composable(Screen.WorkStatus.name) {
+//    composable(
+//        "profile/{userId}",
+//        arguments = listOf(navArgument("userId") { type = NavType.StringType })
+//    ) {...}
+    composable(
+        route = "${Screen.WorkStatus.name}/{$ARG_EMPLOYEE_ID}",
+        arguments = listOf(
+            navArgument(ARG_EMPLOYEE_ID) {
+                type = NavType.StringType
+            }
+        ),
+    ) {
         val workStatusViewModel = getWorkStatusViewModel()
         val uiState by workStatusViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -48,6 +61,8 @@ fun NavGraphBuilder.workStatusScreen(
         }
     }
 }
+
+private const val ARG_EMPLOYEE_ID = "employeeId"
 
 @Composable
 private fun WorkStatusScreen(
