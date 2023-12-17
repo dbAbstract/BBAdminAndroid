@@ -5,14 +5,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
@@ -41,8 +45,14 @@ fun NavGraphBuilder.workStatusScreen(
                 type = NavType.StringType
             }
         ),
-    ) {
-        val workStatusViewModel = getWorkStatusViewModel()
+    ) { backStackEntry ->
+        val employeeId = backStackEntry.arguments?.getString(ARG_EMPLOYEE_ID)
+        if (employeeId == null) {
+            navigate(NavAction.NavigateBack)
+            return@composable
+        }
+
+        val workStatusViewModel = getWorkStatusViewModel(employeeId = employeeId)
         val uiState by workStatusViewModel.uiState.collectAsStateWithLifecycle()
 
         WorkStatusScreen(
@@ -94,31 +104,30 @@ private fun WorkStatusScreen(
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top
     ) {
-        AppTopBar {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(AppColors.current.primary)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.work_status_header),
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-                        color = AppColors.current.onPrimary
-                    )
-                )
-                Text(
-                    text = uiState.employee.surname,
-                    style = TextStyle(
-                        fontWeight = FontWeight.SemiBold
-                    )
-                )
-                Text(", ")
-                Text(text = uiState.employee.firstName)
-            }
+        AppTopBar(headerText = stringResource(id = R.string.work_status_header))
 
+        Row(
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .height(38.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier.padding(end = 4.dp),
+                text = "${stringResource(id = R.string.employee)}: ",
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            )
+            Text(
+                text = "${uiState.employee.firstName} ${uiState.employee.surname}",
+                style = TextStyle(
+                    fontSize = 16.sp
+                )
+            )
         }
+
         LazyColumn(modifier = Modifier.weight(1f)) {
 
         }

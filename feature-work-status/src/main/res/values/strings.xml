@@ -3,6 +3,6 @@
     <string name="work_status_header">Work Status</string>
     <string name="ok">OK</string>
     <string name="error">Error</string>
-    <string name="error_message">There was an error getting the information about this employee.\nPlease contact an administrator for more information.
-    </string>
+    <string name="error_message">There was an error getting the information about this employee.\nPlease contact an administrator for more information.</string>
+    <string name="employee">Employee</string>
 </resources>

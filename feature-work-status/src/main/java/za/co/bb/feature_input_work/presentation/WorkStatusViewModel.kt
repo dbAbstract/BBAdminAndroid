@@ -22,8 +22,8 @@ internal class WorkStatusViewModel(
         viewModelScope.launch {
             val employeeResult = employeeRepository.getEmployee(employeeId = employeeId)
             if (employeeResult.isSuccess) {
-                updateState {
-                    copy(
+                _uiState.update {
+                    WorkStatusScreenState.Loaded(
                         employee = employeeResult.getOrThrow()
                     )
                 }
@@ -34,14 +34,6 @@ internal class WorkStatusViewModel(
     val workStatusEventHandler = object : WorkStatusEventHandler {
         override fun onBack() {
             emitAction(WorkStatusAction.NavigateBack)
-        }
-    }
-
-    private fun updateState(block: WorkStatusScreenState.Loaded.() -> WorkStatusScreenState.Loaded) {
-        if (_uiState.value is WorkStatusScreenState.Loaded) {
-            _uiState.update {
-                (it as WorkStatusScreenState.Loaded).block()
-            }
         }
     }
 }
