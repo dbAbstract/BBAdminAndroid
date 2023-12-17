@@ -32,8 +32,8 @@ internal class HomeScreenViewModel(
     }
 
     val homeScreenEventHandler = object : HomeScreenEventHandler {
-        override fun onAddWorkHourClick() {
-            emitAction(HomeScreenAction.NavigateToInputWorkHours)
+        override fun onAddEmployeeClick() {
+            emitAction(HomeScreenAction.NavigateToAddEmployee)
         }
     }
 }

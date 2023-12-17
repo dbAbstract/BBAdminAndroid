@@ -55,7 +55,7 @@ fun NavGraphBuilder.homeScreen(
 
         homeScreenViewModel.collectAction { action ->
             when (action) {
-                HomeScreenAction.NavigateToInputWorkHours -> navigate(Screen.InputWorkHours)
+                HomeScreenAction.NavigateToAddEmployee -> navigate(Screen.AddEmployee)
             }
         }
     }
@@ -73,7 +73,7 @@ private fun HomeScreen(
         floatingActionButton = {
             FloatingActionButton(
                 backgroundColor = AppColors.current.secondary,
-                onClick = homeScreenEventHandler::onAddWorkHourClick
+                onClick = homeScreenEventHandler::onAddEmployeeClick
             ) {
                 Icon(
                     imageVector = Icons.Filled.Add,

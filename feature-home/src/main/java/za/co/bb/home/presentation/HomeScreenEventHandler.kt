@@ -4,5 +4,5 @@ import androidx.compose.runtime.Stable
 
 @Stable
 interface HomeScreenEventHandler {
-    fun onAddWorkHourClick()
+    fun onAddEmployeeClick()
 }
