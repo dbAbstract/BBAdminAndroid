@@ -8,12 +8,16 @@ import androidx.compose.ui.graphics.Color
 @Immutable
 data class BargainBuildTheme(
     val primary: Color,
-    val onPrimary: Color
+    val onPrimary: Color,
+    val secondary: Color,
+    val onSecondary: Color
 ) {
     companion object {
         val Light = BargainBuildTheme(
             primary = Color(0xFFFCA719),
-            onPrimary = Color.Black
+            onPrimary = Color.Black,
+            secondary = Color(0xFF8A0500),
+            onSecondary = Color.White
         )
     }
 }

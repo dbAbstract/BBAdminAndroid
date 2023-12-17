@@ -1,4 +1,4 @@
-package za.co.bb.bargainbuildadmin
+package za.co.bb.core.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,3 +42,5 @@ fun AppBottomBar(
         }
     }
 }
+
+const val BOTTOM_BAR_HEIGHT = 80

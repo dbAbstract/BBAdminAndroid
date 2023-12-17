@@ -24,6 +24,15 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.6"
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -39,6 +48,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
     implementation(libs.compose.foundation)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.material)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     api(libs.kotlinx.datetime)

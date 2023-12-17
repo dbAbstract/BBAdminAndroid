@@ -11,12 +11,14 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.FabPosition
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import za.co.bb.core.navigation.Screen
+import za.co.bb.core.ui.components.BOTTOM_BAR_HEIGHT
 import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.core.util.collectAction
 import za.co.bb.home.R
@@ -63,15 +66,23 @@ private fun HomeScreen(
     uiState: HomeScreenState,
     homeScreenEventHandler: HomeScreenEventHandler
 ) {
+    val scaffoldState = rememberScaffoldState()
     Scaffold(
+        modifier = Modifier.padding(bottom = BOTTOM_BAR_HEIGHT.dp),
+        scaffoldState = scaffoldState,
         floatingActionButton = {
-            IconButton(onClick = homeScreenEventHandler::onAddWorkHourClick) {
+            FloatingActionButton(
+                backgroundColor = AppColors.current.secondary,
+                onClick = homeScreenEventHandler::onAddWorkHourClick
+            ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = AppColors.current.onSecondary
                 )
             }
-        }
+        },
+        floatingActionButtonPosition = FabPosition.End
     ) { paddingValues ->
         Column(
             modifier = Modifier

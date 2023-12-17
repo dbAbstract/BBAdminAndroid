@@ -17,6 +17,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import za.co.bb.core.navigation.Screen
+import za.co.bb.core.ui.components.AppBottomBar
+import za.co.bb.core.ui.components.BOTTOM_BAR_HEIGHT
 import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.home.view.homeScreen
 
@@ -66,7 +68,7 @@ private fun BargainBuildAdminApp(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .height(80.dp)
+                .height(BOTTOM_BAR_HEIGHT.dp)
                 .background(AppColors.current.primary),
             onNavIconClick = { screen ->
                 navigate(navController, screen)
