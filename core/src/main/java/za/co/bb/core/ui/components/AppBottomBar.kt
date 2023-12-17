@@ -49,5 +49,3 @@ fun AppBottomBar(
         }
     }
 }
-
-const val BOTTOM_BAR_HEIGHT = 80
