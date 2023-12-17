@@ -19,10 +19,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import za.co.bb.core.util.now
 import za.co.bb.employees.domain.model.Employee
 import za.co.bb.home.domain.model.WageStatus
-import za.co.bb.wages.domain.model.Wage
 
 @Composable
 internal fun EmployeeWageStatusList(
@@ -87,12 +85,6 @@ private val previewWageStatusList = listOf(
             middleName = null,
             age = 35
         ),
-        wage = Wage(
-            id = "0",
-            employeeId = "0",
-            issueDate = now,
-            amount = 23.0
-        ),
         amountDue = 330.50,
         hoursUnpaid = 20
     ),
@@ -103,12 +95,6 @@ private val previewWageStatusList = listOf(
             surname = "Jr",
             middleName = null,
             age = 31
-        ),
-        wage = Wage(
-            id = "0",
-            employeeId = "0",
-            issueDate = now,
-            amount = 21.0
         ),
         amountDue = 310.50,
         hoursUnpaid = 32
