@@ -11,20 +11,22 @@ import kotlin.coroutines.suspendCoroutine
 internal class WorkHoursRepositoryImpl(
     private val firebaseFirestore: FirebaseFirestore
 ) : WorkHoursRepository {
-    override suspend fun getHoursDue(employeeId: String): Result<WorkHours> = withContext(Dispatchers.IO) {
+    override suspend fun getHoursDueForEmployee(employeeId: String): Result<List<WorkHours>> = withContext(Dispatchers.IO) {
         suspendCoroutine { continuation ->
             firebaseFirestore.collection(WORK_HOURS_TABLE)
                 .whereEqualTo(COLUMN_EMPLOYEE_ID, employeeId)
                 .get()
                 .addOnSuccessListener { result ->
-                    result.toObjects(WorkHoursEntity::class.java).firstOrNull()?.let {
-                        val workHours = it.toWorkHours()
-                        if (workHours == null) {
-                            continuation.resume(Result.failure(Exception("Invalid work hours data")))
-                        } else {
-                            continuation.resume(Result.success(workHours))
-                        }
-                    } ?: continuation.resume(Result.failure(Exception("Invalid work hours due data.")))
+                    try {
+                        val workHoursEntities = result.toObjects(WorkHoursEntity::class.java)
+                        continuation.resume(
+                            Result.success(
+                                workHoursEntities.mapNotNull { it.toWorkHours() }
+                            )
+                        )
+                    } catch (t: Throwable) {
+                        continuation.resume(Result.failure(t))
+                    }
                 }
                 .addOnCanceledListener {
                     continuation.resume(
