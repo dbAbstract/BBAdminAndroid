@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,6 +37,17 @@ fun AppBottomBar(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Person,
+                    contentDescription = null
+                )
+            }
+
+            IconButton(
+                onClick = {
+                    onNavIconClick(Screen.InputWorkHours)
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Info,
                     contentDescription = null
                 )
             }
