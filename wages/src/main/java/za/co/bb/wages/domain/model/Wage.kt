@@ -5,6 +5,7 @@ import za.co.bb.core.domain.Rand
 
 data class Wage(
     val id: String,
+    val description: String,
     val employeeId: String,
     val issueDate: LocalDateTime,
     val amount: Rand
