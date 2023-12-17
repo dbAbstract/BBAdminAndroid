@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "za.co.bb.feature_input_work"
+    namespace = "za.co.bb.feature_work_status"
     compileSdk = 34
 
     defaultConfig {

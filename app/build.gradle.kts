@@ -59,7 +59,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":feature-home"))
-    implementation(project(":feature-input-work"))
+    implementation(project(":feature-work-status"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)

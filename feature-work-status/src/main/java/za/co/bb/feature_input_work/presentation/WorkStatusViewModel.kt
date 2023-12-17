@@ -5,10 +5,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import za.co.bb.core.presentation.BaseViewModel
 import za.co.bb.work_hours.domain.WorkHoursRepository
 
-internal class InputWorkViewModel(
+internal class WorkStatusViewModel(
     private val workHoursRepository: WorkHoursRepository,
-) : BaseViewModel<InputWorkAction>() {
-    private val _uiState = MutableStateFlow(InputWorkScreenState())
+) : BaseViewModel<WorkStatusAction>() {
+    private val _uiState = MutableStateFlow(WorkStatusScreenState())
     val uiState = _uiState.asStateFlow()
 
     init {

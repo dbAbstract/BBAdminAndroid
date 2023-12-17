@@ -13,15 +13,15 @@ import androidx.navigation.compose.composable
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.components.AppTopBar
 import za.co.bb.core.util.collectAction
-import za.co.bb.feature_input_work.R
-import za.co.bb.feature_input_work.presentation.InputWorkScreenState
+import za.co.bb.feature_input_work.presentation.WorkStatusScreenState
+import za.co.bb.feature_work_status.R
 
-fun NavGraphBuilder.inputWorkScreen() {
+fun NavGraphBuilder.workStatusScreen() {
     composable(Screen.WorkStatus.name) {
         val inputWorkViewModel = getInputWorkViewModel()
         val uiState by inputWorkViewModel.uiState.collectAsStateWithLifecycle()
 
-        InputWorkScreen(
+        WorkStatusScreen(
             uiState = uiState
         )
 
@@ -32,14 +32,14 @@ fun NavGraphBuilder.inputWorkScreen() {
 }
 
 @Composable
-private fun InputWorkScreen(
-    uiState: InputWorkScreenState
+private fun WorkStatusScreen(
+    uiState: WorkStatusScreenState
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top
     ) {
-        AppTopBar(headerText = stringResource(id = R.string.input_work_header))
+        AppTopBar(headerText = stringResource(id = R.string.work_status_header))
     }
 
 }

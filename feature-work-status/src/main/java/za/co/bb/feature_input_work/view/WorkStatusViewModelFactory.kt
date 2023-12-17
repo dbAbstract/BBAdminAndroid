@@ -4,14 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
-import za.co.bb.feature_input_work.presentation.InputWorkViewModel
+import za.co.bb.feature_input_work.presentation.WorkStatusViewModel
 import za.co.bb.work_hours.di.WorkHoursDependencyContainer
 
 private class InputWorkViewModelFactory : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(InputWorkViewModel::class.java)) {
-            return InputWorkViewModel(
+        if (modelClass.isAssignableFrom(WorkStatusViewModel::class.java)) {
+            return WorkStatusViewModel(
                 workHoursRepository = WorkHoursDependencyContainer.workHoursRepository
             ) as T
         }
@@ -20,7 +20,7 @@ private class InputWorkViewModelFactory : ViewModelProvider.Factory {
 }
 
 @Composable
-internal fun getInputWorkViewModel(): InputWorkViewModel {
+internal fun getInputWorkViewModel(): WorkStatusViewModel {
     return viewModel(
         factory = InputWorkViewModelFactory()
     )
