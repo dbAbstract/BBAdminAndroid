@@ -1,6 +1,7 @@
 package za.co.bb.wages.domain.model
 
 import kotlinx.datetime.LocalDateTime
+import za.co.bb.core.domain.typealiases.Rand
 
 data class Wage(
     val id: String,
@@ -8,8 +9,3 @@ data class Wage(
     val issueDate: LocalDateTime,
     val amount: Rand
 )
-
-/**
- * South African Rand - ZAR
- */
-typealias Rand = Double
