@@ -2,6 +2,7 @@ package za.co.bb.core.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -56,6 +57,17 @@ fun AppTopBar(
                 )
             )
         }
+    }
+}
 
+@Composable
+fun AppTopBar(content: @Composable BoxScope.() -> Unit) {
+    Box(
+        modifier = Modifier
+            .height(TOP_BAR_HEIGHT.dp)
+            .fillMaxWidth()
+            .background(AppColors.current.primary)
+    ) {
+        content()
     }
 }
