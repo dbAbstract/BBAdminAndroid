@@ -34,10 +34,6 @@ import za.co.bb.feature_work_status.R
 fun NavGraphBuilder.workStatusScreen(
     navigate: (NavAction) -> Unit
 ) {
-//    composable(
-//        "profile/{userId}",
-//        arguments = listOf(navArgument("userId") { type = NavType.StringType })
-//    ) {...}
     composable(
         route = "${Screen.WorkStatus.name}/{$ARG_EMPLOYEE_ID}",
         arguments = listOf(

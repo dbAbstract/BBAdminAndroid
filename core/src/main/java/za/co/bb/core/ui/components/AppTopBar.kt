@@ -35,7 +35,6 @@ fun AppTopBar(
     ) {
         Row(
             modifier = Modifier
-                .padding(start = 16.dp)
                 .align(Alignment.CenterStart)
                 .statusBarsPadding(),
             verticalAlignment = Alignment.CenterVertically
@@ -49,6 +48,7 @@ fun AppTopBar(
                 }
             }
             Text(
+                modifier = Modifier.padding(start = 16.dp),
                 text = headerText,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,

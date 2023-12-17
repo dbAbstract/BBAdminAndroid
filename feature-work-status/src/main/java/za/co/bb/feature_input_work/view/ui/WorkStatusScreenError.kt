@@ -33,7 +33,7 @@ internal fun WorkStatusScreenError(
         verticalArrangement = Arrangement.Top
     ) {
         AppTopBar(
-            headerText = "${stringResource(id = R.string.work_status_header)}: "
+            headerText = stringResource(id = R.string.work_status_header)
         )
         AlertDialog(
             title = {

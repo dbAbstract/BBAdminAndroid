@@ -23,7 +23,7 @@ internal fun WorkStatusScreenLoading(onBack: () -> Unit) {
         verticalArrangement = Arrangement.Top
     ) {
         AppTopBar(
-            headerText = "${stringResource(id = R.string.work_status_header)}: ",
+            headerText = stringResource(id = R.string.work_status_header),
             onBack = onBack
         )
         Spacer(modifier = Modifier.weight(1f))
