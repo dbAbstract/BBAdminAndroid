@@ -1,10 +1,12 @@
-package za.co.bb.employees.domain.model
+package za.co.bb.feature_input_work.domain.model
 
-import androidx.compose.runtime.Stable
 import za.co.bb.core.domain.EmployeeId
 
-@Stable
-data class Employee(
+internal data class WorkStatus(
+    val employee: Employee
+)
+
+internal data class Employee(
     val id: EmployeeId,
     val firstName: String,
     val surname: String,

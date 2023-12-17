@@ -3,6 +3,7 @@ package za.co.bb.feature_input_work.view
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -35,11 +36,20 @@ fun NavGraphBuilder.workStatusScreen() {
 private fun WorkStatusScreen(
     uiState: WorkStatusScreenState
 ) {
+    when (uiState) {
+        WorkStatusScreenState.Error -> {
+            AlertDialog(onDismissRequest = { /*TODO*/ }, buttons = { /*TODO*/ })
+        }
+        is WorkStatusScreenState.Loaded -> TODO()
+        WorkStatusScreenState.Loading -> TODO()
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top
     ) {
-        AppTopBar(headerText = stringResource(id = R.string.work_status_header))
+        AppTopBar(
+            headerText = "${stringResource(id = R.string.work_status_header)}: "
+        )
     }
 
 }

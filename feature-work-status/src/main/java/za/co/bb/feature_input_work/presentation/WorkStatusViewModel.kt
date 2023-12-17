@@ -8,7 +8,7 @@ import za.co.bb.work_hours.domain.WorkHoursRepository
 internal class WorkStatusViewModel(
     private val workHoursRepository: WorkHoursRepository,
 ) : BaseViewModel<WorkStatusAction>() {
-    private val _uiState = MutableStateFlow(WorkStatusScreenState())
+    private val _uiState = MutableStateFlow(WorkStatusScreenState.Loading)
     val uiState = _uiState.asStateFlow()
 
     init {

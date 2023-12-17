@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
+    implementation(libs.compose.runtime)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.ktx)
     implementation(libs.firebase.firestore)
