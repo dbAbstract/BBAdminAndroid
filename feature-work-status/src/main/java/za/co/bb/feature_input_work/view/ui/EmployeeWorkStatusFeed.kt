@@ -61,7 +61,7 @@ private fun WorkStatusCard(
             Row(
                 modifier = Modifier
                     .padding(start = CONTENT_PADDING.dp)
-                    .height(40.dp),
+                    .height(20.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -110,7 +110,7 @@ private fun WorkStatusCard(
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     modifier = Modifier.padding(end = CONTENT_PADDING.dp),
-                    text = " ${workStatus.createdAt}",
+                    text = " ${workStatus.createdAt.dayOfMonth}-${workStatus.createdAt.month.name}-${workStatus.createdAt.year} ${workStatus.createdAt.time}",
                     style = TextStyle(fontWeight = FontWeight.SemiBold)
                 )
             }
@@ -136,10 +136,3 @@ private fun WorkStatusCard(
 
 private const val END_PADDING = 8
 private const val CONTENT_PADDING = 16
-//internal data class WorkStatus(
-//    val hours: Long,
-//    val wageRate: Rand,
-//    val wageId: String,
-//    val createdAt: LocalDateTime,
-//    val amountDue: Rand
-//)

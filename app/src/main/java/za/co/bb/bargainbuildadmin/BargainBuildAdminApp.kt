@@ -44,6 +44,5 @@ internal fun BargainBuildAdminApp(
             homeScreen(navigate = navigate)
             workStatusScreen(navigate = navigate)
         }
-
     }
 }
