@@ -5,4 +5,8 @@
     <string name="error">Error</string>
     <string name="error_message">There was an error getting the information about this employee.\nPlease contact an administrator for more information.</string>
     <string name="employee">Employee</string>
+    <string name="hours_worked">Hours worked</string>
+    <string name="wage_rate">Wage rate</string>
+    <string name="created_at">Created at</string>
+    <string name="amount_due">Amount due</string>
 </resources>

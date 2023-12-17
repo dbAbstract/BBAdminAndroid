@@ -27,14 +27,15 @@ internal fun EmployeeDetailsRow(
             modifier = Modifier.padding(end = 4.dp),
             text = "${stringResource(id = R.string.employee)}: ",
             style = TextStyle(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal
             )
         )
         Text(
             text = "$firstName $surname",
             style = TextStyle(
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
             )
         )
     }

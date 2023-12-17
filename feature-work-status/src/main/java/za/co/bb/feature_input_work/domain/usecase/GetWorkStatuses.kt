@@ -2,6 +2,7 @@ package za.co.bb.feature_input_work.domain.usecase
 
 import android.util.Log
 import za.co.bb.core.domain.EmployeeId
+import za.co.bb.core.domain.format
 import za.co.bb.feature_input_work.domain.model.WorkStatus
 import za.co.bb.work_hours.domain.WorkHoursRepository
 
@@ -17,7 +18,7 @@ internal class GetWorkStatuses(
                 wageRate = it.wageRate,
                 wageId = it.wageId,
                 createdAt = it.creationDate,
-                amountDue = it.wageRate * it.hours
+                amountDue = (it.wageRate * it.hours).format()
             )
         }
         Log.i(TAG, "Converted WorkHours into $workStatuses")
