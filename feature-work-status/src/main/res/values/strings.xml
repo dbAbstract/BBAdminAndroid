@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="work_status_header">Input Work</string>
+    <string name="work_status_header">Work Status</string>
 </resources>
