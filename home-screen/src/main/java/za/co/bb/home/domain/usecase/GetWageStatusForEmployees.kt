@@ -4,7 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
-import za.co.bb.core.domain.typealiases.Rand
+import za.co.bb.core.domain.Rand
 import za.co.bb.employees.domain.model.Employee
 import za.co.bb.employees.domain.repository.EmployeeRepository
 import za.co.bb.home.domain.model.WageStatus

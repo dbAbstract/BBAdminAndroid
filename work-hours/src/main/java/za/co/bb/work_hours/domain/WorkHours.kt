@@ -1,6 +1,6 @@
 package za.co.bb.work_hours.domain
 
-import za.co.bb.core.domain.typealiases.Rand
+import za.co.bb.core.domain.Rand
 
 data class WorkHours(
     val employeeId: String,
