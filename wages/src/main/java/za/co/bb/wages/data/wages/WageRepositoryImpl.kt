@@ -1,7 +1,6 @@
 package za.co.bb.wages.data.wages
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -66,7 +65,6 @@ class WageRepositoryImpl(
     private suspend fun getAllWagesFromFirestore(employeeId: String): Result<List<Wage>> = suspendCoroutine { continuation ->
         firebaseFirestore.collection(WAGE_TABLE)
             .whereEqualTo(COLUMN_EMPLOYEE_ID, employeeId)
-            .orderBy(COLUMN_ISSUE_DATE, Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 if (result.isEmpty) {
@@ -109,7 +107,6 @@ class WageRepositoryImpl(
     companion object {
         private const val WAGE_TABLE = "wage"
         private const val COLUMN_EMPLOYEE_ID = "employeeId"
-        private const val COLUMN_ISSUE_DATE = "issueDate"
     }
 
 }

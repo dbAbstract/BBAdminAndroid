@@ -2,7 +2,6 @@ package za.co.bb.work_hours.data
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -30,17 +29,22 @@ internal class WorkHoursRepositoryImpl(
         } ?: false
 
         return@withContext when {
-            isCacheValid -> Result.success(workHistoryCache[employeeId]!!)
+            isCacheValid -> {
+                Log.i(TAG, "Retrieving work hours for employeeId=$employeeId from cache.")
+                Result.success(workHistoryCache[employeeId]!!)
+            }
 
-            else -> getWorkHours(employeeId)
+            else -> {
+                Log.i(TAG, "Retrieving work hours for employeeId=$employeeId from remote.")
+                getWorkHoursFromFirestore(employeeId)
+            }
         }
     }
 
-    private suspend fun getWorkHours(employeeId: EmployeeId): Result<List<WorkHours>> = suspendCoroutine { continuation ->
+    private suspend fun getWorkHoursFromFirestore(employeeId: EmployeeId): Result<List<WorkHours>> = suspendCoroutine { continuation ->
         Log.i(TAG, "Getting work hours for $employeeId")
         firebaseFirestore.collection(WORK_HOURS_TABLE)
             .whereEqualTo(COLUMN_EMPLOYEE_ID, employeeId)
-            .orderBy(COLUMN_CREATION_DATE, Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { result ->
                 try {
@@ -81,8 +85,7 @@ internal class WorkHoursRepositoryImpl(
     companion object {
         private const val WORK_HOURS_TABLE = "work-hours"
         private const val COLUMN_EMPLOYEE_ID = "employeeId"
-        private const val COLUMN_CREATION_DATE = "creationDate"
-        private const val TAG = "WorkHoursRepo"
+        private const val TAG = "WorkHours-Repository"
     }
 }
 
