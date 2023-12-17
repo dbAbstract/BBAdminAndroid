@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "za.co.bb.employee"
+    namespace = "za.co.bb.home"
     compileSdk = 34
 
     defaultConfig {

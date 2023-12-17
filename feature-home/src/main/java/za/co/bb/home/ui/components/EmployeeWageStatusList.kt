@@ -15,11 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import za.co.bb.employees.domain.model.Employee
+import za.co.bb.home.R
 import za.co.bb.home.domain.model.WageStatus
 
 @Composable
@@ -49,7 +51,7 @@ internal fun EmployeeWageStatusList(
 
                 Column(modifier = Modifier.padding(end = 8.dp)) {
                     Text(
-                        text = "Hours due",
+                        text = stringResource(id = R.string.hours_due),
                         style = TextStyle(
                             fontWeight = FontWeight.SemiBold
                         )
