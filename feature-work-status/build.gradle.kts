@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.compose.material)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.compose.ui.tooling)
+    implementation(libs.androidx.material3)
 
     implementation(project(":core"))
     implementation(project(":work-hours"))
