@@ -27,8 +27,6 @@ internal class WorkHoursRepositoryImpl(
         } ?: false
 
     override suspend fun getHoursDueForEmployee(employeeId: String): Result<List<WorkHours>> = withContext(Dispatchers.IO) {
-
-
         return@withContext when {
             isCacheValid -> {
                 Log.i(TAG, "Retrieving work hours for employeeId=$employeeId from cache.")
