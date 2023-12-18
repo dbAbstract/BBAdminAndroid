@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
             }
 
             is NavAction.NavigateToWorkStatus -> {
-                navController.navigate("${Screen.WorkStatus.name}/${navAction.employeeId}")
+                navController.navigate("${Screen.WorkStatusHome.name}/${navAction.employeeId}")
             }
         }
     }

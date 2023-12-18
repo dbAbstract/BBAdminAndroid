@@ -17,7 +17,7 @@ import za.co.bb.core.ui.components.AppBottomBar
 import za.co.bb.core.ui.components.BOTTOM_BAR_HEIGHT
 import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.home.view.homeScreen
-import za.co.bb.work_status.view.workStatusScreen
+import za.co.bb.work_status.navigation.featureWorkStatus
 
 @Composable
 internal fun BargainBuildAdminApp(
@@ -42,7 +42,7 @@ internal fun BargainBuildAdminApp(
             startDestination = Screen.HomeScreen.name
         ) {
             homeScreen(navigate = navigate)
-            workStatusScreen(navigate = navigate)
+            featureWorkStatus(navigate = navigate)
         }
     }
 }

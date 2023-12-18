@@ -1,6 +1,5 @@
 package za.co.bb.work_status.view
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,22 +17,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
-import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import za.co.bb.core.domain.print
-import za.co.bb.core.navigation.NavAction
-import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.components.AppAlertDialog
 import za.co.bb.core.ui.theme.AppColors
-import za.co.bb.core.util.collectAction
 import za.co.bb.feature_work_status.R
-import za.co.bb.work_status.presentation.WorkStatusAction
 import za.co.bb.work_status.presentation.WorkStatusEventHandler
 import za.co.bb.work_status.presentation.WorkStatusScreenState
 import za.co.bb.work_status.view.ui.EmployeeDetailsRow
@@ -43,46 +32,8 @@ import za.co.bb.work_status.view.ui.WorkStatusScreenLoading
 import za.co.bb.work_status.view.ui.WorkStatusScreenTopBar
 import za.co.bb.work_status.view.ui.WorkStatusTotalsTab
 
-fun NavGraphBuilder.workStatusScreen(
-    navigate: (NavAction) -> Unit
-) {
-    composable(
-        route = "${Screen.WorkStatus.name}/{$ARG_EMPLOYEE_ID}",
-        arguments = listOf(
-            navArgument(ARG_EMPLOYEE_ID) {
-                type = NavType.StringType
-            }
-        ),
-    ) { backStackEntry ->
-        val employeeId = backStackEntry.arguments?.getString(ARG_EMPLOYEE_ID)
-        if (employeeId == null) {
-            navigate(NavAction.NavigateBack)
-            return@composable
-        }
-        val context = LocalContext.current
-
-        val workStatusViewModel = getWorkStatusViewModel(employeeId = employeeId)
-        val uiState by workStatusViewModel.uiState.collectAsStateWithLifecycle()
-
-        WorkStatusScreen(
-            uiState = uiState,
-            workStatusEventHandler = workStatusViewModel.workStatusEventHandler
-        )
-
-        workStatusViewModel.collectAction { action ->
-            when (action) {
-                WorkStatusAction.NavigateBack -> navigate(NavAction.NavigateBack)
-
-                is WorkStatusAction.ShowError -> Toast.makeText(context, action.message, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-}
-
-private const val ARG_EMPLOYEE_ID = "employeeId"
-
 @Composable
-private fun WorkStatusScreen(
+internal fun WorkStatusScreen(
     uiState: WorkStatusScreenState,
     workStatusEventHandler: WorkStatusEventHandler
 ) {

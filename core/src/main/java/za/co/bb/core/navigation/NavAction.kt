@@ -9,7 +9,7 @@ sealed interface NavAction {
 
     data class NavigateToWorkStatus(
         val employeeId: EmployeeId
-    ) : NavAction, ScreenNavigation(Screen.WorkStatus)
+    ) : NavAction, ScreenNavigation(Screen.WorkStatusGraph)
 }
 
 abstract class ScreenNavigation(val screen: Screen)
