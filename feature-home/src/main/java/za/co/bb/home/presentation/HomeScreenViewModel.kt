@@ -23,11 +23,14 @@ internal class HomeScreenViewModel(
     init {
         Log.i(TAG, "Initialized!")
         viewModelScope.launch {
-            _uiState.update {
+            val employeesWageStatuses = getWageStatusForEmployees.execute()
+            if (employeesWageStatuses.isNotEmpty()) _uiState.update {
                 it.copy(
-                    employeeWageStatuses = getWageStatusForEmployees.execute(),
+                    employeeWageStatuses = employeesWageStatuses,
                     isLoading = false
                 )
+            } else {
+                emitAction(HomeScreenAction.ShowError(message = "Could not get Work status for employees at this time."))
             }
         }
     }
