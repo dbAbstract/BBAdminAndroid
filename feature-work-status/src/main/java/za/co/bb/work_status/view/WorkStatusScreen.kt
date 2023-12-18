@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterialApi::class)
+
 package za.co.bb.work_status.view
 
 import androidx.compose.foundation.background
@@ -7,8 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -70,8 +76,12 @@ private fun WorkStatusScreen(
     Scaffold(
         backgroundColor = AppColors.current.background,
         floatingActionButton = {
-            FloatingActionButton(onClick = {}) {
-
+            FloatingActionButton(
+                modifier = Modifier.padding(bottom = TOTALS_TAB_HEIGHT.dp),
+                onClick = {},
+                backgroundColor = AppColors.current.secondary
+            ) {
+                Icon(imageVector = Icons.Filled.Add, contentDescription = null)
             }
         }
     ) { paddingValues ->

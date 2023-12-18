@@ -9,4 +9,5 @@ internal interface WorkStatusEventHandler {
     fun onWorkStatusSelected(workStatus: WorkStatus)
     fun onWorkStatusDeselected(workStatus: WorkStatus)
     fun deleteSelectedWorkStatuses()
+    fun navigateToAddWorkStatus()
 }

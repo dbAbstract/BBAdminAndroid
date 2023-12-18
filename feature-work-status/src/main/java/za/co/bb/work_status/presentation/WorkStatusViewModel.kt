@@ -103,6 +103,10 @@ internal class WorkStatusViewModel(
                 }
             }
         }
+
+        override fun navigateToAddWorkStatus() {
+            emitAction(WorkStatusAction.NavigateToAddWorkStatus)
+        }
     }
 
     private fun populateWorkStatuses(employeeId: EmployeeId) {

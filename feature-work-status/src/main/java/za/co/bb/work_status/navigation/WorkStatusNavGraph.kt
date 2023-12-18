@@ -1,7 +1,11 @@
 package za.co.bb.work_status.navigation
 
 import android.widget.Toast
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
@@ -9,6 +13,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import kotlinx.coroutines.launch
 import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.util.collectAction
@@ -16,7 +21,8 @@ import za.co.bb.work_status.presentation.WorkStatusAction
 import za.co.bb.work_status.view.WorkStatusScreen
 import za.co.bb.work_status.view.getWorkStatusViewModel
 
-fun NavGraphBuilder.featureWorkStatus(
+@OptIn(ExperimentalMaterialApi::class)
+fun NavGraphBuilder.workStatusNavGraph(
     navigate: (NavAction) -> Unit
 ) {
     navigation(
@@ -37,7 +43,8 @@ fun NavGraphBuilder.featureWorkStatus(
                 return@composable
             }
             val context = LocalContext.current
-
+            val coroutineScope = rememberCoroutineScope()
+            val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Expanded)
             val workStatusViewModel = getWorkStatusViewModel(employeeId = employeeId)
             val uiState by workStatusViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -51,6 +58,8 @@ fun NavGraphBuilder.featureWorkStatus(
                     WorkStatusAction.NavigateBack -> navigate(NavAction.NavigateBack)
 
                     is WorkStatusAction.ShowError -> Toast.makeText(context, action.message, Toast.LENGTH_SHORT).show()
+
+                    WorkStatusAction.NavigateToAddWorkStatus -> coroutineScope.launch { sheetState.show() }
                 }
             }
         }
