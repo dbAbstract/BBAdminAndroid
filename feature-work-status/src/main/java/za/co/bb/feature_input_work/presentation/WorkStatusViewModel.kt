@@ -8,8 +8,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import za.co.bb.core.domain.EmployeeId
+import za.co.bb.core.domain.Rand
+import za.co.bb.core.domain.format
 import za.co.bb.core.presentation.BaseViewModel
 import za.co.bb.employees.domain.repository.EmployeeRepository
+import za.co.bb.feature_input_work.domain.model.WorkStatus
 import za.co.bb.feature_input_work.domain.usecase.GetWorkStatuses
 
 internal class WorkStatusViewModel(
@@ -33,13 +36,20 @@ internal class WorkStatusViewModel(
                 _uiState.update {
                     WorkStatusScreenState.Loaded(
                         employee = employeeResult.getOrThrow(),
-                        workStatuses = workStatusesResult.getOrThrow()
+                        workStatuses = workStatusesResult.getOrThrow(),
+                        totalWage = calculateTotalWage(workStatuses = workStatusesResult.getOrThrow())
                     )
                 }
             } else {
                 Log.e(TAG, "Error getting work statuses for empId=$employeeId")
             }
         }
+    }
+
+    private fun calculateTotalWage(workStatuses: List<WorkStatus>): Rand {
+        return workStatuses.sumOf {
+            it.hours * it.wageRate
+        }.format()
     }
 
     val workStatusEventHandler = object : WorkStatusEventHandler {

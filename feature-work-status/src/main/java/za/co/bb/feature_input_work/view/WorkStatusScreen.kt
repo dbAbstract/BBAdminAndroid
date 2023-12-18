@@ -3,22 +3,29 @@ package za.co.bb.feature_input_work.view
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import za.co.bb.core.domain.print
 import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.components.AppTopBar
@@ -127,8 +134,43 @@ private fun WorkStatusScreen(
             modifier = Modifier
                 .padding(top = 8.dp)
                 .padding(horizontal = 8.dp)
+                .padding(bottom = TOTALS_TAB_HEIGHT.dp)
                 .weight(1f),
             workStatuses = uiState.workStatuses
         )
+
+        Row(
+            modifier = Modifier
+                .height(TOTALS_TAB_HEIGHT.dp)
+                .fillMaxWidth()
+                .background(AppColors.current.primary)
+        ) {
+            Text(
+                modifier = Modifier.padding(
+                    top = 16.dp,
+                    start =16.dp
+                ),
+                text = stringResource(id = R.string.total_wages),
+                style = TextStyle(
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 20.sp
+                )
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                modifier = Modifier
+                    .padding(
+                        top = 16.dp,
+                        end = 8.dp
+                    ),
+                text = "ZAR ${uiState.totalWage.print()}",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                )
+            )
+        }
     }
 }
+
+private const val TOTALS_TAB_HEIGHT = 80

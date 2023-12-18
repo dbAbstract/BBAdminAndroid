@@ -9,4 +9,5 @@
     <string name="wage_rate">Wage rate</string>
     <string name="created_at">Created at</string>
     <string name="amount_due">Amount due</string>
+    <string name="total_wages">Total Wages Due</string>
 </resources>

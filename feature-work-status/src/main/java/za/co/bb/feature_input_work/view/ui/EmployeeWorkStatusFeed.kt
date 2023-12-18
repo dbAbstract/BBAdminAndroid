@@ -22,6 +22,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import za.co.bb.core.domain.print
 import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.feature_input_work.domain.model.WorkStatus
 import za.co.bb.feature_work_status.R
@@ -94,7 +95,7 @@ private fun WorkStatusCard(
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     modifier = Modifier.padding(end = CONTENT_PADDING.dp),
-                    text = " ${workStatus.wageRate}",
+                    text = " ${workStatus.wageRate.print()}",
                     style = TextStyle(fontWeight = FontWeight.SemiBold)
                 )
             }
