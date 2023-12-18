@@ -2,6 +2,7 @@ package za.co.bb.work_hours.data
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,35 +18,46 @@ import kotlin.coroutines.suspendCoroutine
 internal class WorkHoursRepositoryImpl(
     private val firebaseFirestore: FirebaseFirestore
 ) : WorkHoursRepository {
-    private val workHistoryCache = mutableMapOf<EmployeeId, List<WorkHours>>()
     private var lastRefreshed: LocalDateTime? = null
     private val cacheTime: Long = 60 * 5 // 5 Minutes
 
-    override suspend fun getHoursDueForEmployee(employeeId: String): Result<List<WorkHours>> = withContext(Dispatchers.IO) {
-        val isCacheValid = lastRefreshed?.let {
+    private val isCacheValid
+        get() = lastRefreshed?.let {
             (toEpochSeconds(now) - toEpochSeconds(it) < cacheTime)
-                    && workHistoryCache.isNotEmpty()
-                    && workHistoryCache[employeeId]?.isNotEmpty() == true
         } ?: false
+
+    override suspend fun getHoursDueForEmployee(employeeId: String): Result<List<WorkHours>> = withContext(Dispatchers.IO) {
+
 
         return@withContext when {
             isCacheValid -> {
                 Log.i(TAG, "Retrieving work hours for employeeId=$employeeId from cache.")
-                Result.success(workHistoryCache[employeeId]!!)
+                try {
+                    val workHoursResult = getWorkHoursFromFirestore(
+                        employeeId = employeeId,
+                        source = Source.CACHE
+                    )
+                    Result.success(workHoursResult.getOrThrow())
+                } catch (t: Throwable) {
+                    Result.failure(t)
+                }
             }
 
             else -> {
                 Log.i(TAG, "Retrieving work hours for employeeId=$employeeId from remote.")
-                getWorkHoursFromFirestore(employeeId)
+                getWorkHoursFromFirestore(employeeId, Source.SERVER)
             }
         }
     }
 
-    private suspend fun getWorkHoursFromFirestore(employeeId: EmployeeId): Result<List<WorkHours>> = suspendCoroutine { continuation ->
+    private suspend fun getWorkHoursFromFirestore(
+        employeeId: EmployeeId,
+        source: Source
+    ): Result<List<WorkHours>> = suspendCoroutine { continuation ->
         Log.i(TAG, "Getting work hours for $employeeId")
         firebaseFirestore.collection(WORK_HOURS_TABLE)
             .whereEqualTo(COLUMN_EMPLOYEE_ID, employeeId)
-            .get()
+            .get(source)
             .addOnSuccessListener { result ->
                 try {
                     if (result.isEmpty) {
@@ -63,6 +75,7 @@ internal class WorkHoursRepositoryImpl(
                             workHourSet.add(it)
                         }
                     }
+                    lastRefreshed = now
                     continuation.resume(Result.success(workHourSet.toList()))
                 } catch (t: Throwable) {
                     Log.e(TAG, "Error getting WorkHours for $employeeId | error=$t")
@@ -80,7 +93,6 @@ internal class WorkHoursRepositoryImpl(
                 continuation.resume(Result.failure(it))
             }
     }
-
 
     companion object {
         private const val WORK_HOURS_TABLE = "work-hours"
