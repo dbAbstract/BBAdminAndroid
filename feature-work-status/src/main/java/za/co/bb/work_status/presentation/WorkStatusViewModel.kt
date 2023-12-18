@@ -1,4 +1,4 @@
-package za.co.bb.feature_input_work.presentation
+package za.co.bb.work_status.presentation
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
@@ -12,9 +12,9 @@ import za.co.bb.core.domain.Rand
 import za.co.bb.core.domain.format
 import za.co.bb.core.presentation.BaseViewModel
 import za.co.bb.employees.domain.repository.EmployeeRepository
-import za.co.bb.feature_input_work.domain.model.WorkStatus
-import za.co.bb.feature_input_work.domain.usecase.GetWorkStatuses
 import za.co.bb.work_hours.domain.WorkHoursRepository
+import za.co.bb.work_status.domain.model.WorkStatus
+import za.co.bb.work_status.domain.usecase.GetWorkStatuses
 
 internal class WorkStatusViewModel(
     employeeId: EmployeeId,
@@ -22,7 +22,9 @@ internal class WorkStatusViewModel(
     private val employeeRepository: EmployeeRepository,
     private val workHoursRepository: WorkHoursRepository
 ) : BaseViewModel<WorkStatusAction>() {
-    private val _uiState: MutableStateFlow<WorkStatusScreenState> = MutableStateFlow(WorkStatusScreenState.Loading)
+    private val _uiState: MutableStateFlow<WorkStatusScreenState> = MutableStateFlow(
+        WorkStatusScreenState.Loading
+    )
     val uiState = _uiState.asStateFlow()
 
     init {

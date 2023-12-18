@@ -1,4 +1,4 @@
-package za.co.bb.feature_input_work.domain.model
+package za.co.bb.work_status.domain.model
 
 import kotlinx.datetime.LocalDateTime
 import za.co.bb.core.domain.Rand

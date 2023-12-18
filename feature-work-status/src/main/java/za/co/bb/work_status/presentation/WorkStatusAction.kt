@@ -1,4 +1,4 @@
-package za.co.bb.feature_input_work.presentation
+package za.co.bb.work_status.presentation
 
 internal sealed interface WorkStatusAction {
     data object NavigateBack : WorkStatusAction

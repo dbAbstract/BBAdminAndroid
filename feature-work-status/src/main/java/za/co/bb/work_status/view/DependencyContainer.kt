@@ -1,7 +1,7 @@
-package za.co.bb.feature_input_work.view
+package za.co.bb.work_status.view
 
-import za.co.bb.feature_input_work.domain.usecase.GetWorkStatuses
 import za.co.bb.work_hours.di.WorkHoursDependencyContainer
+import za.co.bb.work_status.domain.usecase.GetWorkStatuses
 
 internal object DependencyContainer {
     val getWorkStatuses: GetWorkStatuses

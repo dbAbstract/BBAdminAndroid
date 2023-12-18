@@ -1,10 +1,10 @@
-package za.co.bb.feature_input_work.domain.usecase
+package za.co.bb.work_status.domain.usecase
 
 import android.util.Log
 import za.co.bb.core.domain.EmployeeId
 import za.co.bb.core.domain.format
-import za.co.bb.feature_input_work.domain.model.WorkStatus
 import za.co.bb.work_hours.domain.WorkHoursRepository
+import za.co.bb.work_status.domain.model.WorkStatus
 
 internal class GetWorkStatuses(
     private val workHoursRepository: WorkHoursRepository

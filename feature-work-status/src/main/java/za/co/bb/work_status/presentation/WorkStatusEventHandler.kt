@@ -1,7 +1,7 @@
-package za.co.bb.feature_input_work.presentation
+package za.co.bb.work_status.presentation
 
 import androidx.compose.runtime.Stable
-import za.co.bb.feature_input_work.domain.model.WorkStatus
+import za.co.bb.work_status.domain.model.WorkStatus
 
 @Stable
 internal interface WorkStatusEventHandler {

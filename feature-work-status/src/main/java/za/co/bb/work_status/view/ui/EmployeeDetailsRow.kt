@@ -1,4 +1,4 @@
-package za.co.bb.feature_input_work.view.ui
+package za.co.bb.work_status.view.ui
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding

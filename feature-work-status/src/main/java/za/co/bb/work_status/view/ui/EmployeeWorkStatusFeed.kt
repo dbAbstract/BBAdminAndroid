@@ -1,4 +1,4 @@
-package za.co.bb.feature_input_work.view.ui
+package za.co.bb.work_status.view.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import za.co.bb.core.domain.print
 import za.co.bb.core.ui.theme.AppColors
-import za.co.bb.feature_input_work.domain.model.WorkStatus
 import za.co.bb.feature_work_status.R
+import za.co.bb.work_status.domain.model.WorkStatus
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

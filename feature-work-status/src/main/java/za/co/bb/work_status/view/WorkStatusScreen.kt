@@ -1,4 +1,4 @@
-package za.co.bb.feature_input_work.view
+package za.co.bb.work_status.view
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -32,16 +32,16 @@ import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.components.AppAlertDialog
 import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.core.util.collectAction
-import za.co.bb.feature_input_work.presentation.WorkStatusAction
-import za.co.bb.feature_input_work.presentation.WorkStatusEventHandler
-import za.co.bb.feature_input_work.presentation.WorkStatusScreenState
-import za.co.bb.feature_input_work.view.ui.EmployeeDetailsRow
-import za.co.bb.feature_input_work.view.ui.EmployeeWorkStatusFeed
-import za.co.bb.feature_input_work.view.ui.WorkStatusScreenError
-import za.co.bb.feature_input_work.view.ui.WorkStatusScreenLoading
-import za.co.bb.feature_input_work.view.ui.WorkStatusScreenTopBar
-import za.co.bb.feature_input_work.view.ui.WorkStatusTotalsTab
 import za.co.bb.feature_work_status.R
+import za.co.bb.work_status.presentation.WorkStatusAction
+import za.co.bb.work_status.presentation.WorkStatusEventHandler
+import za.co.bb.work_status.presentation.WorkStatusScreenState
+import za.co.bb.work_status.view.ui.EmployeeDetailsRow
+import za.co.bb.work_status.view.ui.EmployeeWorkStatusFeed
+import za.co.bb.work_status.view.ui.WorkStatusScreenError
+import za.co.bb.work_status.view.ui.WorkStatusScreenLoading
+import za.co.bb.work_status.view.ui.WorkStatusScreenTopBar
+import za.co.bb.work_status.view.ui.WorkStatusTotalsTab
 
 fun NavGraphBuilder.workStatusScreen(
     navigate: (NavAction) -> Unit
