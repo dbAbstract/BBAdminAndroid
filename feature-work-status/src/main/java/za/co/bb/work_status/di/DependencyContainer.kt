@@ -1,4 +1,4 @@
-package za.co.bb.work_status.view
+package za.co.bb.work_status.di
 
 import za.co.bb.work_hours.di.WorkHoursDependencyContainer
 import za.co.bb.work_status.domain.usecase.GetWorkStatuses

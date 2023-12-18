@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import za.co.bb.core.domain.EmployeeId
 import za.co.bb.employees.di.EmployeeDependencyContainer
 import za.co.bb.work_hours.di.WorkHoursDependencyContainer
+import za.co.bb.work_status.di.DependencyContainer
 import za.co.bb.work_status.presentation.WorkStatusViewModel
 
 private class InputWorkViewModelFactory(
