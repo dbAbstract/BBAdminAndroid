@@ -40,5 +40,11 @@ internal class AddWorkStatusViewModel(
         }
     }
 
+    val addWorkStatusEventHandler = object : AddWorkStatusEventHandler {
+        override fun navigateBack() {
+            emitAction(AddWorkStatusAction.ShowConfirmation)
+        }
+    }
+
 
 }
