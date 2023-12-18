@@ -18,7 +18,8 @@ internal class GetWorkStatuses(
                 wageRate = it.wageRate,
                 wageId = it.wageId,
                 createdAt = it.creationDate,
-                amountDue = (it.wageRate * it.hours).format()
+                amountDue = (it.wageRate * it.hours).format(),
+                workHoursId = it.id
             )
         }
         Log.i(TAG, "Converted WorkHours into $workStatuses")
