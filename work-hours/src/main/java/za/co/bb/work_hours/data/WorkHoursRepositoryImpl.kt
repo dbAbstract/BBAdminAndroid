@@ -7,6 +7,7 @@ import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
+import za.co.bb.core.domain.EmployeeId
 import za.co.bb.core.util.now
 import za.co.bb.core.util.toEpochSeconds
 import za.co.bb.work_hours.domain.WorkHours
@@ -24,6 +25,16 @@ internal class WorkHoursRepositoryImpl(
         get() = lastRefreshed?.let {
             (toEpochSeconds(now) - toEpochSeconds(it) < cacheTime)
         } ?: false
+
+    override suspend fun getHoursDueForEmployees(employees: List<EmployeeId>) = try {
+         Result.success(
+             employees.associateWith { getHoursDueForEmployee(it).getOrThrow() }
+         ).also {
+             lastRefreshed = now
+         }
+    } catch (t: Throwable) {
+        Result.failure(t)
+    }
 
     override suspend fun getHoursDueForEmployee(employeeId: String): Result<List<WorkHours>> = withContext(Dispatchers.IO) {
         return@withContext when {
@@ -67,7 +78,6 @@ internal class WorkHoursRepositoryImpl(
                             workHourSet.add(it)
                         }
                     }
-                    lastRefreshed = now
                     continuation.resume(Result.success(workHourSet.toList()))
                 } catch (t: Throwable) {
                     Log.e(TAG, "Error getting WorkHours for $employeeId | error=$t")
@@ -92,5 +102,3 @@ internal class WorkHoursRepositoryImpl(
         private const val TAG = "Work-Hours-Repository"
     }
 }
-
-internal typealias EmployeeId = String
