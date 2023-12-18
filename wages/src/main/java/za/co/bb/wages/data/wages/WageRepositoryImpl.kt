@@ -1,11 +1,11 @@
 package za.co.bb.wages.data.wages
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
-import za.co.bb.core.domain.EmployeeId
 import za.co.bb.core.util.now
 import za.co.bb.core.util.toEpochSeconds
 import za.co.bb.wages.data.wages.entity.WageEntity
@@ -20,22 +20,32 @@ class WageRepositoryImpl(
     private val firebaseFirestore: FirebaseFirestore
 ) : WageRepository {
 
-    private val wageHistoryCache = mutableMapOf<EmployeeId, List<Wage>>()
     private var lastRefreshed: LocalDateTime? = null
     private val cacheTime: Long = 60 * 5 // 5 Minutes
 
-    override suspend fun getCurrentWageForEmployee(employeeId: String): Result<Wage> = withContext(Dispatchers.IO) {
-        val isCacheValid = lastRefreshed?.let {
+    private val isCacheValid: Boolean
+        get() = lastRefreshed?.let {
             (toEpochSeconds(now) - toEpochSeconds(it) < cacheTime)
-                    && wageHistoryCache.isNotEmpty()
-                    && wageHistoryCache[employeeId]?.isNotEmpty() == true
         } ?: false
 
+    override suspend fun getCurrentWageForEmployee(employeeId: String): Result<Wage> = withContext(Dispatchers.IO) {
         return@withContext when {
-            isCacheValid -> Result.success(wageHistoryCache[employeeId]!!.last())
+            isCacheValid -> try {
+                Result.success(
+                    getAllWagesFromFirestore(
+                        employeeId = employeeId,
+                        source = Source.CACHE
+                    ).getOrThrow().last()
+                )
+            } catch (t: Throwable) {
+                Result.failure(t)
+            }
 
             else -> {
-                val wages = getAllWagesFromFirestore(employeeId)
+                val wages = getAllWagesFromFirestore(
+                    employeeId,
+                    source = Source.SERVER
+                )
                 try {
                     Result.success(wages.getOrThrow().last())
                 } catch (t: Throwable) {
@@ -46,27 +56,30 @@ class WageRepositoryImpl(
     }
 
     override suspend fun getWageHistoryForEmployee(employeeId: String): Result<List<Wage>> = withContext(Dispatchers.IO) {
-        val isCacheValid = lastRefreshed?.let {
-            (toEpochSeconds(now) - toEpochSeconds(it) < cacheTime)
-                    && wageHistoryCache.isNotEmpty()
-                    && wageHistoryCache[employeeId]?.isNotEmpty() == true
-        } ?: false
-
         return@withContext when {
             isCacheValid -> {
-                Result.success(wageHistoryCache[employeeId]!!)
+                getAllWagesFromFirestore(
+                    employeeId = employeeId,
+                    source = Source.CACHE
+                )
             }
 
             else -> {
-                getAllWagesFromFirestore(employeeId = employeeId)
+                getAllWagesFromFirestore(
+                    employeeId = employeeId,
+                    source = Source.SERVER
+                )
             }
         }
     }
 
-    private suspend fun getAllWagesFromFirestore(employeeId: String): Result<List<Wage>> = suspendCoroutine { continuation ->
+    private suspend fun getAllWagesFromFirestore(
+        employeeId: String,
+        source: Source
+    ): Result<List<Wage>> = suspendCoroutine { continuation ->
         firebaseFirestore.collection(WAGE_TABLE)
             .whereEqualTo(COLUMN_EMPLOYEE_ID, employeeId)
-            .get()
+            .get(source)
             .addOnSuccessListener { result ->
                 if (result.isEmpty) {
                     continuation.resume(Result.failure(NoWagesFoundException()))
@@ -81,10 +94,7 @@ class WageRepositoryImpl(
                         wageSet.add(wage)
                     }
                 }
-                cacheWages(
-                    employeeId = employeeId,
-                    wages = wageSet.toList()
-                )
+                lastRefreshed = now
                 continuation.resume(Result.success(wageSet.toList()))
             }
             .addOnCanceledListener {
@@ -95,14 +105,6 @@ class WageRepositoryImpl(
             .addOnFailureListener {
                 continuation.resume(Result.failure(it))
             }
-    }
-
-    private fun cacheWages(
-        employeeId: EmployeeId,
-        wages: List<Wage>
-    ) {
-        wageHistoryCache[employeeId] = wages
-        lastRefreshed = now
     }
 
     companion object {
