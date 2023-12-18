@@ -34,14 +34,14 @@ import za.co.bb.core.ui.theme.AppColors
 fun AppAlertDialog(
     title: String,
     body: String,
-    onDismiss: () -> Unit,
-    onConfirm: () -> Unit,
+    onDismissButtonClick: () -> Unit,
+    onConfirmButtonClick: () -> Unit,
     shape: Shape = RoundedCornerShape(size = 24.dp),
     cancelButtonText: String = stringResource(id = R.string.cancel),
     confirmButtonText: String = stringResource(id = R.string.confirm)
 ) {
     AlertDialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = onDismissButtonClick,
         title = {
             Text(
                 text = title,
@@ -71,7 +71,7 @@ fun AppAlertDialog(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
-                        .clickable(onClick = onDismiss)
+                        .clickable(onClick = onDismissButtonClick)
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
@@ -85,7 +85,7 @@ fun AppAlertDialog(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
-                        .clickable(onClick = onConfirm)
+                        .clickable(onClick = onConfirmButtonClick)
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
@@ -109,8 +109,8 @@ private fun AppAlertDialogPreview() {
         AppAlertDialog(
             title = "Some title",
             body = "Fee fi fo fum, I smell the blood of an Englishman.",
-            onDismiss = {},
-            onConfirm = {}
+            onDismissButtonClick = {},
+            onConfirmButtonClick = {}
         )
     }
 

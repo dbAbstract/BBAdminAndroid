@@ -1,5 +1,6 @@
 package za.co.bb.feature_input_work.view
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -56,6 +58,7 @@ fun NavGraphBuilder.workStatusScreen(
             navigate(NavAction.NavigateBack)
             return@composable
         }
+        val context = LocalContext.current
 
         val workStatusViewModel = getWorkStatusViewModel(employeeId = employeeId)
         val uiState by workStatusViewModel.uiState.collectAsStateWithLifecycle()
@@ -68,6 +71,8 @@ fun NavGraphBuilder.workStatusScreen(
         workStatusViewModel.collectAction { action ->
             when (action) {
                 WorkStatusAction.NavigateBack -> navigate(NavAction.NavigateBack)
+
+                is WorkStatusAction.ShowError -> Toast.makeText(context, action.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -163,10 +168,13 @@ private fun WorkStatusScreen(
         AppAlertDialog(
             title = stringResource(id = R.string.delete_work_status_dialog_title),
             body = stringResource(id = R.string.delete_work_status_dialog_body),
-            onDismiss = {
+            onDismissButtonClick = {
                 showDeleteWorkStatusPopup = false
             },
-            onConfirm = workStatusEventHandler::deleteSelectedWorkStatuses
+            onConfirmButtonClick = {
+                showDeleteWorkStatusPopup = false
+                workStatusEventHandler.deleteSelectedWorkStatuses()
+            }
         )
     }
 }

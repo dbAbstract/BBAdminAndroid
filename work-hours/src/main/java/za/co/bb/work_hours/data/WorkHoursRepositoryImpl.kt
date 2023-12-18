@@ -8,8 +8,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
 import za.co.bb.core.domain.EmployeeId
+import za.co.bb.core.domain.WorkHoursId
 import za.co.bb.core.util.now
 import za.co.bb.core.util.toEpochSeconds
+import za.co.bb.work_hours.domain.DeleteWorkHoursFailureException
 import za.co.bb.work_hours.domain.WorkHours
 import za.co.bb.work_hours.domain.WorkHoursRepository
 import kotlin.coroutines.resume
@@ -55,6 +57,27 @@ internal class WorkHoursRepositoryImpl(
                 Log.i(TAG, "Retrieving work hours for employeeId=$employeeId from remote.")
                 getWorkHoursFromFirestore(employeeId, Source.SERVER)
             }
+        }
+    }
+
+    override suspend fun deleteWorkHourItems(workHoursIdList: List<WorkHoursId>): Result<Unit> = withContext(Dispatchers.IO) {
+        return@withContext if (workHoursIdList.all { deleteWorkHour(it).isSuccess })
+            Result.success(Unit)
+        else
+            Result.failure(DeleteWorkHoursFailureException())
+    }
+
+    private suspend fun deleteWorkHour(workHoursId: WorkHoursId): Result<Unit> = withContext(Dispatchers.IO) {
+        suspendCoroutine { continuation ->
+            firebaseFirestore.collection(WORK_HOURS_TABLE)
+                .document(workHoursId)
+                .delete()
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(Unit))
+                }
+                .addOnFailureListener {
+                    continuation.resume(Result.failure(it))
+                }
         }
     }
 

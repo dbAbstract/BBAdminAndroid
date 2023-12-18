@@ -14,11 +14,13 @@ import za.co.bb.core.presentation.BaseViewModel
 import za.co.bb.employees.domain.repository.EmployeeRepository
 import za.co.bb.feature_input_work.domain.model.WorkStatus
 import za.co.bb.feature_input_work.domain.usecase.GetWorkStatuses
+import za.co.bb.work_hours.domain.WorkHoursRepository
 
 internal class WorkStatusViewModel(
     employeeId: EmployeeId,
     private val getWorkStatuses: GetWorkStatuses,
-    private val employeeRepository: EmployeeRepository
+    private val employeeRepository: EmployeeRepository,
+    private val workHoursRepository: WorkHoursRepository
 ) : BaseViewModel<WorkStatusAction>() {
     private val _uiState: MutableStateFlow<WorkStatusScreenState> = MutableStateFlow(WorkStatusScreenState.Loading)
     val uiState = _uiState.asStateFlow()
@@ -75,7 +77,28 @@ internal class WorkStatusViewModel(
         }
 
         override fun deleteSelectedWorkStatuses() {
-            TODO("Not yet implemented")
+            val currentUiState = (uiState.value as? WorkStatusScreenState.Loaded) ?: return
+
+            viewModelScope.launch {
+                val deletionResult = workHoursRepository.deleteWorkHourItems(
+                    workHoursIdList = currentUiState.workStatuses.map { it.workHoursId }
+                )
+                if (deletionResult.isSuccess) {
+                    val updatedWorkStatuses = getWorkStatuses.execute(employeeId)
+                    if (updatedWorkStatuses.isSuccess) {
+                        _uiState.set {
+                            it.copy(
+                                workStatuses = updatedWorkStatuses.getOrThrow(),
+                                selectedWorkStatuses = emptySet()
+                            )
+                        }
+                    } else {
+                        emitAction(WorkStatusAction.ShowError(message = "Unable to refresh work statuses."))
+                    }
+                } else {
+                    emitAction(WorkStatusAction.ShowError(message = "Unable to delete work statuses."))
+                }
+            }
         }
     }
 
