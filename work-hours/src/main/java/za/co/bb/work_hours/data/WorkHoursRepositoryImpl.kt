@@ -9,7 +9,6 @@ import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
 import za.co.bb.core.util.now
 import za.co.bb.core.util.toEpochSeconds
-import za.co.bb.work_hours.domain.NoWorkHoursFoundException
 import za.co.bb.work_hours.domain.WorkHours
 import za.co.bb.work_hours.domain.WorkHoursRepository
 import kotlin.coroutines.resume
@@ -58,11 +57,6 @@ internal class WorkHoursRepositoryImpl(
             .get(source)
             .addOnSuccessListener { result ->
                 try {
-                    if (result.isEmpty) {
-                        continuation.resume(Result.failure(NoWorkHoursFoundException()))
-                        Log.i(TAG, "Empty result set for empId=$employeeId")
-                    }
-
                     val workHourSet = mutableSetOf<WorkHours>()
                     for (document in result) {
                         val workHourId = document.id
