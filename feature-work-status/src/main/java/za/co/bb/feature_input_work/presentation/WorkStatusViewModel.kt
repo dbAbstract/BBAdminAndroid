@@ -24,6 +24,58 @@ internal class WorkStatusViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
+        populateWorkStatuses(employeeId = employeeId)
+    }
+
+    private fun calculateTotalWage(workStatuses: List<WorkStatus>): Rand {
+        return workStatuses.sumOf {
+            it.hours * it.wageRate
+        }.format()
+    }
+
+    val workStatusEventHandler = object : WorkStatusEventHandler {
+        override fun onBack() {
+            emitAction(WorkStatusAction.NavigateBack)
+        }
+
+        override fun onWorkStatusSelected(workStatus: WorkStatus) {
+            if (uiState.value !is WorkStatusScreenState.Loaded) return
+
+            val selectedWorkStatuses = (uiState.value as WorkStatusScreenState.Loaded)
+                .selectedWorkStatuses
+                .toMutableSet()
+
+            if (!selectedWorkStatuses.contains(workStatus)) {
+                selectedWorkStatuses.add(workStatus)
+
+                _uiState.set {
+                    it.copy(
+                        selectedWorkStatuses = selectedWorkStatuses
+                    )
+                }
+            }
+        }
+
+        override fun onWorkStatusDeselected(workStatus: WorkStatus) {
+            if (uiState.value !is WorkStatusScreenState.Loaded) return
+
+            val selectedWorkStatuses = (uiState.value as WorkStatusScreenState.Loaded)
+                .selectedWorkStatuses
+                .toMutableSet()
+
+            if (selectedWorkStatuses.contains(workStatus)) {
+                selectedWorkStatuses.remove(workStatus)
+
+                _uiState.set {
+                    it.copy(
+                        selectedWorkStatuses = selectedWorkStatuses
+                    )
+                }
+            }
+        }
+    }
+
+    private fun populateWorkStatuses(employeeId: EmployeeId) {
         viewModelScope.launch {
             val employeeResult = async {
                 employeeRepository.getEmployee(employeeId = employeeId)
@@ -37,7 +89,8 @@ internal class WorkStatusViewModel(
                     WorkStatusScreenState.Loaded(
                         employee = employeeResult.getOrThrow(),
                         workStatuses = workStatusesResult.getOrThrow(),
-                        totalWage = calculateTotalWage(workStatuses = workStatusesResult.getOrThrow())
+                        totalWage = calculateTotalWage(workStatuses = workStatusesResult.getOrThrow()),
+                        selectedWorkStatuses = emptySet()
                     )
                 }
             } else {
@@ -46,15 +99,12 @@ internal class WorkStatusViewModel(
         }
     }
 
-    private fun calculateTotalWage(workStatuses: List<WorkStatus>): Rand {
-        return workStatuses.sumOf {
-            it.hours * it.wageRate
-        }.format()
-    }
-
-    val workStatusEventHandler = object : WorkStatusEventHandler {
-        override fun onBack() {
-            emitAction(WorkStatusAction.NavigateBack)
+    private fun MutableStateFlow<WorkStatusScreenState>.set(function: (WorkStatusScreenState.Loaded) -> WorkStatusScreenState) {
+        value.let { currentValue ->
+            if (currentValue is WorkStatusScreenState.Loaded) {
+                Log.d("lol", "state updated with ${function(currentValue)}")
+                update { function(currentValue) }
+            }
         }
     }
 }

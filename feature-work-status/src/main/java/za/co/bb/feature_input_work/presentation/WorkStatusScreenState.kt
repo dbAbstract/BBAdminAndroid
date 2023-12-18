@@ -12,6 +12,7 @@ internal sealed interface WorkStatusScreenState {
     data class Loaded(
         val employee: Employee,
         val workStatuses: List<WorkStatus>,
-        val totalWage: Rand
+        val totalWage: Rand,
+        val selectedWorkStatuses: Set<WorkStatus>
     ) : WorkStatusScreenState
 }

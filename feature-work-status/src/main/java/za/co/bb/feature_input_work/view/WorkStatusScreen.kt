@@ -136,7 +136,10 @@ private fun WorkStatusScreen(
                 .padding(horizontal = 8.dp)
                 .padding(bottom = TOTALS_TAB_HEIGHT.dp)
                 .weight(1f),
-            workStatuses = uiState.workStatuses
+            workStatuses = uiState.workStatuses,
+            selectedWorkStatuses = uiState.selectedWorkStatuses,
+            onWorkStatusSelected = workStatusEventHandler::onWorkStatusSelected,
+            onWorkStatusDeselected = workStatusEventHandler::onWorkStatusDeselected
         )
 
         Row(
