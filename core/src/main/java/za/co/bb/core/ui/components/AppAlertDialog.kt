@@ -57,14 +57,13 @@ fun AppAlertDialog(
         shape = shape,
         backgroundColor = AppColors.current.surface,
         buttons = {
-            Divider(modifier = Modifier.offset(y = 10.dp))
+            Divider(modifier = Modifier.offset(y = 16.dp))
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 24.dp)
                     .padding(bottom = 16.dp)
                     .fillMaxWidth()
-                    .height(30.dp)
-                    .offset(y = 10.dp),
+                    .height(44.dp)
+                    .offset(y = 16.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
