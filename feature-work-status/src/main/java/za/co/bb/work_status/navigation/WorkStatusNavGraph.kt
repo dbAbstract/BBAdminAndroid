@@ -19,7 +19,7 @@ import za.co.bb.core.navigation.Screen
 import za.co.bb.core.util.collectAction
 import za.co.bb.work_status.presentation.WorkStatusAction
 import za.co.bb.work_status.view.WorkStatusScreen
-import za.co.bb.work_status.view.getWorkStatusViewModel
+import za.co.bb.work_status.view.util.getWorkStatusViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 fun NavGraphBuilder.workStatusNavGraph(

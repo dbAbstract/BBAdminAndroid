@@ -1,4 +1,4 @@
-package za.co.bb.work_status.view
+package za.co.bb.work_status.view.util
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
