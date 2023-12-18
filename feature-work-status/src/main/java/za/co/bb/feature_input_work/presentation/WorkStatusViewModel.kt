@@ -81,7 +81,7 @@ internal class WorkStatusViewModel(
 
             viewModelScope.launch {
                 val deletionResult = workHoursRepository.deleteWorkHourItems(
-                    workHoursIdList = currentUiState.workStatuses.map { it.workHoursId }
+                    workHoursIdList = currentUiState.selectedWorkStatuses.map { it.workHoursId }
                 )
                 if (deletionResult.isSuccess) {
                     val updatedWorkStatuses = getWorkStatuses.execute(employeeId)
@@ -89,7 +89,8 @@ internal class WorkStatusViewModel(
                         _uiState.set {
                             it.copy(
                                 workStatuses = updatedWorkStatuses.getOrThrow(),
-                                selectedWorkStatuses = emptySet()
+                                selectedWorkStatuses = emptySet(),
+                                totalWage = calculateTotalWage(workStatuses = updatedWorkStatuses.getOrThrow())
                             )
                         }
                     } else {
