@@ -1,6 +1,7 @@
-package za.co.bb.home.ui.components
+package za.co.bb.home.view.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import za.co.bb.core.domain.EmployeeId
 import za.co.bb.employees.domain.model.Employee
 import za.co.bb.home.R
 import za.co.bb.home.domain.model.WageStatus
@@ -27,7 +29,8 @@ import za.co.bb.home.domain.model.WageStatus
 @Composable
 internal fun EmployeeWageStatusList(
     modifier: Modifier,
-    wageStatusList: List<WageStatus>
+    wageStatusList: List<WageStatus>,
+    onWageStatusClick: (EmployeeId) -> Unit
 ) {
     LazyColumn(modifier = modifier) {
         items(wageStatusList) { employeeWageStatus ->
@@ -35,6 +38,7 @@ internal fun EmployeeWageStatusList(
                 modifier = Modifier
                     .height(48.dp)
                     .fillMaxWidth()
+                    .clickable { onWageStatusClick(employeeWageStatus.employee.id) }
                     .padding(start = START_PADDING.dp, top = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -72,7 +76,8 @@ internal fun EmployeeWageStatusList(
 private fun EmployeeWageStatusListPreview() {
     EmployeeWageStatusList(
         modifier = Modifier.background(Color.White),
-        wageStatusList = previewWageStatusList
+        wageStatusList = previewWageStatusList,
+        onWageStatusClick = {}
     )
 }
 

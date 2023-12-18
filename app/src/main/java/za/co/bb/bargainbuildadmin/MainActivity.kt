@@ -1,72 +1,65 @@
 package za.co.bb.bargainbuildadmin
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
-import za.co.bb.core.ui.theme.AppColors
-import za.co.bb.home.ui.homeScreen
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var navController: NavHostController
+    private var currentScreen by mutableStateOf(Screen.HomeScreen)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
-           BargainBuildAdminApp(navigate = ::navigate)
-        }
-    }
+            navController = rememberNavController()
+            val backStack by navController.currentBackStackEntryAsState()
 
-    private fun navigate(
-        navHostController: NavHostController,
-        screen: Screen
-    ) {
-        if (navHostController.currentDestination?.route?.equals(screen.name) == true) {
-            return
-        }
+            BargainBuildAdminApp(
+               navController = navController,
+               navigate = ::navigate,
+               currentScreen = currentScreen
+            )
 
-        navHostController.navigate(screen.name) {
-            popUpTo(navHostController.graph.startDestinationId)
-        }
-    }
-}
-
-@Composable
-private fun BargainBuildAdminApp(
-    navigate: (NavHostController, Screen) -> Unit
-) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        val navController = rememberNavController()
-
-        NavHost(
-            navController = navController,
-            startDestination = Screen.HomeScreen.name
-        ) {
-            homeScreen()
-        }
-
-        AppBottomBar(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .height(80.dp)
-                .background(AppColors.current.primary),
-            onNavIconClick = { screen ->
-                navigate(navController, screen)
+            LaunchedEffect(key1 = backStack) {
+                backStack?.destination?.route?.let { route ->
+                    val originalRoute = route.substringBefore("/{")
+                    try {
+                        currentScreen = Screen.valueOf(originalRoute)
+                    } catch (t: Throwable) {
+                        Log.e(TAG, "Error parsing current route with exception=$t")
+                    }
+                }
             }
-        )
+        }
+    }
+
+    private fun navigate(navAction: NavAction) {
+        when (navAction) {
+            NavAction.NavigateBack -> navController.popBackStack()
+
+            NavAction.NavigateToAddEmployee -> {
+                navController.navigate(Screen.AddEmployee.name)
+            }
+
+            is NavAction.NavigateToWorkStatus -> {
+                navController.navigate("${Screen.WorkStatus.name}/${navAction.employeeId}")
+            }
+        }
     }
 }
+
+private const val TAG = "MainActivity"

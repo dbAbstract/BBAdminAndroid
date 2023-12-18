@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "za.co.bb.employees"
+    namespace = "za.co.bb.feature_work_status"
     compileSdk = 34
 
     defaultConfig {
@@ -13,6 +13,14 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.6"
     }
 
     buildTypes {
@@ -38,12 +46,17 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
-    implementation(libs.compose.runtime)
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.ktx)
-    implementation(libs.firebase.firestore)
-    implementation(libs.kotlinx.datetime)
+    implementation(libs.navigation.compose)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.material)
+    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.compose.ui.tooling)
+
     implementation(project(":core"))
+    implementation(project(":work-hours"))
+    implementation(project(":employees"))
+    implementation(project(":wages"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
