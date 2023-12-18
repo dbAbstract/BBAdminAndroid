@@ -10,4 +10,6 @@
     <string name="created_at">Created at</string>
     <string name="amount_due">Amount due</string>
     <string name="total_wages">Total Wages Due</string>
+    <string name="delete_work_status_dialog_title">Remove Work Statuses</string>
+    <string name="delete_work_status_dialog_body">Are you sure you want to delete the following Work Status entries?/n</string>
 </resources>

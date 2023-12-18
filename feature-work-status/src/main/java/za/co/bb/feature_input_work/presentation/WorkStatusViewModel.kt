@@ -73,6 +73,10 @@ internal class WorkStatusViewModel(
                 }
             }
         }
+
+        override fun deleteSelectedWorkStatuses() {
+            TODO("Not yet implemented")
+        }
     }
 
     private fun populateWorkStatuses(employeeId: EmployeeId) {

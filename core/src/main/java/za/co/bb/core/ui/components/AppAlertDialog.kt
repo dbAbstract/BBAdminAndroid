@@ -71,6 +71,7 @@ fun AppAlertDialog(
                 Box(
                     modifier = Modifier
                         .weight(1f)
+                        .fillMaxHeight()
                         .clickable(onClick = onDismiss)
                 ) {
                     Text(
@@ -84,6 +85,7 @@ fun AppAlertDialog(
                 Box(
                     modifier = Modifier
                         .weight(1f)
+                        .fillMaxHeight()
                         .clickable(onClick = onConfirm)
                 ) {
                     Text(

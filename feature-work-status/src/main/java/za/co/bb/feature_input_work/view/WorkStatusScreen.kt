@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -17,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
@@ -26,6 +26,7 @@ import androidx.navigation.navArgument
 import za.co.bb.core.domain.print
 import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
+import za.co.bb.core.ui.components.AppAlertDialog
 import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.core.util.collectAction
 import za.co.bb.feature_input_work.presentation.WorkStatusAction
@@ -37,6 +38,7 @@ import za.co.bb.feature_input_work.view.ui.WorkStatusScreenError
 import za.co.bb.feature_input_work.view.ui.WorkStatusScreenLoading
 import za.co.bb.feature_input_work.view.ui.WorkStatusScreenTopBar
 import za.co.bb.feature_input_work.view.ui.WorkStatusTotalsTab
+import za.co.bb.feature_work_status.R
 
 fun NavGraphBuilder.workStatusScreen(
     navigate: (NavAction) -> Unit
@@ -158,17 +160,13 @@ private fun WorkStatusScreen(
     }
 
     if (showDeleteWorkStatusPopup) {
-        AlertDialog(
-            title = {
-
+        AppAlertDialog(
+            title = stringResource(id = R.string.delete_work_status_dialog_title),
+            body = stringResource(id = R.string.delete_work_status_dialog_body),
+            onDismiss = {
+                showDeleteWorkStatusPopup = false
             },
-            onDismissRequest = { showDeleteWorkStatusPopup = false },
-            confirmButton = {
-
-            },
-            dismissButton = {
-
-            }
+            onConfirm = workStatusEventHandler::deleteSelectedWorkStatuses
         )
     }
 }
