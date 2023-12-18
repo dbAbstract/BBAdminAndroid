@@ -1,0 +1,29 @@
+package za.co.bb.work_status.view.util
+
+import androidx.compose.runtime.Composable
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
+import za.co.bb.employees.di.EmployeeDependencyContainer
+import za.co.bb.work_hours.di.WorkHoursDependencyContainer
+import za.co.bb.work_status.presentation.add_work_status.AddWorkStatusViewModel
+
+private class AddWorkStatusViewModelFactory : ViewModelProvider.Factory {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(AddWorkStatusViewModel::class.java)) {
+            return AddWorkStatusViewModel(
+                workHoursRepository = WorkHoursDependencyContainer.workHoursRepository,
+                employeeRepository = EmployeeDependencyContainer.employeeRepository
+            ) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+
+@Composable
+internal fun getAddWorkStatusViewModel(): AddWorkStatusViewModel {
+    return viewModel(
+        factory = AddWorkStatusViewModelFactory()
+    )
+}
