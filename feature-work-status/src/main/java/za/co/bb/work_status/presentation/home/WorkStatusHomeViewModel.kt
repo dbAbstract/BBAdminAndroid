@@ -1,4 +1,4 @@
-package za.co.bb.work_status.presentation
+package za.co.bb.work_status.presentation.home
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
@@ -16,14 +16,14 @@ import za.co.bb.work_hours.domain.WorkHoursRepository
 import za.co.bb.work_status.domain.model.WorkStatus
 import za.co.bb.work_status.domain.usecase.GetWorkStatuses
 
-internal class WorkStatusViewModel(
+internal class WorkStatusHomeViewModel(
     employeeId: EmployeeId,
     private val getWorkStatuses: GetWorkStatuses,
     private val employeeRepository: EmployeeRepository,
     private val workHoursRepository: WorkHoursRepository
-) : BaseViewModel<WorkStatusAction>() {
-    private val _uiState: MutableStateFlow<WorkStatusScreenState> = MutableStateFlow(
-        WorkStatusScreenState.Loading
+) : BaseViewModel<WorkStatusHomeAction>() {
+    private val _uiState: MutableStateFlow<WorkStatusHomeScreenState> = MutableStateFlow(
+        WorkStatusHomeScreenState.Loading
     )
     val uiState = _uiState.asStateFlow()
 
@@ -37,15 +37,15 @@ internal class WorkStatusViewModel(
         }.format()
     }
 
-    val workStatusEventHandler = object : WorkStatusEventHandler {
+    val workStatusHomeEventHandler = object : WorkStatusHomeEventHandler {
         override fun onBack() {
-            emitAction(WorkStatusAction.NavigateBack)
+            emitAction(WorkStatusHomeAction.NavigateBack)
         }
 
         override fun onWorkStatusSelected(workStatus: WorkStatus) {
-            if (uiState.value !is WorkStatusScreenState.Loaded) return
+            if (uiState.value !is WorkStatusHomeScreenState.Loaded) return
 
-            val selectedWorkStatuses = (uiState.value as WorkStatusScreenState.Loaded)
+            val selectedWorkStatuses = (uiState.value as WorkStatusHomeScreenState.Loaded)
                 .selectedWorkStatuses
                 .toMutableSet()
 
@@ -61,9 +61,9 @@ internal class WorkStatusViewModel(
         }
 
         override fun onWorkStatusDeselected(workStatus: WorkStatus) {
-            if (uiState.value !is WorkStatusScreenState.Loaded) return
+            if (uiState.value !is WorkStatusHomeScreenState.Loaded) return
 
-            val selectedWorkStatuses = (uiState.value as WorkStatusScreenState.Loaded)
+            val selectedWorkStatuses = (uiState.value as WorkStatusHomeScreenState.Loaded)
                 .selectedWorkStatuses
                 .toMutableSet()
 
@@ -79,7 +79,7 @@ internal class WorkStatusViewModel(
         }
 
         override fun deleteSelectedWorkStatuses() {
-            val currentUiState = (uiState.value as? WorkStatusScreenState.Loaded) ?: return
+            val currentUiState = (uiState.value as? WorkStatusHomeScreenState.Loaded) ?: return
 
             viewModelScope.launch {
                 val deletionResult = workHoursRepository.deleteWorkHourItems(
@@ -96,16 +96,16 @@ internal class WorkStatusViewModel(
                             )
                         }
                     } else {
-                        emitAction(WorkStatusAction.ShowError(message = "Unable to refresh work statuses."))
+                        emitAction(WorkStatusHomeAction.ShowError(message = "Unable to refresh work statuses."))
                     }
                 } else {
-                    emitAction(WorkStatusAction.ShowError(message = "Unable to delete work statuses."))
+                    emitAction(WorkStatusHomeAction.ShowError(message = "Unable to delete work statuses."))
                 }
             }
         }
 
         override fun navigateToAddWorkStatus() {
-            emitAction(WorkStatusAction.NavigateToAddWorkStatus)
+            emitAction(WorkStatusHomeAction.NavigateToAddWorkStatus)
         }
     }
 
@@ -120,7 +120,7 @@ internal class WorkStatusViewModel(
             if (employeeResult.isSuccess && workStatusesResult.isSuccess) {
                 Log.i(TAG, "Successfully got work statuses for empId=$employeeId")
                 _uiState.update {
-                    WorkStatusScreenState.Loaded(
+                    WorkStatusHomeScreenState.Loaded(
                         employee = employeeResult.getOrThrow(),
                         workStatuses = workStatusesResult.getOrThrow(),
                         totalWage = calculateTotalWage(workStatuses = workStatusesResult.getOrThrow()),
@@ -133,9 +133,9 @@ internal class WorkStatusViewModel(
         }
     }
 
-    private fun MutableStateFlow<WorkStatusScreenState>.set(function: (WorkStatusScreenState.Loaded) -> WorkStatusScreenState) {
+    private fun MutableStateFlow<WorkStatusHomeScreenState>.set(function: (WorkStatusHomeScreenState.Loaded) -> WorkStatusHomeScreenState) {
         value.let { currentValue ->
-            if (currentValue is WorkStatusScreenState.Loaded) {
+            if (currentValue is WorkStatusHomeScreenState.Loaded) {
                 Log.d("lol", "state updated with ${function(currentValue)}")
                 update { function(currentValue) }
             }

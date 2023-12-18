@@ -1,6 +1,4 @@
-@file:OptIn(ExperimentalMaterialApi::class)
-
-package za.co.bb.work_status.view
+package za.co.bb.work_status.view.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -9,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -29,42 +26,42 @@ import za.co.bb.core.domain.print
 import za.co.bb.core.ui.components.AppAlertDialog
 import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.feature_work_status.R
-import za.co.bb.work_status.presentation.WorkStatusEventHandler
-import za.co.bb.work_status.presentation.WorkStatusScreenState
-import za.co.bb.work_status.view.ui.EmployeeDetailsRow
-import za.co.bb.work_status.view.ui.EmployeeWorkStatusFeed
-import za.co.bb.work_status.view.ui.WorkStatusScreenError
-import za.co.bb.work_status.view.ui.WorkStatusScreenLoading
-import za.co.bb.work_status.view.ui.WorkStatusScreenTopBar
-import za.co.bb.work_status.view.ui.WorkStatusTotalsTab
+import za.co.bb.work_status.presentation.home.WorkStatusHomeEventHandler
+import za.co.bb.work_status.presentation.home.WorkStatusHomeScreenState
+import za.co.bb.work_status.view.components.EmployeeDetailsRow
+import za.co.bb.work_status.view.components.EmployeeWorkStatusFeed
+import za.co.bb.work_status.view.components.WorkStatusHomeScreenError
+import za.co.bb.work_status.view.components.WorkStatusHomeScreenLoading
+import za.co.bb.work_status.view.components.WorkStatusScreenTopBar
+import za.co.bb.work_status.view.components.WorkStatusTotalsTab
 
 @Composable
-internal fun WorkStatusScreen(
-    uiState: WorkStatusScreenState,
-    workStatusEventHandler: WorkStatusEventHandler
+internal fun WorkStatusHomeScreen(
+    uiState: WorkStatusHomeScreenState,
+    workStatusHomeEventHandler: WorkStatusHomeEventHandler
 ) {
     when (uiState) {
-        WorkStatusScreenState.Error -> {
-            WorkStatusScreenError(onBack = workStatusEventHandler::onBack)
+        WorkStatusHomeScreenState.Error -> {
+            WorkStatusHomeScreenError(onBack = workStatusHomeEventHandler::onBack)
         }
 
-        WorkStatusScreenState.Loading -> {
-            WorkStatusScreenLoading(onBack = workStatusEventHandler::onBack)
+        WorkStatusHomeScreenState.Loading -> {
+            WorkStatusHomeScreenLoading(onBack = workStatusHomeEventHandler::onBack)
         }
 
-        is WorkStatusScreenState.Loaded -> {
-            WorkStatusScreen(
+        is WorkStatusHomeScreenState.Loaded -> {
+            WorkStatusHomeScreen(
                 uiState = uiState,
-                workStatusEventHandler = workStatusEventHandler
+                workStatusHomeEventHandler = workStatusHomeEventHandler
             )
         }
     }
 }
 
 @Composable
-private fun WorkStatusScreen(
-    uiState: WorkStatusScreenState.Loaded,
-    workStatusEventHandler: WorkStatusEventHandler
+private fun WorkStatusHomeScreen(
+    uiState: WorkStatusHomeScreenState.Loaded,
+    workStatusHomeEventHandler: WorkStatusHomeEventHandler
 ) {
     val showDeleteIcon by remember(uiState.selectedWorkStatuses) {
         derivedStateOf { uiState.selectedWorkStatuses.isNotEmpty() }
@@ -91,7 +88,7 @@ private fun WorkStatusScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             WorkStatusScreenTopBar(
-                onBack = workStatusEventHandler::onBack,
+                onBack = workStatusHomeEventHandler::onBack,
                 showDeleteIcon = showDeleteIcon,
                 onDeleteClick = { showDeleteWorkStatusPopup = true }
             )
@@ -119,8 +116,8 @@ private fun WorkStatusScreen(
                     .weight(1f),
                 workStatuses = uiState.workStatuses,
                 selectedWorkStatuses = uiState.selectedWorkStatuses,
-                onWorkStatusSelected = workStatusEventHandler::onWorkStatusSelected,
-                onWorkStatusDeselected = workStatusEventHandler::onWorkStatusDeselected
+                onWorkStatusSelected = workStatusHomeEventHandler::onWorkStatusSelected,
+                onWorkStatusDeselected = workStatusHomeEventHandler::onWorkStatusDeselected
             )
 
             WorkStatusTotalsTab(
@@ -143,7 +140,7 @@ private fun WorkStatusScreen(
             },
             onConfirmButtonClick = {
                 showDeleteWorkStatusPopup = false
-                workStatusEventHandler.deleteSelectedWorkStatuses()
+                workStatusHomeEventHandler.deleteSelectedWorkStatuses()
             }
         )
     }

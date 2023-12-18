@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.util.collectAction
-import za.co.bb.work_status.presentation.WorkStatusAction
-import za.co.bb.work_status.view.WorkStatusScreen
+import za.co.bb.work_status.presentation.home.WorkStatusHomeAction
+import za.co.bb.work_status.view.screen.WorkStatusHomeScreen
 import za.co.bb.work_status.view.util.getWorkStatusViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -48,18 +48,18 @@ fun NavGraphBuilder.workStatusNavGraph(
             val workStatusViewModel = getWorkStatusViewModel(employeeId = employeeId)
             val uiState by workStatusViewModel.uiState.collectAsStateWithLifecycle()
 
-            WorkStatusScreen(
+            WorkStatusHomeScreen(
                 uiState = uiState,
-                workStatusEventHandler = workStatusViewModel.workStatusEventHandler
+                workStatusHomeEventHandler = workStatusViewModel.workStatusHomeEventHandler
             )
 
             workStatusViewModel.collectAction { action ->
                 when (action) {
-                    WorkStatusAction.NavigateBack -> navigate(NavAction.NavigateBack)
+                    WorkStatusHomeAction.NavigateBack -> navigate(NavAction.NavigateBack)
 
-                    is WorkStatusAction.ShowError -> Toast.makeText(context, action.message, Toast.LENGTH_SHORT).show()
+                    is WorkStatusHomeAction.ShowError -> Toast.makeText(context, action.message, Toast.LENGTH_SHORT).show()
 
-                    WorkStatusAction.NavigateToAddWorkStatus -> coroutineScope.launch { sheetState.show() }
+                    WorkStatusHomeAction.NavigateToAddWorkStatus -> coroutineScope.launch { sheetState.show() }
                 }
             }
         }
