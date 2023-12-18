@@ -4,11 +4,12 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -115,54 +116,62 @@ private fun WorkStatusScreen(
         mutableStateOf(false)
     }
 
-    Column(
-        modifier = Modifier
-            .background(AppColors.current.background)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        WorkStatusScreenTopBar(
-            onBack = workStatusEventHandler::onBack,
-            showDeleteIcon = showDeleteIcon,
-            onDeleteClick = { showDeleteWorkStatusPopup = true }
-        )
+    Scaffold(
+        backgroundColor = AppColors.current.background,
+        floatingActionButton = {
+            FloatingActionButton(onClick = {}) {
 
-        EmployeeDetailsRow(
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .height(38.dp)
-                .align(Alignment.Start),
-            firstName = uiState.employee.firstName,
-            surname = uiState.employee.surname
-        )
+            }
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier.padding(paddingValues),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            WorkStatusScreenTopBar(
+                onBack = workStatusEventHandler::onBack,
+                showDeleteIcon = showDeleteIcon,
+                onDeleteClick = { showDeleteWorkStatusPopup = true }
+            )
 
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp)
-        )
+            EmployeeDetailsRow(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .height(38.dp)
+                    .align(Alignment.Start),
+                firstName = uiState.employee.firstName,
+                surname = uiState.employee.surname
+            )
 
-        EmployeeWorkStatusFeed(
-            modifier = Modifier
-                .padding(top = 8.dp)
-                .padding(horizontal = 8.dp)
-                .padding(bottom = TOTALS_TAB_HEIGHT.dp)
-                .weight(1f),
-            workStatuses = uiState.workStatuses,
-            selectedWorkStatuses = uiState.selectedWorkStatuses,
-            onWorkStatusSelected = workStatusEventHandler::onWorkStatusSelected,
-            onWorkStatusDeselected = workStatusEventHandler::onWorkStatusDeselected
-        )
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+            )
 
-        WorkStatusTotalsTab(
-            modifier = Modifier
-                .height(TOTALS_TAB_HEIGHT.dp)
-                .fillMaxWidth()
-                .background(AppColors.current.primary),
-            totalWages = "ZAR ${uiState.totalWage.print()}"
-        )
+            EmployeeWorkStatusFeed(
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .padding(horizontal = 8.dp)
+                    .padding(bottom = TOTALS_TAB_HEIGHT.dp)
+                    .weight(1f),
+                workStatuses = uiState.workStatuses,
+                selectedWorkStatuses = uiState.selectedWorkStatuses,
+                onWorkStatusSelected = workStatusEventHandler::onWorkStatusSelected,
+                onWorkStatusDeselected = workStatusEventHandler::onWorkStatusDeselected
+            )
+
+            WorkStatusTotalsTab(
+                modifier = Modifier
+                    .height(TOTALS_TAB_HEIGHT.dp)
+                    .fillMaxWidth()
+                    .background(AppColors.current.primary),
+                totalWages = "ZAR ${uiState.totalWage.print()}"
+            )
+        }
     }
+
 
     if (showDeleteWorkStatusPopup) {
         AppAlertDialog(
