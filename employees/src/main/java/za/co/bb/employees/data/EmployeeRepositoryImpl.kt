@@ -2,6 +2,7 @@ package za.co.bb.employees.data
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Source
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
@@ -18,40 +19,61 @@ internal class EmployeeRepositoryImpl(
     private val firebaseFirestore: FirebaseFirestore
 ) : EmployeeRepository {
 
-    private var employeeCache = mapOf<EmployeeId, Employee>()
     private var lastRefreshed: LocalDateTime? = null
     private val cacheTime: Long = 60 * 5 // 5 Minutes
 
     private val isCacheValid: Boolean
         get() = lastRefreshed?.let {
-            (toEpochSeconds(now) - toEpochSeconds(it) < cacheTime) && employeeCache.isNotEmpty()
+            (toEpochSeconds(now) - toEpochSeconds(it) < cacheTime)
         } ?: false
 
     override suspend fun getEmployees(): Result<List<Employee>> = withContext(Dispatchers.IO) {
         return@withContext when {
             isCacheValid -> {
                 Log.i(TAG, "Getting employees from cache.")
-                Result.success(employeeCache.entries.map { it.value })
+                val employeesResult = getEmployeesFromFirestore(Source.CACHE)
+                try {
+                    Result.success(employeesResult.getOrThrow())
+                } catch (t: Throwable) {
+                    Result.failure(t)
+                }
             }
 
             else -> {
                 Log.i(TAG, "Getting employees from remote.")
-                getEmployeesFromFirestore()
+                getEmployeesFromFirestore(Source.SERVER)
             }
         }
     }
 
     override suspend fun getEmployee(employeeId: EmployeeId): Result<Employee> = withContext(Dispatchers.IO) {
         return@withContext when {
-            isCacheValid && employeeCache.containsKey(employeeId) -> {
+            isCacheValid -> {
                 Log.i(TAG, "Getting employee with id=$employeeId from cache.")
-                Result.success(employeeCache[employeeId]!!)
+                val employeesResult = getEmployeesFromFirestore(Source.CACHE)
+                try {
+                    val employeeFromCache = employeesResult.getOrThrow().find { it.id == employeeId }
+
+                    if (employeeFromCache != null) {
+                        Result.success(employeeFromCache)
+                    } else {
+                        val employeeFromRemote = getEmployeesFromFirestore(Source.SERVER)
+                            .getOrThrow()
+                            .find { it.id == employeeId }
+
+                        employeeFromRemote?.let {
+                            Result.success(it)
+                        } ?: Result.failure(EmployeeNotFoundException(employeeId))
+                    }
+                } catch (t: Throwable) {
+                    Result.failure(t)
+                }
             }
 
             else -> {
                 Log.i(TAG, "Getting employee with id=$employeeId from remote.")
                 try {
-                    val employees = getEmployeesFromFirestore().getOrThrow()
+                    val employees = getEmployeesFromFirestore(Source.SERVER).getOrThrow()
                     val employee = employees.find { it.id == employeeId }
                     if (employee == null) {
                         Result.failure(EmployeeNotFoundException(employeeId))
@@ -65,8 +87,8 @@ internal class EmployeeRepositoryImpl(
         }
     }
 
-    private suspend fun getEmployeesFromFirestore(): Result<List<Employee>> = suspendCoroutine { continuation ->
-        firebaseFirestore.collection(EMPLOYEE_TABLE).get()
+    private suspend fun getEmployeesFromFirestore(source: Source): Result<List<Employee>> = suspendCoroutine { continuation ->
+        firebaseFirestore.collection(EMPLOYEE_TABLE).get(source)
             .addOnSuccessListener { result ->
                 try {
                     val employeeSet = mutableSetOf<Employee>()
@@ -76,7 +98,7 @@ internal class EmployeeRepositoryImpl(
                         val employee = entity.toEmployee(employeeId = employeeId)
                         employee?.let { employeeSet.add(it) }
                     }
-                    cacheEmployeeList(employeeList = employeeSet)
+                    lastRefreshed = now
                     continuation.resume(
                         Result.success(employeeSet.toList())
                     )
@@ -92,11 +114,6 @@ internal class EmployeeRepositoryImpl(
             .addOnFailureListener {
                 continuation.resume(Result.failure(it))
             }
-    }
-
-    private fun cacheEmployeeList(employeeList: Collection<Employee>) {
-        employeeCache = employeeList.associateBy { it.id }
-        lastRefreshed = now
     }
 
     companion object {
