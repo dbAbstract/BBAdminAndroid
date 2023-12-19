@@ -108,13 +108,11 @@ internal class WorkHoursRepositoryImpl(
                 }
             }
             .addOnCanceledListener {
-                Log.d("lol", "Error getting work hours for $employeeId - Cancelled")
                 continuation.resume(
                     Result.failure(Throwable(message = "Retrieval of work hours cancelled."))
                 )
             }
             .addOnFailureListener {
-                Log.d("lol", "Error getting work hours for $employeeId - Failed")
                 continuation.resume(Result.failure(it))
             }
     }

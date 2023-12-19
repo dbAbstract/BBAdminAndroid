@@ -136,7 +136,6 @@ internal class WorkStatusHomeViewModel(
     private fun MutableStateFlow<WorkStatusHomeScreenState>.set(function: (WorkStatusHomeScreenState.Loaded) -> WorkStatusHomeScreenState) {
         value.let { currentValue ->
             if (currentValue is WorkStatusHomeScreenState.Loaded) {
-                Log.d("lol", "state updated with ${function(currentValue)}")
                 update { function(currentValue) }
             }
         }
