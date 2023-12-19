@@ -10,6 +10,10 @@ sealed interface NavAction {
     data class NavigateToWorkStatus(
         val employeeId: EmployeeId
     ) : NavAction, ScreenNavigation(Screen.WorkStatusGraph)
+
+    data class NavigateToAddWorkStatus(
+        val employeeId: EmployeeId
+    ) : NavAction, ScreenNavigation(Screen.AddWorkStatus)
 }
 
 abstract class ScreenNavigation(val screen: Screen)

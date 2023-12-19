@@ -5,6 +5,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import za.co.bb.core.domain.EmployeeId
 import za.co.bb.core.presentation.BaseViewModel
 import za.co.bb.core.util.now
 import za.co.bb.employees.domain.repository.EmployeeRepository
@@ -12,6 +13,7 @@ import za.co.bb.work_hours.domain.WorkHoursRepository
 import za.co.bb.work_status.domain.model.WorkStatus
 
 internal class AddWorkStatusViewModel(
+    employeeId: EmployeeId,
     private val workHoursRepository: WorkHoursRepository,
     private val employeeRepository: EmployeeRepository
 ) : BaseViewModel<AddWorkStatusAction>() {

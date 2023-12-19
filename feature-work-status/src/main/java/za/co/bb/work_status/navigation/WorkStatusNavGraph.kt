@@ -1,11 +1,7 @@
 package za.co.bb.work_status.navigation
 
 import android.widget.Toast
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
@@ -13,15 +9,16 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import kotlinx.coroutines.launch
 import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.util.collectAction
+import za.co.bb.work_status.presentation.add_work_status.AddWorkStatusAction
 import za.co.bb.work_status.presentation.home.WorkStatusHomeAction
+import za.co.bb.work_status.view.screen.AddWorkStatusScreen
 import za.co.bb.work_status.view.screen.WorkStatusHomeScreen
+import za.co.bb.work_status.view.util.getAddWorkStatusViewModel
 import za.co.bb.work_status.view.util.getWorkStatusViewModel
 
-@OptIn(ExperimentalMaterialApi::class)
 fun NavGraphBuilder.workStatusNavGraph(
     navigate: (NavAction) -> Unit
 ) {
@@ -43,8 +40,6 @@ fun NavGraphBuilder.workStatusNavGraph(
                 return@composable
             }
             val context = LocalContext.current
-            val coroutineScope = rememberCoroutineScope()
-            val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Expanded)
             val workStatusViewModel = getWorkStatusViewModel(employeeId = employeeId)
             val uiState by workStatusViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -59,7 +54,37 @@ fun NavGraphBuilder.workStatusNavGraph(
 
                     is WorkStatusHomeAction.ShowError -> Toast.makeText(context, action.message, Toast.LENGTH_SHORT).show()
 
-                    WorkStatusHomeAction.NavigateToAddWorkStatus -> coroutineScope.launch { sheetState.show() }
+                    WorkStatusHomeAction.NavigateToAddWorkStatus -> navigate(NavAction.NavigateToAddWorkStatus(employeeId))
+                }
+            }
+        }
+
+        composable(
+            route = "${Screen.AddWorkStatus.name}/{$ARG_EMPLOYEE_ID}",
+            arguments = listOf(
+                navArgument(ARG_EMPLOYEE_ID) {
+                    type = NavType.StringType
+                }
+            ),
+        ) { backStackEntry ->
+            val employeeId = backStackEntry.arguments?.getString(ARG_EMPLOYEE_ID)
+            if (employeeId == null) {
+                navigate(NavAction.NavigateBack)
+                return@composable
+            }
+
+            val addWorkStatusHomeViewModel = getAddWorkStatusViewModel(employeeId)
+            val uiState by addWorkStatusHomeViewModel.uiState.collectAsStateWithLifecycle()
+
+            AddWorkStatusScreen(
+                uiState = uiState,
+                addWorkStatusEventHandler = addWorkStatusHomeViewModel.addWorkStatusEventHandler
+            )
+
+            addWorkStatusHomeViewModel.collectAction { addWorkStatusAction ->
+                when (addWorkStatusAction) {
+                    AddWorkStatusAction.NavigateBack -> navigate(NavAction.NavigateBack)
+                    AddWorkStatusAction.ShowConfirmation -> {}
                 }
             }
         }
