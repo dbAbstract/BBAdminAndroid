@@ -54,7 +54,9 @@ fun NavGraphBuilder.workStatusNavGraph(
 
                     is WorkStatusHomeAction.ShowError -> Toast.makeText(context, action.message, Toast.LENGTH_SHORT).show()
 
-                    WorkStatusHomeAction.NavigateToAddWorkStatus -> navigate(NavAction.NavigateToAddWorkStatus(employeeId))
+                    WorkStatusHomeAction.NavigateToAddWorkStatus -> {
+                        navigate(NavAction.NavigateToAddWorkStatus(employeeId))
+                    }
                 }
             }
         }

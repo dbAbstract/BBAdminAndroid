@@ -75,7 +75,7 @@ private fun WorkStatusHomeScreen(
         floatingActionButton = {
             FloatingActionButton(
                 modifier = Modifier.padding(bottom = TOTALS_TAB_HEIGHT.dp),
-                onClick = {},
+                onClick = workStatusHomeEventHandler::navigateToAddWorkStatus,
                 backgroundColor = AppColors.current.secondary
             ) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = null)

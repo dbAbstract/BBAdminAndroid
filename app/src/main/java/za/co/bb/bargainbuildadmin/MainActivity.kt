@@ -59,7 +59,9 @@ class MainActivity : ComponentActivity() {
                 navController.navigate("${Screen.WorkStatusHome.name}/${navAction.employeeId}")
             }
 
-            is NavAction.NavigateToAddWorkStatus -> {}
+            is NavAction.NavigateToAddWorkStatus -> {
+                navController.navigate("${Screen.AddWorkStatus.name}/${navAction.employeeId}")
+            }
         }
     }
 }
