@@ -78,7 +78,11 @@ private fun WorkStatusHomeScreen(
                 onClick = workStatusHomeEventHandler::navigateToAddWorkStatus,
                 backgroundColor = AppColors.current.secondary
             ) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = null)
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = null,
+                    tint = AppColors.current.onSecondary
+                )
             }
         }
     ) { paddingValues ->

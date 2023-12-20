@@ -82,7 +82,8 @@ private fun WorkStatusCard(
         border = if (isSelected) BorderStroke(
             width = 2.dp,
             color = AppColors.current.secondary
-        ) else null
+        ) else null,
+        elevation = 8.dp
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),

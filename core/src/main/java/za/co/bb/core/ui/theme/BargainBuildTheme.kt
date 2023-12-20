@@ -21,7 +21,7 @@ data class BargainBuildTheme(
             secondary = Color(0xFF8A0500),
             onSecondary = Color.White,
             background = Color.White,
-            surface = Color(0xFFF3F3F3)
+            surface = Color(0xFFFAF9F6)
         )
     }
 }

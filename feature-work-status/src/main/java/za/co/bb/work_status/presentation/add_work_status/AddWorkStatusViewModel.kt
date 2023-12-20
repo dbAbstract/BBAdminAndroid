@@ -9,14 +9,15 @@ import kotlinx.coroutines.launch
 import za.co.bb.core.domain.EmployeeId
 import za.co.bb.core.presentation.BaseViewModel
 import za.co.bb.core.util.now
-import za.co.bb.employees.domain.model.Employee
 import za.co.bb.employees.domain.repository.EmployeeRepository
+import za.co.bb.wages.domain.repository.WageRepository
 import za.co.bb.work_hours.domain.WorkHoursRepository
 import za.co.bb.work_status.domain.model.WorkStatus
 
 internal class AddWorkStatusViewModel(
     employeeId: EmployeeId,
     private val workHoursRepository: WorkHoursRepository,
+    private val wagesRepository: WageRepository,
     private val employeeRepository: EmployeeRepository
 ) : BaseViewModel<AddWorkStatusAction>() {
 
@@ -37,13 +38,20 @@ internal class AddWorkStatusViewModel(
 
     init {
         viewModelScope.launch {
-            val employeeResult: Result<Employee> = async {
+            val employeeResult = async {
                 employeeRepository.getEmployee(employeeId)
             }.await()
 
-            if (employeeResult.isSuccess) {
+            val wagesResult = async {
+                wagesRepository.getWages()
+            }.await()
+
+            if (employeeResult.isSuccess && wagesResult.isSuccess) {
                 _uiState.update {
-                    it.copy(employee = employeeResult.getOrThrow())
+                    it.copy(
+                        employee = employeeResult.getOrThrow(),
+                        wages = wagesResult.getOrThrow()
+                    )
                 }
             }
         }
