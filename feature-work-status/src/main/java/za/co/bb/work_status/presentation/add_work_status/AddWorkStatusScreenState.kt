@@ -6,6 +6,6 @@ import za.co.bb.work_status.domain.model.WorkStatus
 
 internal data class AddWorkStatusScreenState(
     val workStatus: WorkStatus,
-    val employees: List<Employee>,
+    val employee: Employee? = null,
     val wages: List<Wage>
 )
