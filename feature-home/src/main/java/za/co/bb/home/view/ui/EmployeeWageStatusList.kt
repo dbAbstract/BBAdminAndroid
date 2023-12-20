@@ -36,7 +36,7 @@ internal fun EmployeeWageStatusList(
         items(wageStatusList) { employeeWageStatus ->
             Row(
                 modifier = Modifier
-                    .height(48.dp)
+                    .height(80.dp)
                     .fillMaxWidth()
                     .clickable { onWageStatusClick(employeeWageStatus.employee.id) }
                     .padding(start = START_PADDING.dp, top = 8.dp),
@@ -66,7 +66,8 @@ internal fun EmployeeWageStatusList(
 
             Divider(modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp))
+                .padding(horizontal = 8.dp)
+            )
         }
     }
 }
