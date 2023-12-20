@@ -9,7 +9,6 @@ import za.co.bb.core.domain.WageId
 data class Wage(
     val id: WageId,
     val description: String,
-    val employeeId: String,
     val issueDate: LocalDateTime,
     val amount: Rand
 )
