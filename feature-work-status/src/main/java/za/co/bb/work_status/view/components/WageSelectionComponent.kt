@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -30,10 +29,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import za.co.bb.core.domain.print
+import za.co.bb.core.ui.components.Carousel
 import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.core.util.now
 import za.co.bb.core.util.print
@@ -41,7 +40,7 @@ import za.co.bb.wages.domain.model.Wage
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WageSelectionComponent(
+internal fun WageSelectionComponent(
     modifier: Modifier,
     wages: List<Wage>,
     horizontalPagerState: PagerState
@@ -96,49 +95,6 @@ fun WageSelectionComponent(
                     Spacer(modifier = Modifier.width(4.dp))
                 }
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-internal fun Carousel(
-    modifier: Modifier,
-    pagerState: PagerState,
-    entitySpacing: Dp = 16.dp,
-    content: @Composable (index: Int) -> Unit
-) {
-    HorizontalPager(
-        state = pagerState,
-        modifier = modifier,
-        pageSpacing = entitySpacing
-    ) { index ->
-        content(index)
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-private fun WageCarousel(
-    modifier: Modifier,
-    pagerState: PagerState,
-    wages: List<Wage>
-) {
-    HorizontalPager(
-        modifier = modifier,
-        state = pagerState,
-        pageSpacing = 16.dp
-    ) { index ->
-        Card(
-            modifier = Modifier.padding(8.dp),
-            backgroundColor = AppColors.current.surface,
-            shape = RoundedCornerShape(size = 12.dp),
-            elevation = 8.dp
-        ) {
-            WageCarouselCardContent(
-                modifier = Modifier.padding(8.dp),
-                wage = wages[index]
-            )
         }
     }
 }
@@ -205,13 +161,12 @@ private fun WageCarouselCardContent(
 private fun Preview() {
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(Color.White)) {
-        WageCarousel(
+        .background(Color.White)
+    ) {
+        WageSelectionComponent(
             modifier = Modifier
-                .padding(top = 16.dp)
-                .height(120.dp)
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp),
+                .height(120.dp),
             wages = listOf(
                 Wage(
                     id = "",
@@ -220,7 +175,7 @@ private fun Preview() {
                     amount = 23.5
                 )
             ),
-            pagerState = rememberPagerState { 1 }
+            horizontalPagerState = rememberPagerState { 1 }
         )
     }
 }
