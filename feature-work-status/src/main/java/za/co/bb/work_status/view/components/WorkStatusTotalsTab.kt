@@ -37,7 +37,7 @@ fun WorkStatusTotalsTab(
                     top = 16.dp,
                     end = 8.dp
                 ),
-            text = "ZAR $totalWages",
+            text = totalWages,
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp
