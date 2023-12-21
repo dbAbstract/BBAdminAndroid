@@ -6,10 +6,14 @@
     <string name="error_message">There was an error getting the information about this employee.\nPlease contact an administrator for more information.</string>
     <string name="employee">Employee</string>
     <string name="hours_worked">Hours worked</string>
+    <string name="add_work_hours">Add work hours</string>
+    <string name="hours">Hrs</string>
     <string name="wage_rate">Wage rate</string>
     <string name="created_at">Created at</string>
     <string name="amount_due">Amount due</string>
     <string name="total_wages">Total Wages Due</string>
     <string name="delete_work_status_dialog_title">Remove Work Statuses</string>
     <string name="delete_work_status_dialog_body">Are you sure you want to delete the following Work Status entries?/n</string>
+    <string name="add_work_status_dialog_title">Add Work Status</string>
+    <string name="add_work_status_dialog_body">Are you sure you want to add the following Work Status entry?\n</string>
 </resources>

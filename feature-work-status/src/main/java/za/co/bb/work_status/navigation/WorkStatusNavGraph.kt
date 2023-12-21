@@ -2,16 +2,23 @@ package za.co.bb.work_status.navigation
 
 import android.widget.Toast
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import za.co.bb.core.domain.print
 import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
+import za.co.bb.core.ui.components.AppAlertDialog
 import za.co.bb.core.util.collectAction
+import za.co.bb.feature_work_status.R
 import za.co.bb.work_status.presentation.add_work_status.AddWorkStatusAction
 import za.co.bb.work_status.presentation.home.WorkStatusHomeAction
 import za.co.bb.work_status.view.screen.AddWorkStatusScreen
@@ -74,9 +81,13 @@ fun NavGraphBuilder.workStatusNavGraph(
                 navigate(NavAction.NavigateBack)
                 return@composable
             }
+            val context = LocalContext.current
 
             val addWorkStatusHomeViewModel = getAddWorkStatusViewModel(employeeId)
             val uiState by addWorkStatusHomeViewModel.uiState.collectAsStateWithLifecycle()
+            var showConfirmationDialog by remember {
+                mutableStateOf(false)
+            }
 
             AddWorkStatusScreen(
                 uiState = uiState,
@@ -86,12 +97,23 @@ fun NavGraphBuilder.workStatusNavGraph(
             addWorkStatusHomeViewModel.collectAction { addWorkStatusAction ->
                 when (addWorkStatusAction) {
                     AddWorkStatusAction.NavigateBack -> navigate(NavAction.NavigateBack)
-                    AddWorkStatusAction.ShowConfirmation -> {}
+                    AddWorkStatusAction.ShowConfirmation -> {
+                        showConfirmationDialog = true
+                    }
+                    AddWorkStatusAction.ShowInvalidHoursError -> Toast.makeText(context, "Invalid hours inputted.", Toast.LENGTH_SHORT).show()
                 }
+            }
+
+            if (showConfirmationDialog) {
+                AppAlertDialog(
+                    title = stringResource(id = R.string.add_work_status_dialog_title),
+                    body = "${stringResource(id = R.string.add_work_status_dialog_body)}Hours worked=${uiState.workStatus?.hours}\nWage=${uiState.workStatus?.wageRate?.print()}",
+                    onDismissButtonClick = { showConfirmationDialog = false },
+                    onConfirmButtonClick = addWorkStatusHomeViewModel.addWorkStatusEventHandler::addWorkStatus
+                )
             }
         }
     }
-
 }
 
 private const val ARG_EMPLOYEE_ID = "employeeId"
