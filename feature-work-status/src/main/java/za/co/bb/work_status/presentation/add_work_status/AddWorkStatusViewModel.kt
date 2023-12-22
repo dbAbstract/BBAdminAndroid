@@ -94,13 +94,34 @@ internal class AddWorkStatusViewModel(
                     && workStatus.hours.isDigitsOnly()
                     && workStatus.hours.toLong() > 0
             if (!isInputHoursValid)
-                emitAction(AddWorkStatusAction.ShowInvalidHoursError)
+                emitAction(AddWorkStatusAction.ShowMessage(message = "Invalid work hours entry."))
             else
                 emitAction(AddWorkStatusAction.ShowConfirmation)
         }
 
         override fun addWorkStatus() {
+            val workStatus = uiState.value.workStatus ?: return
+            val workHours = try {
+                workStatus.hours.toLong()
+            } catch (t: Throwable) {
+                emitAction(AddWorkStatusAction.ShowMessage(message = "Invalid work hours entry."))
+                return
+            }
 
+            viewModelScope.launch {
+                val addWorkHoursResult = workHoursRepository.addWorkHourForEmployee(
+                    employeeId = employeeId,
+                    hoursWorked = workHours,
+                    wageId = workStatus.wageId,
+                    wageRate = workStatus.wageRate
+                )
+
+                if (addWorkHoursResult.isSuccess) {
+                    emitAction(AddWorkStatusAction.ShowMessage("Successfully added work hours."))
+                } else {
+                    emitAction(AddWorkStatusAction.ShowMessage("Can't add work hours at this time."))
+                }
+            }
         }
     }
 

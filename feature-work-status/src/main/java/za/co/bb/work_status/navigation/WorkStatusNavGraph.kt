@@ -100,7 +100,7 @@ fun NavGraphBuilder.workStatusNavGraph(
                     AddWorkStatusAction.ShowConfirmation -> {
                         showConfirmationDialog = true
                     }
-                    AddWorkStatusAction.ShowInvalidHoursError -> Toast.makeText(context, "Invalid hours inputted.", Toast.LENGTH_SHORT).show()
+                    is AddWorkStatusAction.ShowMessage -> Toast.makeText(context, addWorkStatusAction.message, Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -109,7 +109,10 @@ fun NavGraphBuilder.workStatusNavGraph(
                     title = stringResource(id = R.string.add_work_status_dialog_title),
                     body = "${stringResource(id = R.string.add_work_status_dialog_body)}Hours worked=${uiState.workStatus?.hours}\nWage=${uiState.workStatus?.wageRate?.print()}",
                     onDismissButtonClick = { showConfirmationDialog = false },
-                    onConfirmButtonClick = addWorkStatusHomeViewModel.addWorkStatusEventHandler::addWorkStatus
+                    onConfirmButtonClick = {
+                        addWorkStatusHomeViewModel.addWorkStatusEventHandler.addWorkStatus()
+                        showConfirmationDialog = false
+                    }
                 )
             }
         }

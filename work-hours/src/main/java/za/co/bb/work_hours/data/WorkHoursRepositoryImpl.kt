@@ -8,6 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
 import za.co.bb.core.domain.EmployeeId
+import za.co.bb.core.domain.Rand
+import za.co.bb.core.domain.WageId
 import za.co.bb.core.domain.WorkHoursId
 import za.co.bb.core.util.now
 import za.co.bb.core.util.toEpochSeconds
@@ -70,10 +72,20 @@ internal class WorkHoursRepositoryImpl(
 
     override suspend fun addWorkHourForEmployee(
         employeeId: EmployeeId,
-        workHours: WorkHours
+        hoursWorked: Long,
+        wageId: WageId,
+        wageRate: Rand
     ): Result<Unit> = withContext(Dispatchers.IO) {
+        val workHoursEntity = WorkHoursEntity(
+            employeeId = employeeId,
+            hoursDue = hoursWorked,
+            wageId = wageId,
+            wageRate = wageRate,
+            creationDate = toEpochSeconds(now)
+        )
+
         suspendCoroutine { continuation ->
-            firebaseFirestore.collection(WORK_HOURS_TABLE).add(workHours)
+            firebaseFirestore.collection(WORK_HOURS_TABLE).add(workHoursEntity)
                 .addOnSuccessListener {
                     continuation.resume(Result.success(Unit))
                 }

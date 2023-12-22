@@ -1,6 +1,8 @@
 package za.co.bb.work_hours.domain
 
 import za.co.bb.core.domain.EmployeeId
+import za.co.bb.core.domain.Rand
+import za.co.bb.core.domain.WageId
 import za.co.bb.core.domain.WorkHoursId
 
 interface WorkHoursRepository {
@@ -13,6 +15,8 @@ interface WorkHoursRepository {
 
     suspend fun addWorkHourForEmployee(
         employeeId: EmployeeId,
-        workHours: WorkHours
+        hoursWorked: Long,
+        wageId: WageId,
+        wageRate: Rand
     ) : Result<Unit>
 }
