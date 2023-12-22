@@ -22,6 +22,18 @@ internal class HomeScreenViewModel(
 
     init {
         Log.i(TAG, "Initialized!")
+        getEmployeeWageStatuses()
+    }
+
+    val homeScreenEventHandler = object : HomeScreenEventHandler {
+        override fun navigateToWorkStatus(employeeId: EmployeeId) {
+            emitAction(HomeScreenAction.NavigateToWorkStatus(employeeId = employeeId))
+        }
+
+        override fun refresh() = getEmployeeWageStatuses()
+    }
+
+    private fun getEmployeeWageStatuses() {
         viewModelScope.launch {
             val employeesWageStatuses = getWageStatusForEmployees.execute()
             if (employeesWageStatuses.isNotEmpty()) _uiState.update {
@@ -32,12 +44,6 @@ internal class HomeScreenViewModel(
             } else {
                 emitAction(HomeScreenAction.ShowError(message = "Could not get Work status for employees at this time."))
             }
-        }
-    }
-
-    val homeScreenEventHandler = object : HomeScreenEventHandler {
-        override fun navigateToWorkStatus(employeeId: EmployeeId) {
-            emitAction(HomeScreenAction.NavigateToWorkStatus(employeeId = employeeId))
         }
     }
 }

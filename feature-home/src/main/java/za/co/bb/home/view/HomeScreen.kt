@@ -12,7 +12,11 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -66,6 +70,18 @@ private fun HomeScreen(
     homeScreenEventHandler: HomeScreenEventHandler
 ) {
     val scaffoldState = rememberScaffoldState()
+    var displayed by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        if (displayed) {
+            homeScreenEventHandler.refresh()
+        } else {
+            displayed = true
+        }
+    }
+
     Scaffold(
         modifier = Modifier.padding(bottom = BOTTOM_BAR_HEIGHT.dp),
         scaffoldState = scaffoldState
