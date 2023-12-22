@@ -28,26 +28,22 @@ class WageRepositoryImpl(
             (toEpochSeconds(now) - toEpochSeconds(it) < cacheTime)
         } ?: false
 
-    override suspend fun getCurrentWageForEmployee(employeeId: String): Result<Wage> = withContext(Dispatchers.IO) {
+    override suspend fun getWages(): Result<List<Wage>> = withContext(Dispatchers.IO) {
         return@withContext when {
             isCacheValid -> try {
                 Result.success(
                     getAllWagesFromFirestore(
-                        employeeId = employeeId,
                         source = Source.CACHE
-                    ).getOrThrow().last()
+                    ).getOrThrow()
                 )
             } catch (t: Throwable) {
                 Result.failure(t)
             }
 
             else -> {
-                val wages = getAllWagesFromFirestore(
-                    employeeId,
-                    source = Source.SERVER
-                )
+                val wages = getAllWagesFromFirestore(source = Source.SERVER)
                 try {
-                    Result.success(wages.getOrThrow().last())
+                    Result.success(wages.getOrThrow())
                 } catch (t: Throwable) {
                     Result.failure(t)
                 }
@@ -55,30 +51,8 @@ class WageRepositoryImpl(
         }
     }
 
-    override suspend fun getWageHistoryForEmployee(employeeId: String): Result<List<Wage>> = withContext(Dispatchers.IO) {
-        return@withContext when {
-            isCacheValid -> {
-                getAllWagesFromFirestore(
-                    employeeId = employeeId,
-                    source = Source.CACHE
-                )
-            }
-
-            else -> {
-                getAllWagesFromFirestore(
-                    employeeId = employeeId,
-                    source = Source.SERVER
-                )
-            }
-        }
-    }
-
-    private suspend fun getAllWagesFromFirestore(
-        employeeId: String,
-        source: Source
-    ): Result<List<Wage>> = suspendCoroutine { continuation ->
+    private suspend fun getAllWagesFromFirestore(source: Source): Result<List<Wage>> = suspendCoroutine { continuation ->
         firebaseFirestore.collection(WAGE_TABLE)
-            .whereEqualTo(COLUMN_EMPLOYEE_ID, employeeId)
             .get(source)
             .addOnSuccessListener { result ->
                 if (result.isEmpty) {
@@ -109,7 +83,6 @@ class WageRepositoryImpl(
 
     companion object {
         private const val WAGE_TABLE = "wage"
-        private const val COLUMN_EMPLOYEE_ID = "employeeId"
     }
 
 }

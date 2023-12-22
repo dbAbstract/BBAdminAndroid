@@ -1,4 +1,4 @@
-package za.co.bb.feature_input_work.view.ui
+package za.co.bb.work_status.view.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +23,7 @@ import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.feature_work_status.R
 
 @Composable
-internal fun WorkStatusScreenError(
+internal fun WorkStatusHomeScreenError(
     onBack: () -> Unit
 ) {
     Column(
@@ -77,5 +77,5 @@ internal fun WorkStatusScreenError(
 @Preview
 @Composable
 private fun Preview() {
-    WorkStatusScreenError(onBack = {})
+    WorkStatusHomeScreenError(onBack = {})
 }

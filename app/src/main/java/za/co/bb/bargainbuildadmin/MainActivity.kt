@@ -51,12 +51,12 @@ class MainActivity : ComponentActivity() {
         when (navAction) {
             NavAction.NavigateBack -> navController.popBackStack()
 
-            NavAction.NavigateToAddEmployee -> {
-                navController.navigate(Screen.AddEmployee.name)
+            is NavAction.NavigateToWorkStatus -> {
+                navController.navigate("${Screen.WorkStatusHome.name}/${navAction.employeeId}")
             }
 
-            is NavAction.NavigateToWorkStatus -> {
-                navController.navigate("${Screen.WorkStatus.name}/${navAction.employeeId}")
+            is NavAction.NavigateToAddWorkStatus -> {
+                navController.navigate("${Screen.AddWorkStatus.name}/${navAction.employeeId}")
             }
         }
     }

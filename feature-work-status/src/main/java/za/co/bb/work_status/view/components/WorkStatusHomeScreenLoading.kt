@@ -1,4 +1,4 @@
-package za.co.bb.feature_input_work.view.ui
+package za.co.bb.work_status.view.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +15,7 @@ import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.feature_work_status.R
 
 @Composable
-internal fun WorkStatusScreenLoading(onBack: () -> Unit) {
+internal fun WorkStatusHomeScreenLoading(onBack: () -> Unit) {
     Column(
         modifier = Modifier
             .background(AppColors.current.background)

@@ -1,5 +1,8 @@
-package za.co.bb.feature_input_work.view.ui
+package za.co.bb.work_status.view.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +18,9 @@ import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,22 +30,40 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import za.co.bb.core.domain.print
 import za.co.bb.core.ui.theme.AppColors
-import za.co.bb.feature_input_work.domain.model.WorkStatus
 import za.co.bb.feature_work_status.R
+import za.co.bb.work_status.domain.model.WorkStatus
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun EmployeeWorkStatusFeed(
     modifier: Modifier,
-    workStatuses: List<WorkStatus>
+    workStatuses: List<WorkStatus>,
+    selectedWorkStatuses: Set<WorkStatus>,
+    onWorkStatusSelected: (WorkStatus) -> Unit,
+    onWorkStatusDeselected: (WorkStatus) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(workStatuses) { workStatus ->
+            val isSelected by remember(selectedWorkStatuses) {
+                derivedStateOf { selectedWorkStatuses.any { it.workHoursId == workStatus.workHoursId } }
+            }
+
             WorkStatusCard(
-                modifier = Modifier.fillMaxWidth(),
-                workStatus = workStatus
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .combinedClickable(
+                        onClick = {
+                            if (isSelected) onWorkStatusDeselected(workStatus)
+                        },
+                        onLongClick = {
+                            onWorkStatusSelected(workStatus)
+                        }
+                    ),
+                workStatus = workStatus,
+                isSelected = isSelected
             )
         }
     }
@@ -48,12 +72,18 @@ internal fun EmployeeWorkStatusFeed(
 @Composable
 private fun WorkStatusCard(
     modifier: Modifier,
-    workStatus: WorkStatus
+    workStatus: WorkStatus,
+    isSelected: Boolean
 ) {
     Card(
         modifier = modifier.height(130.dp),
         shape = RoundedCornerShape(24.dp),
-        backgroundColor = AppColors.current.surface
+        backgroundColor = AppColors.current.surface,
+        border = if (isSelected) BorderStroke(
+            width = 2.dp,
+            color = AppColors.current.secondary
+        ) else null,
+        elevation = 8.dp
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),

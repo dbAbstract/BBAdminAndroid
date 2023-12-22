@@ -22,23 +22,28 @@ internal class HomeScreenViewModel(
 
     init {
         Log.i(TAG, "Initialized!")
-        viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    employeeWageStatuses = getWageStatusForEmployees.execute(),
-                    isLoading = false
-                )
-            }
-        }
+        getEmployeeWageStatuses()
     }
 
     val homeScreenEventHandler = object : HomeScreenEventHandler {
-        override fun onAddEmployeeClick() {
-            emitAction(HomeScreenAction.NavigateToAddEmployee)
-        }
-
         override fun navigateToWorkStatus(employeeId: EmployeeId) {
             emitAction(HomeScreenAction.NavigateToWorkStatus(employeeId = employeeId))
+        }
+
+        override fun refresh() = getEmployeeWageStatuses()
+    }
+
+    private fun getEmployeeWageStatuses() {
+        viewModelScope.launch {
+            val employeesWageStatuses = getWageStatusForEmployees.execute()
+            if (employeesWageStatuses.isNotEmpty()) _uiState.update {
+                it.copy(
+                    employeeWageStatuses = employeesWageStatuses,
+                    isLoading = false
+                )
+            } else {
+                emitAction(HomeScreenAction.ShowError(message = "Could not get Work status for employees at this time."))
+            }
         }
     }
 }

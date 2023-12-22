@@ -5,6 +5,6 @@ import za.co.bb.core.domain.EmployeeId
 
 @Stable
 interface HomeScreenEventHandler {
-    fun onAddEmployeeClick()
     fun navigateToWorkStatus(employeeId: EmployeeId)
+    fun refresh()
 }

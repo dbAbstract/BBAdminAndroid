@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(libs.compose.ui)
     implementation(libs.compose.material)
+    implementation(libs.compose.ui.tooling)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     api(libs.kotlinx.datetime)
