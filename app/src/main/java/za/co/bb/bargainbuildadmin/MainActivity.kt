@@ -5,15 +5,23 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import za.co.bb.bargainbuildadmin.presentation.getMainViewModel
 import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
+import za.co.bb.core.ui.theme.AppColors
 
 class MainActivity : ComponentActivity() {
 
@@ -26,13 +34,29 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             navController = rememberNavController()
-            val backStack by navController.currentBackStackEntryAsState()
 
-            BargainBuildAdminApp(
-               navController = navController,
-               navigate = ::navigate,
-               currentScreen = currentScreen
-            )
+            val backStack by navController.currentBackStackEntryAsState()
+            val mainViewModel = getMainViewModel()
+            val state by mainViewModel.state.collectAsStateWithLifecycle()
+
+            if (state.isLoading) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = AppColors.current.primary
+                    )
+                }
+            } else {
+                BargainBuildAdminApp(
+                    navController = navController,
+                    navigate = ::navigate,
+                    startScreen = if (state.isUserLoggedIn)
+                        Screen.HomeScreen
+                    else
+                        Screen.Login,
+                    currentScreen = currentScreen
+                )
+            }
 
             LaunchedEffect(key1 = backStack) {
                 backStack?.destination?.route?.let { route ->

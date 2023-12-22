@@ -38,14 +38,6 @@ fun AppBottomBar(
                 iconVector = Icons.Filled.Person,
                 onClick = onNavIconClick
             )
-
-//            BottomBarNavIcon(
-//                modifier = Modifier.width(40.dp),
-//                destination = Screen.WorkStatus,
-//                currentDestination = currentScreen,
-//                iconVector = Icons.Filled.Info,
-//                onClick = onNavIconClick
-//            )
         }
     }
 }

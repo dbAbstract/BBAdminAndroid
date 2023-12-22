@@ -23,6 +23,7 @@ import za.co.bb.work_status.navigation.workStatusNavGraph
 internal fun BargainBuildAdminApp(
     navController: NavHostController,
     navigate: (NavAction) -> Unit,
+    startScreen: Screen,
     currentScreen: Screen
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -39,7 +40,7 @@ internal fun BargainBuildAdminApp(
         NavHost(
             modifier = Modifier.fillMaxSize(),
             navController = navController,
-            startDestination = Screen.HomeScreen.name
+            startDestination = startScreen.name
         ) {
             homeScreen(navigate = navigate)
             workStatusNavGraph(navigate = navigate)

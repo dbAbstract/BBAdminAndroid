@@ -19,6 +19,9 @@ internal class UserRepositoryImpl(
     private val firebaseAuth: FirebaseAuth,
     private val firebaseFirestore: FirebaseFirestore
 ) : UserRepository {
+    override val isLoggedIn: Boolean
+        get() = firebaseAuth.currentUser != null
+
     override suspend fun getCurrentUser(): Result<User> = withContext(Dispatchers.IO) {
         val currentUser = firebaseAuth.currentUser ?: return@withContext Result.failure(NotLoggedInException())
 

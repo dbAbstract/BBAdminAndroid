@@ -4,6 +4,8 @@ import za.co.bb.core.domain.UserId
 import za.co.bb.user.domain.model.User
 
 interface UserRepository {
+    val isLoggedIn: Boolean
+
     suspend fun getCurrentUser(): Result<User>
 
     suspend fun loginWithEmailAndPassword(
