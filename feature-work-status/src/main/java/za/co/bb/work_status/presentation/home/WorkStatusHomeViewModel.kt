@@ -107,6 +107,10 @@ internal class WorkStatusHomeViewModel(
         override fun navigateToAddWorkStatus() {
             emitAction(WorkStatusHomeAction.NavigateToAddWorkStatus)
         }
+
+        override fun refresh() {
+            populateWorkStatuses(employeeId)
+        }
     }
 
     private fun populateWorkStatuses(employeeId: EmployeeId) {

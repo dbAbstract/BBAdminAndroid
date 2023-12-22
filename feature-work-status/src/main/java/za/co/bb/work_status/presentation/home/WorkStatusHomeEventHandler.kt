@@ -10,4 +10,5 @@ internal interface WorkStatusHomeEventHandler {
     fun onWorkStatusDeselected(workStatus: WorkStatus)
     fun deleteSelectedWorkStatuses()
     fun navigateToAddWorkStatus()
+    fun refresh()
 }

@@ -13,10 +13,12 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,6 +70,17 @@ private fun WorkStatusHomeScreen(
     }
     var showDeleteWorkStatusPopup by remember {
         mutableStateOf(false)
+    }
+    var displayed by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        if (displayed) {
+            workStatusHomeEventHandler.refresh()
+        } else {
+            displayed = true
+        }
     }
 
     Scaffold(
