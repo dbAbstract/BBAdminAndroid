@@ -7,7 +7,12 @@ interface WorkHoursRepository {
 
     suspend fun getHoursDueForEmployees(employees: List<EmployeeId>): Result<Map<EmployeeId, List<WorkHours>>>
 
-    suspend fun getHoursDueForEmployee(employeeId: String): Result<List<WorkHours>>
+    suspend fun getHoursDueForEmployee(employeeId: EmployeeId): Result<List<WorkHours>>
 
     suspend fun deleteWorkHourItems(workHoursIdList: List<WorkHoursId>): Result<Unit>
+
+    suspend fun addWorkHourForEmployee(
+        employeeId: EmployeeId,
+        workHours: WorkHours
+    ) : Result<Unit>
 }

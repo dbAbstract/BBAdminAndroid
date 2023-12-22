@@ -14,6 +14,7 @@ import za.co.bb.core.util.toEpochSeconds
 import za.co.bb.work_hours.domain.DeleteWorkHoursFailureException
 import za.co.bb.work_hours.domain.WorkHours
 import za.co.bb.work_hours.domain.WorkHoursRepository
+import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -65,6 +66,25 @@ internal class WorkHoursRepositoryImpl(
             Result.success(Unit)
         else
             Result.failure(DeleteWorkHoursFailureException())
+    }
+
+    override suspend fun addWorkHourForEmployee(
+        employeeId: EmployeeId,
+        workHours: WorkHours
+    ): Result<Unit> = withContext(Dispatchers.IO) {
+        suspendCoroutine { continuation ->
+            firebaseFirestore.collection(WORK_HOURS_TABLE).add(workHours)
+                .addOnSuccessListener {
+                    continuation.resume(Result.success(Unit))
+                }
+                .addOnFailureListener {
+                    continuation.resume(Result.failure(it))
+                }
+                .addOnCanceledListener {
+                    continuation.resume(Result.failure(CancellationException()))
+                }
+        }
+
     }
 
     private suspend fun deleteWorkHour(workHoursId: WorkHoursId): Result<Unit> = withContext(Dispatchers.IO) {
