@@ -1,4 +1,4 @@
-package za.co.bb.work_status.view.screen
+package za.co.bb.core.ui.components
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
