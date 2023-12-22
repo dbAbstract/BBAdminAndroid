@@ -45,7 +45,7 @@ internal fun BargainBuildAdminApp(
         ) {
             homeNavGraph(navigate = navigate)
             workStatusNavGraph(navigate = navigate)
-            loginNavGraph()
+            loginNavGraph(navigate = navigate)
         }
     }
 }

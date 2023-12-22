@@ -3,6 +3,7 @@ package za.co.bb.core.navigation
 import za.co.bb.core.domain.EmployeeId
 
 sealed interface NavAction {
+    data object NavigateToHome : NavAction
     data object NavigateBack : NavAction
 
     data class NavigateToWorkStatus(

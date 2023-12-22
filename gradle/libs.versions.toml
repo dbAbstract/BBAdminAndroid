@@ -5,6 +5,7 @@ androidx-appcompat = "1.6.1"
 androidx-core-ktx = "1.12.0"
 androidx-espresso-core = "3.5.1"
 androidx-material = "1.11.0"
+androidx-material-icons-extended = "1.5.4"
 androidx-test-junit = "1.1.5"
 androidx-lifeycle-viewmodel-ktx = "2.6.2"
 compose = "1.5.4"
@@ -33,6 +34,7 @@ androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "androidx-material-icons-extended" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifeycle-viewmodel-ktx" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
