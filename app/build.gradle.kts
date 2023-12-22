@@ -62,6 +62,7 @@ dependencies {
     implementation(project(":feature-home"))
     implementation(project(":feature-work-status"))
     implementation(project(":user"))
+    implementation(project(":feature-auth"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
