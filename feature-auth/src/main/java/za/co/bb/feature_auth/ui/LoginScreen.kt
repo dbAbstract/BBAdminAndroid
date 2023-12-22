@@ -26,8 +26,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -36,6 +38,7 @@ import za.co.bb.core.ui.theme.AppColors
 import za.co.bb.feature_auth.presentation.LoginEventHandler
 import za.co.bb.feature_auth.presentation.LoginScreenState
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun LoginScreen(
     uiState: LoginScreenState,
@@ -44,6 +47,7 @@ internal fun LoginScreen(
     var showPassword by remember {
         mutableStateOf(false)    
     }
+    val keyboardController = LocalSoftwareKeyboardController.current
     
     Scaffold { paddingValues ->
         Box(modifier = Modifier.fillMaxSize()) {
@@ -106,7 +110,10 @@ internal fun LoginScreen(
                     modifier = Modifier
                         .height(60.dp)
                         .width(240.dp),
-                    onClick = loginEventHandler::onLogin,
+                    onClick = {
+                        keyboardController?.hide()
+                        loginEventHandler.onLogin()
+                    },
                     shape = CircleShape,
                     text = "Login"
                 )

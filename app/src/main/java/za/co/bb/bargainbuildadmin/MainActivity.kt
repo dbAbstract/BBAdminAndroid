@@ -83,7 +83,11 @@ class MainActivity : ComponentActivity() {
                 navController.navigate("${Screen.AddWorkStatus.name}/${navAction.employeeId}")
             }
 
-            NavAction.NavigateToHome -> navController.navigate(Screen.HomeScreen.name)
+            NavAction.NavigateToHome -> navController.navigate(Screen.HomeScreen.name) {
+                popUpTo(Screen.Login.name) {
+                    inclusive = true
+                }
+            }
         }
     }
 }

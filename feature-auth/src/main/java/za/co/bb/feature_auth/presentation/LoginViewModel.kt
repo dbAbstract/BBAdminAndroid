@@ -23,6 +23,7 @@ internal class LoginViewModel(
 
     val loginEventHandler = object : LoginEventHandler {
         override fun onLogin() {
+            _uiState.update { it.copy(isLoading = true) }
             viewModelScope.launch {
                 val loginResult = userRepository.loginWithEmailAndPassword(
                     email = uiState.value.email,
