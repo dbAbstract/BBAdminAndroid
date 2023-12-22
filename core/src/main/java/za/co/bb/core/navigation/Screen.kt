@@ -4,6 +4,5 @@ enum class Screen {
     HomeScreen,
     WorkStatusGraph,
     WorkStatusHome,
-    AddWorkStatus,
-    AddEmployee
+    AddWorkStatus
 }

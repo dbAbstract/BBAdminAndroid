@@ -9,12 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.FabPosition
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -53,8 +48,6 @@ fun NavGraphBuilder.homeScreen(
 
         homeScreenViewModel.collectAction { action ->
             when (action) {
-                HomeScreenAction.NavigateToAddEmployee -> navigate(NavAction.NavigateToAddEmployee)
-
                 is HomeScreenAction.NavigateToWorkStatus -> navigate(
                     NavAction.NavigateToWorkStatus(action.employeeId)
                 )
@@ -75,20 +68,7 @@ private fun HomeScreen(
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         modifier = Modifier.padding(bottom = BOTTOM_BAR_HEIGHT.dp),
-        scaffoldState = scaffoldState,
-        floatingActionButton = {
-            FloatingActionButton(
-                backgroundColor = AppColors.current.secondary,
-                onClick = homeScreenEventHandler::onAddEmployeeClick
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = null,
-                    tint = AppColors.current.onSecondary
-                )
-            }
-        },
-        floatingActionButtonPosition = FabPosition.End
+        scaffoldState = scaffoldState
     ) { paddingValues ->
         Column(
             modifier = Modifier

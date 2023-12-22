@@ -36,10 +36,6 @@ internal class HomeScreenViewModel(
     }
 
     val homeScreenEventHandler = object : HomeScreenEventHandler {
-        override fun onAddEmployeeClick() {
-            emitAction(HomeScreenAction.NavigateToAddEmployee)
-        }
-
         override fun navigateToWorkStatus(employeeId: EmployeeId) {
             emitAction(HomeScreenAction.NavigateToWorkStatus(employeeId = employeeId))
         }
