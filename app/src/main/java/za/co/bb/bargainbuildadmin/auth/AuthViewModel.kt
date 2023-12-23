@@ -1,4 +1,4 @@
-package za.co.bb.bargainbuildadmin.presentation
+package za.co.bb.bargainbuildadmin.auth
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
@@ -9,14 +9,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import za.co.bb.core.presentation.BaseViewModel
 import za.co.bb.user.domain.UserRepository
 import za.co.bb.user.domain.di.UserDependencyContainer
 
-class MainViewModel(
+class AuthViewModel(
     private val userRepository: UserRepository
-) : ViewModel() {
+) : BaseViewModel<AuthActions>() {
 
-    private val _state = MutableStateFlow(AppState())
+    private val _state = MutableStateFlow(AuthState())
     val state = _state.asStateFlow()
 
     init {
@@ -35,11 +36,11 @@ class MainViewModel(
     }
 }
 
-private class MainViewModelFactory : ViewModelProvider.Factory {
+private class AuthViewModelFactory : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            return MainViewModel(
+        if (modelClass.isAssignableFrom(AuthViewModel::class.java)) {
+            return AuthViewModel(
                 userRepository = UserDependencyContainer.userRepository
             ) as T
         }
@@ -48,5 +49,5 @@ private class MainViewModelFactory : ViewModelProvider.Factory {
 }
 
 @Composable
-fun getMainViewModel(): MainViewModel =
-    viewModel(factory = MainViewModelFactory())
+fun authViewModel(): AuthViewModel =
+    viewModel(factory = AuthViewModelFactory())
