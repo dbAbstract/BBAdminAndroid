@@ -1,6 +1,6 @@
 package za.co.bb.feature_auth.presentation
 
-internal data class LoginScreenState(
+data class LoginScreenState(
     val email: String = "",
     val password: String = "",
     val isLoading: Boolean = false

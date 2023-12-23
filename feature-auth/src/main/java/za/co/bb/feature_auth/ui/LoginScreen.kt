@@ -41,7 +41,7 @@ import za.co.bb.feature_auth.presentation.LoginScreenState
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun LoginScreen(
+fun LoginScreen(
     uiState: LoginScreenState,
     loginEventHandler: LoginEventHandler
 ) {

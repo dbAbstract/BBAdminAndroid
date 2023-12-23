@@ -17,7 +17,7 @@ class AuthViewModel(
     private val userRepository: UserRepository
 ) : BaseViewModel<AuthActions>() {
 
-    private val _state = MutableStateFlow(AuthState())
+    private val _state = MutableStateFlow(AuthState(isLoading = true))
     val state = _state.asStateFlow()
 
     init {
