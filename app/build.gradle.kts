@@ -59,11 +59,8 @@ dependencies {
     implementation(libs.lifecycle.runtime.compose)
 
     implementation(project(":core"))
-    implementation(project(":feature-home"))
-    implementation(project(":feature-work-status"))
     implementation(project(":user"))
-    implementation(project(":feature-auth"))
-    implementation(project(":feature-admin"))
+    implementation(project(":app-admin"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
