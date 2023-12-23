@@ -16,13 +16,15 @@ import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.components.AppBottomBar
 import za.co.bb.core.ui.components.BOTTOM_BAR_HEIGHT
 import za.co.bb.core.ui.theme.AppColors
-import za.co.bb.home.view.homeScreen
+import za.co.bb.feature_auth.navigation.loginNavGraph
+import za.co.bb.home.view.homeNavGraph
 import za.co.bb.work_status.navigation.workStatusNavGraph
 
 @Composable
 internal fun BargainBuildAdminApp(
     navController: NavHostController,
     navigate: (NavAction) -> Unit,
+    startScreen: Screen,
     currentScreen: Screen
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -39,10 +41,11 @@ internal fun BargainBuildAdminApp(
         NavHost(
             modifier = Modifier.fillMaxSize(),
             navController = navController,
-            startDestination = Screen.HomeScreen.name
+            startDestination = startScreen.name
         ) {
-            homeScreen(navigate = navigate)
+            homeNavGraph(navigate = navigate)
             workStatusNavGraph(navigate = navigate)
+            loginNavGraph(navigate = navigate)
         }
     }
 }

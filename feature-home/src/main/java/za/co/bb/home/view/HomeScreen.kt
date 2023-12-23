@@ -37,7 +37,7 @@ import za.co.bb.home.presentation.HomeScreenEventHandler
 import za.co.bb.home.presentation.HomeScreenState
 import za.co.bb.home.view.ui.EmployeeWageStatusList
 
-fun NavGraphBuilder.homeScreen(
+fun NavGraphBuilder.homeNavGraph(
     navigate: (NavAction) -> Unit
 ) {
     composable(route = Screen.HomeScreen.name) {
