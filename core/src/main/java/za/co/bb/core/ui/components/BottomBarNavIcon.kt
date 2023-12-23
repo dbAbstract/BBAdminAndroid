@@ -28,7 +28,11 @@ internal fun BottomBarNavIcon(
     ) {
         IconButton(
             onClick = {
-                // TODO - Implement later.
+                when (destination) {
+                    Screen.HomeScreen -> onClick(NavAction.NavigateToHome)
+                    Screen.Admin -> onClick(NavAction.NavigateToAdmin)
+                    else -> {}
+                }
             }
         ) {
             Icon(
