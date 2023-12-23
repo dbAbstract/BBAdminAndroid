@@ -18,11 +18,18 @@ internal class UserRepositoryImpl(
     private val firebaseAuth: FirebaseAuth,
     private val firebaseFirestore: FirebaseFirestore
 ) : UserRepository {
+    private var currentLoggedInUser: User? = null
+
     override val isLoggedIn: Boolean
         get() = firebaseAuth.currentUser != null
 
     override suspend fun getCurrentUser(): Result<User> = withContext(Dispatchers.IO) {
         val currentUser = firebaseAuth.currentUser ?: return@withContext Result.failure(NotLoggedInException())
+
+        currentLoggedInUser?.let { loggedInUser ->
+            // Guaranteed to be logged in so we can use cache.
+            return@withContext Result.success(loggedInUser)
+        }
 
         return@withContext suspendCoroutine { continuation ->
             firebaseFirestore.collection(TABLE_USERS).document(currentUser.uid).get()
@@ -34,6 +41,7 @@ internal class UserRepositoryImpl(
                         continuation.resume(Result.failure(InvalidUserFoundException()))
                         return@addOnSuccessListener
                     }
+                    currentLoggedInUser = user
 
                     continuation.resume(Result.success(user))
                 }
