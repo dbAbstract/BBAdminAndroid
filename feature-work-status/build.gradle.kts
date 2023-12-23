@@ -57,6 +57,7 @@ dependencies {
     implementation(project(":work-hours"))
     implementation(project(":employees"))
     implementation(project(":wages"))
+    implementation(project(":user"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)

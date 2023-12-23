@@ -18,3 +18,4 @@ typealias EmployeeId = String
 typealias WageId = String
 typealias WorkHoursId = String
 typealias UserId = String
+typealias WorkHoursRequestId = String
