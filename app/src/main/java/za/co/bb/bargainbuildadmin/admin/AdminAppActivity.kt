@@ -20,8 +20,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import za.co.bb.app_admin.navigate.adminAppNavGraph
 import za.co.bb.core.navigation.Screen
 import za.co.bb.core.ui.components.AppBottomBar
 import za.co.bb.core.ui.components.BOTTOM_BAR_HEIGHT
@@ -70,7 +72,12 @@ class AdminAppActivity : ComponentActivity() {
                     )
                 )
 
-                AdminApp(navigate = navController::navigate)
+                NavHost(
+                    navController = navController,
+                    startDestination = Screen.HomeScreen.name
+                ) {
+                    adminAppNavGraph(navigate = navController::navigate)
+                }
             }
         }
     }

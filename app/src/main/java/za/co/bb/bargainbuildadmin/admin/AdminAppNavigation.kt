@@ -4,17 +4,19 @@ import androidx.navigation.NavHostController
 import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
 
-fun NavHostController.navigate(navAction: NavAction): Unit {
+fun NavHostController.navigate(navAction: NavAction) {
     when (navAction) {
         NavAction.NavigateBack -> popBackStack()
 
-        is NavAction.NavigateToAddWorkStatus -> navigate(Screen.HomeScreen)
+        is NavAction.NavigateToAddWorkStatus -> {
+            navigate("${Screen.WorkStatusHome.name}/${navAction.employeeId}")
+        }
 
         NavAction.NavigateToAdmin -> navigate(Screen.Admin)
 
         NavAction.NavigateToHome -> navigate(Screen.HomeScreen)
 
-        is NavAction.NavigateToWorkStatus -> navigate(Screen.AddWorkStatus)
+        is NavAction.NavigateToWorkStatus -> navigate("${Screen.AddWorkStatus.name}/${navAction.employeeId}")
     }
 }
 
