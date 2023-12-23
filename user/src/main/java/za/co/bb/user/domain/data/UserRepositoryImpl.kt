@@ -10,7 +10,6 @@ import za.co.bb.user.domain.UserRepository
 import za.co.bb.user.domain.model.InvalidUserFoundException
 import za.co.bb.user.domain.model.NotLoggedInException
 import za.co.bb.user.domain.model.User
-import za.co.bb.user.domain.model.UserType
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -29,28 +28,12 @@ internal class UserRepositoryImpl(
             firebaseFirestore.collection(TABLE_USERS).document(currentUser.uid).get()
                 .addOnSuccessListener {
                     val userEntity = it.toObject<UserEntity>()
-                    val userEntityTypeString = userEntity?.userType
+                    val user = userEntity?.toUser(userId = currentUser.uid)
 
-                    if (userEntity == null || userEntityTypeString == null) {
+                    if (user == null) {
                         continuation.resume(Result.failure(InvalidUserFoundException()))
                         return@addOnSuccessListener
                     }
-
-                    val userType = try {
-                        UserType.valueOf(userEntityTypeString)
-                    } catch (t: Throwable) {
-                        continuation.resume(Result.failure(t))
-                        return@addOnSuccessListener
-                    }
-
-                    val user = User(
-                        id = currentUser.uid,
-                        firstName = userEntity.firstName,
-                        surname = userEntity.surname,
-                        phoneNumber = userEntity.phoneNumber,
-                        email = userEntity.email,
-                        userType = userType
-                    )
 
                     continuation.resume(Result.success(user))
                 }

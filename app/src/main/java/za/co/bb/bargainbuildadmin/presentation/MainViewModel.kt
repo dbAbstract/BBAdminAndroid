@@ -22,10 +22,13 @@ class MainViewModel(
     init {
         viewModelScope.launch {
             val isLoggedIn = userRepository.isLoggedIn
+            val currentUserResult = userRepository.getCurrentUser()
+
             _state.update {
                 it.copy(
                     isLoading = false,
-                    isUserLoggedIn = isLoggedIn
+                    isUserLoggedIn = isLoggedIn,
+                    userType = currentUserResult.getOrNull()?.userType
                 )
             }
         }

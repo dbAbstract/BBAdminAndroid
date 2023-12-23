@@ -11,6 +11,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,24 +39,32 @@ class MainActivity : ComponentActivity() {
             val backStack by navController.currentBackStackEntryAsState()
             val mainViewModel = getMainViewModel()
             val state by mainViewModel.state.collectAsStateWithLifecycle()
+            val userType = remember(state) {
+                state.userType
+            }
 
-            if (state.isLoading) {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                        color = AppColors.current.primary
+            when {
+                !state.isLoading && userType != null -> {
+                    BargainBuildAdminApp(
+                        navController = navController,
+                        navigate = ::navigate,
+                        startScreen = if (state.isUserLoggedIn)
+                            Screen.HomeScreen
+                        else
+                            Screen.Login,
+                        currentScreen = currentScreen,
+                        userType = userType
                     )
                 }
-            } else {
-                BargainBuildAdminApp(
-                    navController = navController,
-                    navigate = ::navigate,
-                    startScreen = if (state.isUserLoggedIn)
-                        Screen.HomeScreen
-                    else
-                        Screen.Login,
-                    currentScreen = currentScreen
-                )
+
+                else -> {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center),
+                            color = AppColors.current.primary
+                        )
+                    }
+                }
             }
 
             LaunchedEffect(key1 = backStack) {

@@ -5,5 +5,6 @@ enum class Screen {
     WorkStatusGraph,
     WorkStatusHome,
     AddWorkStatus,
-    Login
+    Login,
+    Admin
 }
