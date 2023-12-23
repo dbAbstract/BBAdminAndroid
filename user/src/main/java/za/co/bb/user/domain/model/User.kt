@@ -13,5 +13,14 @@ data class User(
 
 enum class UserType {
     Employee,
-    Admin
+    Admin;
+
+    companion object {
+        fun matchesString(value: String): Boolean = try {
+            valueOf(value)
+            true
+        } catch (t: Throwable) {
+            false
+        }
+    }
 }

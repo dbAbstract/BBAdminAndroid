@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import za.co.bb.core.ui.components.AppButton
 import za.co.bb.core.ui.theme.AppColors
@@ -40,7 +41,7 @@ import za.co.bb.feature_auth.presentation.LoginScreenState
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun LoginScreen(
+fun LoginScreen(
     uiState: LoginScreenState,
     loginEventHandler: LoginEventHandler
 ) {
@@ -125,4 +126,22 @@ internal fun LoginScreen(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun LoginScreenPreview() {
+    LoginScreen(
+        uiState = LoginScreenState(
+            email = "test@bbb.co.za",
+            password = "password"
+        ),
+        loginEventHandler = previewLoginEventHandler
+    )
+}
+
+private val previewLoginEventHandler = object : LoginEventHandler {
+    override fun onLogin() = Unit
+    override fun onEmailChanged(text: String) = Unit
+    override fun onPasswordChanged(text: String) = Unit
 }

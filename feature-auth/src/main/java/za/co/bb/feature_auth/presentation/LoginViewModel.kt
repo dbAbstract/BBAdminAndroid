@@ -12,8 +12,9 @@ import kotlinx.coroutines.launch
 import za.co.bb.core.presentation.BaseViewModel
 import za.co.bb.user.domain.UserRepository
 import za.co.bb.user.domain.di.UserDependencyContainer
+import za.co.bb.user.domain.model.UserType
 
-internal class LoginViewModel(
+class LoginViewModel(
     private val userRepository: UserRepository
 ) : BaseViewModel<LoginScreenAction>() {
 
@@ -29,11 +30,16 @@ internal class LoginViewModel(
                     email = uiState.value.email,
                     password = uiState.value.password
                 )
+                val userResult = userRepository.getCurrentUser()
 
-                if (loginResult.isSuccess) {
-                    emitAction(LoginScreenAction.NavigateToHome)
+                if (loginResult.isSuccess && userResult.isSuccess) {
+                    when (userResult.getOrThrow().userType) {
+                        UserType.Employee -> emitAction(LoginScreenAction.NavigateToEmployeeHome)
+                        UserType.Admin -> emitAction(LoginScreenAction.NavigateToAdminHome)
+                    }
                 } else {
                     emitAction(LoginScreenAction.ShowMessage(message = "Incorrect login details."))
+                    _uiState.update { it.copy(isLoading = false) }
                 }
             }
         }
@@ -64,5 +70,5 @@ private class LoginViewModelFactory : ViewModelProvider.Factory {
 }
 
 @Composable
-internal fun getLoginViewModel(): LoginViewModel = viewModel(factory = LoginViewModelFactory())
+fun loginViewModel(): LoginViewModel = viewModel(factory = LoginViewModelFactory())
 

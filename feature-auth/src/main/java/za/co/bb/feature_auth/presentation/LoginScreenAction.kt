@@ -1,6 +1,7 @@
 package za.co.bb.feature_auth.presentation
 
-internal sealed interface LoginScreenAction {
-    data object NavigateToHome : LoginScreenAction
+sealed interface LoginScreenAction {
+    data object NavigateToAdminHome : LoginScreenAction
+    data object NavigateToEmployeeHome : LoginScreenAction
     data class ShowMessage(val message: String) : LoginScreenAction
 }

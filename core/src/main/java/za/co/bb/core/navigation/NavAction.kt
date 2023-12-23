@@ -6,6 +6,8 @@ sealed interface NavAction {
     data object NavigateToHome : NavAction
     data object NavigateBack : NavAction
 
+    data object NavigateToAdmin : NavAction
+
     data class NavigateToWorkStatus(
         val employeeId: EmployeeId
     ) : NavAction, ScreenNavigation(Screen.WorkStatusGraph)

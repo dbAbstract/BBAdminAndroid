@@ -1,30 +1,18 @@
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.serialization)
-    alias(libs.plugins.googleServices)
 }
 
 android {
-    namespace = "za.co.bb.bargainbuildadmin"
+    namespace = "za.co.bb.app_admin"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "za.co.bb.bargainbuildadmin"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.6"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -46,22 +34,16 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.activity.compose)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.navigation.compose)
+    implementation(libs.androidx.material)
     implementation(libs.compose.ui)
-    implementation(libs.compose.material)
-    implementation(libs.compose.foundation)
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.navigation.compose)
 
     implementation(project(":core"))
-    implementation(project(":user"))
-    implementation(project(":app-admin"))
-    implementation(project(":feature-auth"))
+    implementation(project(":feature-home"))
+    implementation(project(":feature-work-status"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)

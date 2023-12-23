@@ -10,6 +10,8 @@ import kotlinx.coroutines.launch
 import za.co.bb.core.domain.EmployeeId
 import za.co.bb.core.presentation.BaseViewModel
 import za.co.bb.employees.domain.repository.EmployeeRepository
+import za.co.bb.user.domain.UserRepository
+import za.co.bb.user.domain.model.UserType
 import za.co.bb.wages.domain.repository.WageRepository
 import za.co.bb.work_hours.domain.WorkHoursRepository
 
@@ -17,7 +19,8 @@ internal class AddWorkStatusViewModel(
     employeeId: EmployeeId,
     private val workHoursRepository: WorkHoursRepository,
     private val wagesRepository: WageRepository,
-    private val employeeRepository: EmployeeRepository
+    private val employeeRepository: EmployeeRepository,
+    private val userRepository: UserRepository
 ) : BaseViewModel<AddWorkStatusAction>() {
 
     private val _uiState = MutableStateFlow(
@@ -109,17 +112,32 @@ internal class AddWorkStatusViewModel(
             }
 
             viewModelScope.launch {
-                val addWorkHoursResult = workHoursRepository.addWorkHourForEmployee(
-                    employeeId = employeeId,
-                    hoursWorked = workHours,
-                    wageId = workStatus.wageId,
-                    wageRate = workStatus.wageRate
-                )
+                val user = userRepository.getCurrentUser().getOrNull()
+                if (user == null) {
+                    emitAction(AddWorkStatusAction.ShowMessage("Error getting user details."))
+                    return@launch
+                }
 
-                if (addWorkHoursResult.isSuccess) {
-                    emitAction(AddWorkStatusAction.ShowMessage("Successfully added work hours."))
-                } else {
-                    emitAction(AddWorkStatusAction.ShowMessage("Can't add work hours at this time."))
+                val userType = user.userType
+
+                when (userType) {
+                    UserType.Employee -> {
+
+                    }
+                    UserType.Admin -> {
+                        val addWorkHoursResult = workHoursRepository.addWorkHourForEmployee(
+                            employeeId = employeeId,
+                            hoursWorked = workHours,
+                            wageId = workStatus.wageId,
+                            wageRate = workStatus.wageRate
+                        )
+
+                        if (addWorkHoursResult.isSuccess) {
+                            emitAction(AddWorkStatusAction.ShowMessage("Successfully added work hours."))
+                        } else {
+                            emitAction(AddWorkStatusAction.ShowMessage("Can't add work hours at this time."))
+                        }
+                    }
                 }
             }
         }

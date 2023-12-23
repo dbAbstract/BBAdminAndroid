@@ -6,11 +6,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import za.co.bb.core.navigation.NavAction
 import za.co.bb.core.navigation.Screen
@@ -19,7 +18,8 @@ import za.co.bb.core.navigation.Screen
 fun AppBottomBar(
     modifier: Modifier,
     onNavIconClick: (NavAction) -> Unit,
-    currentScreen: Screen
+    currentScreen: Screen,
+    bottomNavBarItems: List<BottomNavBarItem>
 ) {
     Box(
         modifier = modifier
@@ -31,13 +31,20 @@ fun AppBottomBar(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            BottomBarNavIcon(
-                modifier = Modifier.width(40.dp),
-                destination = Screen.HomeScreen,
-                currentDestination = currentScreen,
-                iconVector = Icons.Filled.Person,
-                onClick = onNavIconClick
-            )
+            bottomNavBarItems.forEach {
+                BottomBarNavIcon(
+                    modifier = Modifier.width(40.dp),
+                    destination = it.screen,
+                    currentDestination = currentScreen,
+                    iconVector = it.iconVector,
+                    onClick = onNavIconClick
+                )
+            }
         }
     }
 }
+
+data class BottomNavBarItem(
+    val screen: Screen,
+    val iconVector: ImageVector
+)
