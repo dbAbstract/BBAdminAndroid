@@ -63,6 +63,7 @@ dependencies {
     implementation(project(":feature-work-status"))
     implementation(project(":user"))
     implementation(project(":feature-auth"))
+    implementation(project(":feature-admin"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)

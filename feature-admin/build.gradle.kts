@@ -38,6 +38,12 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
+    implementation(libs.compose.ui)
+    implementation(libs.navigation.compose)
+
+    implementation(project(":core"))
+    implementation(project(":wages"))
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.espresso.core)
